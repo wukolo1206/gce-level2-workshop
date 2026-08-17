@@ -79,8 +79,20 @@ Google 的介面文案改版頻繁，若你發現任何名稱與現況不符，�
 
 **製作：碧華國小　吳國榮**
 
-© 2026 吳國榮．本講義之情境設計、演練編排與文字內容為原創教學素材，
-歡迎教育工作者於教學與研習用途自由使用與改編，轉載請註明出處。
+**資料來源**：本講義內容係參考 Google Teacher Center 官方課程與 Google Workspace 官方說明文件，
+經整理、改寫與重新編排而成；教學情境與演練設計為自行撰寫，部分文字於 AI 工具協助下編修。
+操作步驟已對照官方說明文件查證，惟 Google 介面時有更新，如有出入請以官方最新說明為準。
 
-Google、Google Workspace、Google Classroom、Google Meet 等名稱與標誌為 Google LLC 之商標。
-本講義為個人教學製作，與 Google LLC 無隸屬或合作關係。
+**授權**：本專案中自行撰寫之教學情境、演練編排、說明文字與產生器程式碼，
+以 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant) 釋出——
+歡迎教育工作者於**非商業**之教學與研習用途自由使用與改編，請註明出處並以相同方式分享。
+**商業性研習、課程或出版不在授權範圍內**，需洽詢授權。
+
+**不在授權範圍**：`images/` 中的 Google 產品介面截圖著作權屬 Google LLC 所有，僅為教學說明目的引用；
+Google、Google Workspace、Google Classroom 等為 Google LLC 之商標。
+本專案為個人教學製作，與 Google LLC 無隸屬或合作關係。
+
+詳見 [LICENSE](LICENSE)。
+
+**聯絡**：若權利人認為內容有不當使用之情形，或欲洽詢商業使用授權，
+請來信 wukolo1206@gmail.com。
