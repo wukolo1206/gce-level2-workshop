@@ -155,8 +155,10 @@ for sub in ('', 'images', 'scripts'):
     d = os.path.join(OUT, sub) if sub else OUT
     os.makedirs(d, exist_ok=True)
 # 清掉舊的產出檔（保留 .git）
+# 只清掉本腳本產生的檔案，保留 repo 層級檔案（README、LICENSE、.gitignore 等）
+KEEP = {'.git', '.gitignore', 'README.md', 'LICENSE', '.nojekyll'}
 for name in os.listdir(OUT):
-    if name == '.git':
+    if name in KEEP:
         continue
     fp = os.path.join(OUT, name)
     if os.path.isfile(fp):
