@@ -13,6 +13,7 @@ import shutil
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from workshop_footer import FOOTER  # noqa: E402
+from workshop_content import TOOL_ORDER  # noqa: E402
 # 公開版輸出到 Drive 同步範圍外，避免 Drive 鎖檔與重複上傳
 OUT = os.path.join('C:' + os.sep, 'repos', 'gce-level2-workshop')
 
@@ -28,6 +29,11 @@ TOOLS = [
     ('gmail', '📧', 'Gmail', '帳戶代理、篩選器、範本排程、搜尋運算子', 4, ''),
     ('practicesets', '💡', 'Practice Sets', '額外協助、題組共享、課程深入分析', 3, '⚠️ 需 Education Plus 授權'),
 ]
+
+# 呈現順序不在這裡自己排，一律照 workshop_content.TOOL_ORDER（教師工作流順序），
+# 確保首頁十宮格、側欄與講義本體三處一致。
+assert {t[0] for t in TOOLS} == set(TOOL_ORDER), 'TOOLS 與 TOOL_ORDER 的工具清單不一致'
+TOOLS.sort(key=lambda t: TOOL_ORDER.index(t[0]))
 
 cards = ''
 for key, emo, name, desc, n, note in TOOLS:
@@ -169,6 +175,8 @@ for key, *_ in TOOLS:
 copy_page('course_structure_map.html'); copied += 1
 copy_page('exam_registration.html'); copied += 1
 for img in ['docs_insert_toc_menu.png',
+            # Practice Sets 演練一：額外協助（實機介面對照，不含個資與官方題幹）
+            'ps_resources_new_set.png', 'ps_attach_panel.png', 'ps_extra_help_resources.png',
             # 認證報名頁使用（報名流程與控制台導覽）
             'gce_launchpad.png', 'confirm_eligibility.png', 'registration_complete.png',
             'continue_exams_card.png',

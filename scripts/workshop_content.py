@@ -1113,11 +1113,33 @@ APPS = [
                            '在「答錯」的答案意見回饋中貼上同一支解題影片連結。'
                            '兩者的教學設計完全相同（答錯 ➔ 立即獲得鷹架），差別只在 Practice Sets 是作答當下就能點、不必等送出。',
                 },
+                'images': [
+                    {
+                        'file': 'ps_resources_new_set.png',
+                        'caption': 'Classroom 左側「資源」→「新增練習題（建立互動式工作表）」',
+                        'note': '下方會列出你已建立過的題組（可直接開啟續編或複製）；本例已有「未命名的練習題」與 '
+                                '2 年前建立的「practice set」。',
+                    },
+                    {
+                        'file': 'ps_attach_panel.png',
+                        'caption': '另一條路徑：「課堂作業 ➔ 建立 ➔ 作業」的「附加」面板選「練習題」',
+                        'note': '同一排還有雲端硬碟、YouTube、Read Along 等；沒有 Education Plus／T&amp;L Upgrade '
+                                '授權時，這個「練習題」圖示不會出現。',
+                    },
+                    {
+                        'file': 'ps_extra_help_resources.png',
+                        'caption': '題目編輯畫面下方的「資源」區＝官方英文名稱的「額外協助 (Extra help)」',
+                        'note': '⚠️ 介面中文現已改稱<strong>「資源」</strong>（提示文字：「您沒有任何資源。您可以自行新增，'
+                                '或由我們為您產生部分資源。」），但<strong>官方英文名稱仍是 Extra help</strong>，'
+                                '每題最多 10 筆。點方框中的「＋」新增 YouTube 影片或網頁；'
+                                '上方<strong>「技能 (Skills)」</strong>欄位是掛學習標籤，<strong>不是</strong>提示資源，兩者很容易混淆。',
+                    },
+                ],
                 'steps': [
-                    '在 Google Classroom 首頁左側點選 <strong>「資源 ➔ 新增練習題 (Practice sets)」</strong>；若要直接指派給課程，則走「課堂作業 ➔ 建立 ➔ 作業」，在附件區建立或附加練習題。',
+                    '在 Google Classroom 首頁左側點選 <strong>「資源 ➔ 新增練習題 (Practice sets)」</strong>；若要直接指派給課程，則走「課堂作業 ➔ 建立 ➔ 作業」，在附件區建立或附加練習題。（見圖 1、圖 2）',
                     '輸入題目與答案（系統會自動辨識可用的作答型式）。',
-                    '在該題下方點選 <strong>「額外協助 (Extra help)」</strong>。',
-                    '點選 <strong>「+ 新增資源」</strong>，搜尋內嵌 YouTube 解題影片或貼上教學網頁連結（每題最多 10 筆）。',
+                    '在該題下方找到 <strong>「資源」</strong>區塊（英文介面為 <strong>「額外協助 Extra help」</strong>）。（見圖 3）',
+                    '點方框中的 <strong>「＋」</strong>，搜尋內嵌 YouTube 解題影片或貼上教學網頁連結（每題最多 10 筆）。',
                     '驗證：以學生身分作答，卡關時可點開資源自行觀看後再作答。',
                 ],
             },
@@ -1172,3 +1194,18 @@ APPS = [
         ],
     },
 ]
+
+# 十篇工具講義的呈現順序 —— 唯一來源。
+# 依教師工作流排，不依演練數量：做教材 ➔ 開課上課 ➔ 評量 ➔ 行政溝通 ➔ 對外發布 ➔ 加值。
+# Practice Sets 需 Education Plus 授權、多數學員做不了，固定殿後以免打斷節奏。
+# build_public_index.py 的 TOOLS 也依此排序，避免首頁與本檔各排各的。
+TOOL_ORDER = [
+    'docs', 'slides', 'sheets',   # 做教材
+    'classroom', 'meet',          # 開課上課
+    'forms',                      # 評量
+    'calendar', 'gmail',          # 行政溝通
+    'sites',                      # 對外發布
+    'practicesets',               # 加值（需授權）
+]
+
+APPS.sort(key=lambda a: TOOL_ORDER.index(a['file'].split('_')[0]))

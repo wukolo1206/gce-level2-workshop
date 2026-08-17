@@ -224,6 +224,23 @@ def build_module_card(idx, m):
         </div>
 '''
 
+    # 通用介面對照圖組（m['images'] = [{'file','caption','note'(選)}, ...]）
+    if m.get('images'):
+        figs = ''
+        for g_idx, g in enumerate(m['images'], 1):
+            note = (f'<div style="font-size:0.82rem; color:#5f6368; line-height:1.6; margin-top:6px;">'
+                    f'{g["note"]}</div>') if g.get('note') else ''
+            figs += (f'<figure style="margin:0 0 16px 0;">'
+                     f'<figcaption style="font-size:0.88rem; font-weight:700; color:#1a73e8; '
+                     f'margin-bottom:8px; text-align:left;">圖 {g_idx}：{g["caption"]}</figcaption>'
+                     f'<img src="images/{g["file"]}" alt="{g["caption"]}" loading="lazy" '
+                     f'style="max-width:100%; border:1px solid #dadce0; border-radius:8px; '
+                     f'box-shadow:0 2px 8px rgba(0,0,0,0.12);">{note}</figure>')
+        img_html += (f'<div style="background:#f8f9fa; border:1px solid #dadce0; border-radius:10px; '
+                     f'padding:16px; margin:16px 0;">'
+                     f'<p style="font-size:0.92rem; font-weight:700; color:#3c4043; margin-bottom:12px;">'
+                     f'📷 實機介面對照圖（依操作順序）：</p>{figs}</div>')
+
     return f'''
       <!-- MODULE {idx} -->
       <div class="module-card" id="module-{idx}" style="display:none;">
