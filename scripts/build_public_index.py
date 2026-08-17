@@ -56,7 +56,7 @@ HTML = f'''<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Google Workspace 教育應用研習講義</title>
+<title>Google Certified Educator Level 2 研習講義</title>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   * {{ box-sizing:border-box; margin:0; padding:0; }}
@@ -73,8 +73,8 @@ HTML = f'''<!DOCTYPE html>
 </head>
 <body>
 <header>
-  <h1>🧰 Google Workspace 教育應用研習講義</h1>
-  <p>十個工具 ‧ 40 個實務演練 ‧ 每則都有真實情境與可動手的練習環境</p>
+  <h1>🎓 Google Certified Educator Level 2</h1>
+  <p>研習講義 ‧ 十個工具 ‧ 40 個實務演練 ‧ 每則都有真實情境與可動手的練習環境</p>
 </header>
 
 <div class="layout">
@@ -130,6 +130,22 @@ HTML = f'''<!DOCTYPE html>
     </div>
   </main>
 </div>
+
+  <footer style="max-width:1200px; margin:8px auto 40px; padding:22px 20px 0; border-top:1px solid #dadce0;
+                 color:#5f6368; font-size:.84rem; line-height:1.8; text-align:center;">
+    <div style="font-weight:700; color:#3c4043; margin-bottom:6px;">
+      Google Certified Educator Level 2 研習講義
+    </div>
+    <div>製作：<strong>碧華國小　吳國榮</strong></div>
+    <div style="margin-top:8px;">
+      © 2026 吳國榮．本講義之情境設計、演練編排與文字內容為原創教學素材，
+      歡迎教育工作者於教學與研習用途自由使用與改編，轉載請註明出處。
+    </div>
+    <div style="margin-top:6px; color:#80868b;">
+      Google、Google Workspace、Google Classroom、Google Meet 等名稱與標誌為 Google LLC 之商標。
+      本講義為個人教學製作，與 Google LLC 無隸屬或合作關係。
+    </div>
+  </footer>
 </body>
 </html>
 '''
