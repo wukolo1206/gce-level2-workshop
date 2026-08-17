@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Classroom 課程經營與評量整合研習講義 (互動網頁版)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --primary-light: #e8f0fe;
+      --secondary: #34a853;
+      --text-main: #202124;
+      --text-muted: #5f6368;
+      --bg-body: #f8f9fa;
+      --bg-card: #ffffff;
+      --border: #dadce0;
+      --shadow: 0 4px 16px rgba(0,0,0,0.06);
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Google Sans', 'Noto Sans TC', sans-serif;
+      background: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 24px 32px;
+      box-shadow: 0 4px 12px rgba(26,115,232,0.25);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-title h1 { font-size: 1.5rem; font-weight: 700; }
+    .header-title p { font-size: 0.9rem; opacity: 0.9; margin-top: 4px; }
+
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav-btn {
+      text-decoration: none;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover { background: white; color: var(--primary); }
+
+    .app-layout {
+      max-width: 1200px;
+      margin: 28px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .app-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+
+    .sidebar {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+
+    .sidebar-heading {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .menu-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: none;
+      background: transparent;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text-main);
+      cursor: pointer;
+      margin-bottom: 6px;
+      transition: all 0.2s;
+    }
+
+    .menu-item:hover { background: var(--bg-body); color: var(--primary); }
+    .menu-item.active { background: var(--primary-light); color: var(--primary); font-weight: 700; }
+
+    .content-area {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .module-card { display: none; }
+    .module-card.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 16px; color: var(--primary-dark); }
+    h3 { font-size: 1.1rem; font-weight: 700; margin: 20px 0 10px 0; color: var(--text-main); }
+    p { margin-bottom: 14px; color: #3c4043; line-height: 1.7; }
+
+    .scenario-box {
+      background: #fef7e0;
+      border-left: 4px solid #f9ab00;
+      padding: 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+
+    .scenario-box strong { color: #b06000; }
+
+    .step-list {
+      background: #f8f9fa;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .step-item input[type="checkbox"] {
+      margin-top: 5px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    code {
+      background: #f1f3f4;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.92em;
+      color: #c5221f;
+    }
+
+    .action-bar {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn {
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #323232;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-title">
+      <h1>🏫 Google Classroom 課程經營與評量整合研習講義</h1>
+      <p>協同教師 ‧ 主題分頁 ‧ 成績匯入 ‧ 原創性比對</p>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn">🏠 回講義首頁</a>
+      <a href="course_structure_map.html" class="nav-btn">🗺️ 課程結構對照</a>
+    </div>
+  </header>
+
+  <div class="app-layout">
+
+    <nav class="sidebar">
+      <div class="sidebar-heading">實務演練章節選單</div>
+      <button class="menu-item active" onclick="showModule(0)">🎯 工具篇總覽與研習目標</button>
+      <button class="menu-item" onclick="showModule(1)">👥 演練一：協同教師與課程共管</button>
+      <button class="menu-item" onclick="showModule(2)">📚 演練二：主題分頁與課堂作業建置</button>
+      <button class="menu-item" onclick="showModule(3)">📝 演練三：測驗作業與成績自動匯入</button>
+      <button class="menu-item" onclick="showModule(4)">🔍 演練四：原創性比對（學生視角）</button>
+      <button class="menu-item" onclick="showModule(5)">📢 演練五：班級公告與課堂溝通</button>
+    </nav>
+
+    <main class="content-area">
+
+      <!-- MODULE 0: OVERVIEW -->
+      <div class="module-card active" id="module-0" style="display:block;">
+        <span class="tag">研習簡介與教學策略</span>
+        <h2>Google Classroom 實務應用總覽</h2>
+        <p>歡迎來到 <strong>Google Classroom（Google 課堂）</strong>工具篇講義！本單元從「開一門課」一路帶到「評量分數自動回到成績冊」，聚焦在 Level 2 最常考、也是實務上最省時的四個設定。</p>
+
+        <div style="background:#e8f0fe; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="color:#1a73e8; margin-top:0;">💡 本章五大實務演練目標：</h3>
+          <ul style="padding-left:20px; line-height:1.8; color:#3c4043;">
+            <li><strong>演練一</strong>：兩人一組互相邀請協同教師（Co-teacher），實地比較權限差異。</li>
+            <li><strong>演練二</strong>：用主題（Topics）整理課堂作業，讓學生找得到本週進度。</li>
+            <li><strong>演練三</strong>：建立測驗作業並開啟成績匯入，Forms 分數自動帶回成績冊。</li>
+            <li><strong>演練四</strong>：以學生身分加入講師示範課程，體驗原創性比對的學生端畫面。</li>
+            <li><strong>演練五</strong>：發布班級公告，分辨「公告」與「作業」的正確使用時機。</li>
+          </ul>
+        </div>
+
+
+        <div style="background:#fff; border:1px solid #dadce0; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="margin-top:0;">🔤 本篇功能術語中英對照</h3>
+          <p style="font-size:.9rem; color:#5f6368; margin-bottom:12px;">
+            Google 介面可切換語言，官方文件與國際研習場合也多用英文。
+            操作時請順便記住右欄的英文名稱。
+            <span style="color:#b06000; font-weight:700;">★</span> ＝核心功能
+            <span style="color:#137333; font-weight:700;">⚙</span> ＝名稱須完全一致（系統逐字比對）
+            <span style="color:#b3261e; font-weight:700;">⚠️</span> ＝容易混淆
+          </p>
+          <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; font-size:.93rem;">
+              <tr style="background:#f8f9fa;">
+                <th style="text-align:left; padding:9px 10px; width:30%;">繁體中文介面</th>
+                <th style="text-align:left; padding:9px 10px; width:32%;">English</th>
+                <th style="text-align:left; padding:9px 10px;">備註</th>
+              </tr>
+              <tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 協同教師</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Co-teacher</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">權限幾乎等同主教師，但不能刪課</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">成員</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">People</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">分頁名稱</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="名稱須完全一致" style="color:#137333;">⚙</span> 主題</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Topic</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">課程的目錄章節，可拖曳排序</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">課堂作業</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Classwork</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">分頁名稱</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">訊息串</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Stream</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">公告發布的位置</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="名稱須完全一致" style="color:#137333;">⚙</span> 公告</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Announcement</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">發在訊息串，不進成績冊</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 測驗作業</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Quiz assignment</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">會自動附帶一份 Blank Quiz 表單</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 成績匯入</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Grade importing</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">分數帶回成績冊的關鍵開關</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 原創性比對報告</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Originality reports</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">學生提交前最多可自行跑 3 次</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">為每位學生建立副本</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Make a copy for each student</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">附件權限，最多人設錯</td></tr>
+            </table>
+          </div>
+        </div>
+        <div style="background:#f8f9fa; border:1px solid #dadce0; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="margin-top:0;">🧭 本篇會用到的練習方式：</h3>
+          <ul style="padding-left:20px; line-height:1.8; color:#3c4043; list-style:none;">
+<li style="margin-bottom:6px;"><strong style="color:#7627bb;">👥 兩人一組</strong>　需要另一個人才練得到，請和旁邊的夥伴配對。</li><li style="margin-bottom:6px;"><strong style="color:#b06000;">🎙️ 講師開房</strong>　講師會開好會議室或課程，請用現場公布的連結／代碼進入。</li><li style="margin-bottom:6px;"><strong style="color:#00695c;">🔨 自己建一次</strong>　沒有範本，從空白自己做一次（這類功能自己排過才會懂）。</li>
+          </ul>
+          <p style="margin:10px 0 0 0; font-size:0.9rem; color:#5f6368;">
+            每則演練都先讀黃色的<strong>實務教學情境</strong>了解為什麼要做，再看彩色框的<strong>練習方式</strong>取得你的練習環境，
+            最後照步驟清單逐項打勾。
+          </p>
+        </div>
+      </div>
+
+
+      <!-- MODULE 1 -->
+      <div class="module-card" id="module-1" style="display:none;">
+        <span class="tag">核心功能演練一</span>
+        <h2>邀請協同教師 (Co-teachers) 共同管理課程</h2>
+        <p>協同教師擁有<strong>與主教師幾乎相同的權限</strong>：可發布作業、批改、與家長聯繫；唯一不能做的是刪除課程或移除主教師。這是雙語協同、實習輔導、學年共備最正確的作法（而不是共用帳號密碼）。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          本學期您與一位外籍教師共同授課英語會話課。外師需要能自己發布作業、批改學生錄音作業並登錄成績，但您不希望把自己的帳號密碼交給對方，也不想每次都由您代為發布。
+        </div>
+
+
+        <div style="background:#f3e8fd; border:2px solid #9334e6; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#7627bb; font-size:1.05rem;">👥 本單元練習方式：兩人一組，互相操作才練得到</strong>
+            
+          </div>
+          <div style="background:white; border:1px solid #d7aefb; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.9rem; color:#3c4043; margin-bottom:8px;"><strong>角色分工：</strong><ul style="padding-left:20px; margin-top:6px; line-height:1.7;"><li style="margin-bottom:6px;"><strong>A 老師（課程擁有者）</strong>：建立「研習測試班－你的名字」課程，邀請 B 為協同教師。</li><li style="margin-bottom:6px;"><strong>B 老師（協同教師）</strong>：接受邀請後，試著在 A 的課程中發布一則作業，再試著刪除整門課程（會失敗）。</li><li style="margin-bottom:6px;"><strong>兩人交換角色</strong>再做一次，確認雙方都完整體驗過兩種身分。</li></ul></div><div style="font-size:0.95rem; color:#7627bb; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">兩人一組：各自建立一個測試課程，交換 Email 互相邀請對方擔任協同教師，再比較兩邊看到的畫面有什麼不同。</span></div>
+          </div>
+          <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/document/d/1wzDfR0fChCnk6vu0BpriQLGAzcAzBUJsbt8GZSqepCM/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 10）</a></div>
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m1-s1">
+            <label for="m1-s1">進入自己的課程，點選上方 <strong>「成員 (People)」</strong> 分頁。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s2">
+            <label for="m1-s2">在「教師」區塊右側點選 <strong>「邀請教師 (Invite teachers)」</strong> 圖示。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s3">
+            <label for="m1-s3">輸入夥伴的 Email，點選「邀請」。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s4">
+            <label for="m1-s4">請夥伴至信箱點選接受；接受後身分列會顯示為 <strong>Co-teacher</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s5">
+            <label for="m1-s5">驗證重點：協同教師<strong>可以</strong>建立作業與批改，但<strong>無法</strong>刪除整門課程或移除主教師。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-1')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 2 -->
+      <div class="module-card" id="module-2" style="display:none;">
+        <span class="tag">核心功能演練二</span>
+        <h2>建立主題 (Topics) 分頁、一般作業與線上閱讀素材</h2>
+        <p>課堂作業如果不分主題，一學期後會變成一長串無法閱讀的清單。「主題」等於課程的目錄章節，可自由拖曳排序，把當週單元<strong>拉到最上方</strong>學生就不會找錯。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          開學三週後，您的課程「課堂作業」頁面已經累積了十幾則公告、作業與補充教材，全部混在一起。學生常在聯絡簿上寫「找不到老師說的那份閱讀資料」，您需要把它整理成依單元分區的結構。
+        </div>
+
+
+        <div style="background:#e0f2f1; border:2px solid #00897b; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#00695c; font-size:1.05rem;">🔨 本單元練習方式：從零自己建一次（不需要範本檔）</strong>
+            
+          </div>
+          <div style="background:white; border:1px solid #80cbc4; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.95rem; color:#00695c; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">在你剛才建立的「研習測試班」中，建立一個單元主題、一則歸屬於該主題的作業，並把主題拖曳到最上方。</span></div><div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; border-top:1px dashed #80cbc4; padding-top:10px;">💬 本演練在自己的測試課程中完成即可，不需要任何範本檔案。附加素材時請刻意選一次「為每位學生建立副本」，再回頭看學生端的檔案是不是各自獨立的——這是最多人設定錯的地方。</div>
+          </div>
+          <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/document/d/1Pzd-Nztp30Sr_YXrSmhajR-NwvhCwieYiGQtG_Lw9bs/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 11）</a></div>
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m2-s1">
+            <label for="m2-s1">進入 <strong>「課堂作業 (Classwork)」</strong> 分頁，點選 <strong>「建立 ➔ 主題 (Topic)」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s2">
+            <label for="m2-s2">輸入單元名稱（如「第二單元：閱讀理解」）並建立。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s3">
+            <label for="m2-s3">再次點選「建立 ➔ 作業」，填寫標題與說明，於右側<strong>「主題」下拉選單指定歸入該單元</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s4">
+            <label for="m2-s4">先從<strong>雲端硬碟附加一份 Docs／Sheets／Slides 檔案</strong>，再點該附件旁的權限下拉選單，選擇 <strong>「為每位學生建立副本」</strong>。（注意：一般網址連結或 YouTube 影片<strong>不會</strong>出現這個選項。）</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s5">
+            <label for="m2-s5">在主題右側三點圖示點選「移至頂端」，把本週單元排到最上方。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-2')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 3 -->
+      <div class="module-card" id="module-3" style="display:none;">
+        <span class="tag">核心功能演練三</span>
+        <h2>建立測驗作業 (Quiz Assignment) 並開啟成績匯入 (Grade importing)</h2>
+        <p>「測驗作業」會自動附上一份已設為<strong>測驗模式</strong>的 Google 表單。只要開啟「成績匯入」開關，學生作答完成後，Forms 的自動評分結果就能一鍵帶回 Classroom 成績冊，不必人工謄分。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          您每週上完一個單元都會做一次線上形成性評量。過去的流程是：學生填 Forms、您開試算表看分數、再逐一把分數手動輸入 Classroom 成績冊——一個班就要花掉半節課。您希望這段完全自動化。
+        </div>
+
+
+        <div style="background:#e0f2f1; border:2px solid #00897b; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#00695c; font-size:1.05rem;">🔨 本單元練習方式：從零自己建一次（不需要範本檔）</strong>
+            
+          </div>
+          <div style="background:white; border:1px solid #80cbc4; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.95rem; color:#00695c; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">在測試課程中建立一則「測驗作業」，確認「成績匯入」開關已開啟，並在附帶的 Blank Quiz 中設定答案與配分。</span></div><div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; border-top:1px dashed #80cbc4; padding-top:10px;">💬 請與夥伴互相以學生身分作答對方的測驗，才能看到成績真的被匯入成績冊。⚠️ 注意：<strong>同一帳號無法在同一課程同時擔任協同教師與學生</strong>，請為這則<strong>另開一門沒有加對方為協同教師的測試課程</strong>。注意三個必要條件：① 該測驗<strong>必須是作業的唯一附件</strong>（不能再附其他檔案）② 表單須<strong>收集電子郵件地址</strong>且<strong>限制作答一次</strong> ③ <strong>作答學生須與教師位於同一網域</strong>。缺少條件時可能無法匯入成績。</div>
+          </div>
+          <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/document/d/1Pzd-Nztp30Sr_YXrSmhajR-NwvhCwieYiGQtG_Lw9bs/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 11）</a></div>
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m3-s1">
+            <label for="m3-s1">在「課堂作業」點選 <strong>「建立 ➔ 測驗作業 (Quiz assignment)」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s2">
+            <label for="m3-s2">確認右側 <strong>「成績匯入 (Grade importing)」切換開關已開啟</strong>（此為關鍵步驟）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s3">
+            <label for="m3-s3">點開系統附帶的 <strong>Blank Quiz</strong> 表單，逐題設定「答案」與配分。並在表單設定中<strong>開啟「收集電子郵件地址」與「限制作答 1 次」</strong>——少了這兩項，分數匯不回來。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s4">
+            <label for="m3-s4">請夥伴以<strong>學生身分</strong>加入這門課並作答送出。⚠️ <strong>同一帳號不能在同一門課同時是協同教師與學生</strong>——若夥伴已在演練一被你加為協同教師，請<strong>另開一門乾淨的測試課程</strong>做這則，或改用第三個帳號。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s5">
+            <label for="m3-s5">回到 <strong>「課堂作業 ➔ 該測驗作業 ➔ 查看作業」</strong>（不是全課程的「成績」分頁），分數旁會出現 <strong>「匯入成績 (Import grades)」</strong> 按鈕，點選即完成登錄。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-3')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 4 -->
+      <div class="module-card" id="module-4" style="display:none;">
+        <span class="tag">核心功能演練四</span>
+        <h2>原創性比對報告 (Originality reports) 與學生端體驗</h2>
+        <p>原創性比對會將學生作業與全網頁面（教育版另含校內學生作業庫）比對。重點在於<strong>學生自己在提交前最多可跑 3 次</strong>——它是自我檢查的教學工具，不是抓作弊的監控工具。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          高中社會科要求繳交小論文。您發現學生並非刻意抄襲，而是不清楚「引用」與「抄襲」的界線在哪裡。您希望學生在按下繳交之前，就能自己看到哪幾段與網路資料雷同，並有機會修改與補上引註。
+        </div>
+
+
+        <div style="background:#fef7e0; border:2px solid #f9ab00; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#b06000; font-size:1.05rem;">🎙️ 本單元練習方式：講師開房間，全體進去實測</strong>
+            
+          </div>
+          <div style="background:white; border:1px solid #fde293; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="border:1px dashed #f9ab00; border-radius:6px; padding:10px 14px; margin-bottom:10px; font-size:0.9rem; color:#b06000;">🔑 <strong>講師現場公布</strong>：會議連結／課程代碼 ＿＿＿＿＿＿＿＿＿＿</div><div style="font-size:0.95rem; color:#b06000; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">以「學生」身分用課程代碼加入講師的示範課程，繳交一份小論文並自行執行一次原創性比對，親眼看到學生端的畫面。</span></div><div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; border-top:1px dashed #fde293; padding-top:10px;">💬 教師平常永遠看不到學生端長什麼樣子，這是本研習最值得體驗的一則。體驗完再回自己的測試課程，建立一則勾選「檢查原創性」的作業。</div>
+          </div>
+          <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/document/d/1V_WBWKuPSOY5u-Z5nlJYfwhvS7CScq6UzO7dX6111xo/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 12）</a></div>
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m4-s1">
+            <label for="m4-s1">用講師公布的<strong>課程代碼</strong>，以學生身分加入示範課程。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m4-s2">
+            <label for="m4-s2">開啟小論文作業，貼上一段從網路複製的文字，點選 <strong>「執行原創性報告」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m4-s3">
+            <label for="m4-s3">觀察比對結果：哪幾段被標示、來源網址是什麼、相似百分比多少。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m4-s4">
+            <label for="m4-s4">修改後再跑一次，體驗<strong>提交前最多 3 次</strong>的限制。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m4-s5">
+            <label for="m4-s5">回到自己的測試課程，建立作業時<strong>勾選「檢查原創性 (Originality reports)」</strong>（留意免費版有啟用數量上限）。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-4')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 5 -->
+      <div class="module-card" id="module-5" style="display:none;">
+        <span class="tag">核心功能演練五</span>
+        <h2>發布公告 (Announcement) 與訊息串經營</h2>
+        <p>「公告」發在<strong>訊息串 (Stream)</strong>，不會產生繳交項目、不進成績冊，是課程裡的即時通知管道。它可以附加檔案與連結、指定只發給部分學生，也能用<strong>「安排時間」排定未來自動發布</strong>——這點在連假前預告特別好用。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          下週要進行校外教學，您需要提前通知全班攜帶物品與集合時間，並附上一份注意事項文件。這則訊息不需要學生繳交任何東西，但您希望它出現在課程首頁最上方，不會被後來的作業洗掉；而且您想在週五放學前就寫好，讓系統週日晚上自動發出。
+        </div>
+
+
+        <div style="background:#e0f2f1; border:2px solid #00897b; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#00695c; font-size:1.05rem;">🔨 本單元練習方式：從零自己建一次（不需要範本檔）</strong>
+            
+          </div>
+          <div style="background:white; border:1px solid #80cbc4; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.95rem; color:#00695c; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">在你的測試課程「訊息串」發布<strong>兩則</strong>公告：第一則<strong>立即張貼</strong>（附加 Drive 檔案、指定部分學生），再把它「移至頂端」；第二則用「安排時間」設定於未來時段自動發布。</span></div><div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; border-top:1px dashed #80cbc4; padding-top:10px;">💬 公告與作業的差別是 Level 2 常見的判斷題：<strong>需要學生繳交、要給分 ➔ 用作業；只是通知、不必繳交 ➔ 用公告</strong>。另外訊息串右上角可設定<strong>學生能否留言或回覆</strong>，班級秩序不佳時可改為「僅教師可張貼」。</div>
+          </div>
+          <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/document/d/1Pzd-Nztp30Sr_YXrSmhajR-NwvhCwieYiGQtG_Lw9bs/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 11）</a></div>
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m5-s1">
+            <label for="m5-s1"><strong>【第一則‧立即張貼】</strong>進入課程 <strong>「訊息串 (Stream)」</strong> 分頁，點選 <strong>「宣布課程相關事項」</strong> 輸入公告內容。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m5-s2">
+            <label for="m5-s2">點選下方的<strong>附件圖示</strong>，附加 Drive 檔案、連結或 YouTube 影片。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m5-s3">
+            <label for="m5-s3">在<strong>「供所有學生瀏覽」</strong>下拉選單中取消勾選部分學生，體驗指定對象發布，然後直接按 <strong>「張貼」</strong> 發布。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m5-s4">
+            <label for="m5-s4"><strong>【第二則‧排定發布】</strong>再新增一則公告，這次點「張貼」旁的<strong>下拉箭頭 ➔ 「安排時間」</strong>，設定未來的自動發布時間。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m5-s5">
+            <label for="m5-s5">回到訊息串，在<strong>第一則（已張貼）</strong>公告右上角三點圖示點<strong>「移至頂端」</strong>。（第二則排定但尚未發布，不會出現在訊息串，因此沒有這個選項——這也是很多人以為功能壞掉的原因。）</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-5')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast">已複製操作步驟至剪貼簿！</div>
+
+  <script>
+    function showModule(idx) {
+      document.querySelectorAll('.menu-item').forEach((btn, i) => {
+        btn.classList.toggle('active', i === idx);
+      });
+      document.querySelectorAll('.module-card').forEach((card, i) => {
+        card.style.display = (i === idx) ? 'block' : 'none';
+        card.classList.toggle('active', i === idx);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copySteps(modId) {
+      const mod = document.getElementById(modId);
+      const title = mod.querySelector('h2').innerText;
+      const steps = Array.from(mod.querySelectorAll('.step-item label'))
+        .map((l, i) => `${i + 1}. ${l.innerText}`)
+        .join('\n');
+
+      const text = `【${title}】\n${steps}`;
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 2500);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Meet 視訊教學與備援連線研習講義 (互動網頁版)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --primary-light: #e8f0fe;
+      --secondary: #34a853;
+      --text-main: #202124;
+      --text-muted: #5f6368;
+      --bg-body: #f8f9fa;
+      --bg-card: #ffffff;
+      --border: #dadce0;
+      --shadow: 0 4px 16px rgba(0,0,0,0.06);
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Google Sans', 'Noto Sans TC', sans-serif;
+      background: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 24px 32px;
+      box-shadow: 0 4px 12px rgba(26,115,232,0.25);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-title h1 { font-size: 1.5rem; font-weight: 700; }
+    .header-title p { font-size: 0.9rem; opacity: 0.9; margin-top: 4px; }
+
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav-btn {
+      text-decoration: none;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover { background: white; color: var(--primary); }
+
+    .app-layout {
+      max-width: 1200px;
+      margin: 28px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .app-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+
+    .sidebar {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+
+    .sidebar-heading {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .menu-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: none;
+      background: transparent;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text-main);
+      cursor: pointer;
+      margin-bottom: 6px;
+      transition: all 0.2s;
+    }
+
+    .menu-item:hover { background: var(--bg-body); color: var(--primary); }
+    .menu-item.active { background: var(--primary-light); color: var(--primary); font-weight: 700; }
+
+    .content-area {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .module-card { display: none; }
+    .module-card.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 16px; color: var(--primary-dark); }
+    h3 { font-size: 1.1rem; font-weight: 700; margin: 20px 0 10px 0; color: var(--text-main); }
+    p { margin-bottom: 14px; color: #3c4043; line-height: 1.7; }
+
+    .scenario-box {
+      background: #fef7e0;
+      border-left: 4px solid #f9ab00;
+      padding: 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+
+    .scenario-box strong { color: #b06000; }
+
+    .step-list {
+      background: #f8f9fa;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .step-item input[type="checkbox"] {
+      margin-top: 5px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    code {
+      background: #f1f3f4;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.92em;
+      color: #c5221f;
+    }
+
+    .action-bar {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn {
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #323232;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-title">
+      <h1>📹 Google Meet 視訊教學與備援連線研習講義</h1>
+      <p>電話撥號備援 ‧ 檔案內視訊 ‧ 主持控制與分組</p>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn">🏠 回講義首頁</a>
+      <a href="course_structure_map.html" class="nav-btn">🗺️ 課程結構對照</a>
+    </div>
+  </header>
+
+  <div class="app-layout">
+
+    <nav class="sidebar">
+      <div class="sidebar-heading">實務演練章節選單</div>
+      <button class="menu-item active" onclick="showModule(0)">🎯 工具篇總覽與研習目標</button>
+      <button class="menu-item" onclick="showModule(1)">📞 演練一：電話撥號加入 (Join by phone)</button>
+      <button class="menu-item" onclick="showModule(2)">💻 演練二：Docs／Slides 檔案內發起 Meet</button>
+      <button class="menu-item" onclick="showModule(3)">🎛️ 演練三：主持人控制項與分組討論</button>
+    </nav>
+
+    <main class="content-area">
+
+      <!-- MODULE 0: OVERVIEW -->
+      <div class="module-card active" id="module-0" style="display:block;">
+        <span class="tag">研習簡介與教學策略</span>
+        <h2>Google Meet 實務應用總覽</h2>
+        <p>歡迎來到 <strong>Google Meet</strong> 工具篇講義！本單元聚焦在真實教學現場最容易出狀況的兩件事：<strong>網路不穩時怎麼撐住會議</strong>，以及<strong>如何邊看文件邊視訊討論</strong>，另補充主持人必備的秩序控制設定。</p>
+
+        <div style="background:#e8f0fe; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="color:#1a73e8; margin-top:0;">💡 本章三大實務演練目標：</h3>
+          <ul style="padding-left:20px; line-height:1.8; color:#3c4043;">
+            <li><strong>演練一</strong>：網路訊號不良時，改用電話撥號加入 (Join by phone) 維持參與。</li>
+            <li><strong>演練二</strong>：直接在 Docs／Slides 檔案內發起 Meet，邊視訊邊共同編修。</li>
+            <li><strong>演練三</strong>：善用主持人控制項與分組討論室，維持線上課堂秩序。</li>
+          </ul>
+        </div>
+
+
+        <div style="background:#fff; border:1px solid #dadce0; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="margin-top:0;">🔤 本篇功能術語中英對照</h3>
+          <p style="font-size:.9rem; color:#5f6368; margin-bottom:12px;">
+            Google 介面可切換語言，官方文件與國際研習場合也多用英文。
+            操作時請順便記住右欄的英文名稱。
+            <span style="color:#b06000; font-weight:700;">★</span> ＝核心功能
+            <span style="color:#137333; font-weight:700;">⚙</span> ＝名稱須完全一致（系統逐字比對）
+            <span style="color:#b3261e; font-weight:700;">⚠️</span> ＝容易混淆
+          </p>
+          <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; font-size:.93rem;">
+              <tr style="background:#f8f9fa;">
+                <th style="text-align:left; padding:9px 10px; width:30%;">繁體中文介面</th>
+                <th style="text-align:left; padding:9px 10px; width:32%;">English</th>
+                <th style="text-align:left; padding:9px 10px;">備註</th>
+              </tr>
+              <tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 使用電話收發音訊</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Use a phone for audio</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">網路不穩時的語音備援</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">撥入</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Dial in</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">需與主辦者同網域，管理員亦須啟用</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">主持人控制項</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Host controls</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">盾牌圖示</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">分組討論室</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Breakout rooms</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">在「活動 Activities」裡，需主持人身分</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span style="color:#b3261e;">⚠️</span> 抗噪功能</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Noise cancellation</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">只濾背景雜音，解決不了斷線</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span style="color:#b3261e;">⚠️</span> 按鍵通話</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Push to talk</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">同樣是誘答選項</td></tr>
+            </table>
+          </div>
+        </div>
+        <div style="background:#f8f9fa; border:1px solid #dadce0; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="margin-top:0;">🧭 本篇會用到的練習方式：</h3>
+          <ul style="padding-left:20px; line-height:1.8; color:#3c4043; list-style:none;">
+<li style="margin-bottom:6px;"><strong style="color:#137333;">📄 複製範本</strong>　點按鈕直接複製一份範本到你的雲端硬碟，隨便改。</li><li style="margin-bottom:6px;"><strong style="color:#b06000;">🎙️ 講師開房</strong>　講師會開好會議室或課程，請用現場公布的連結／代碼進入。</li>
+          </ul>
+          <p style="margin:10px 0 0 0; font-size:0.9rem; color:#5f6368;">
+            每則演練都先讀黃色的<strong>實務教學情境</strong>了解為什麼要做，再看彩色框的<strong>練習方式</strong>取得你的練習環境，
+            最後照步驟清單逐項打勾。
+          </p>
+        </div>
+      </div>
+
+
+      <!-- MODULE 1 -->
+      <div class="module-card" id="module-1" style="display:none;">
+        <span class="tag">核心功能演練一</span>
+        <h2>網路不穩時開啟「透過電話撥號加入 (Join by phone)」語音備援</h2>
+        <p>當頻寬不足以支撐視訊時，關鏡頭往往還是卡。Meet 提供<strong>改走電話語音線路</strong>的備援：畫面由電腦顯示、聲音走行動電話網路，只要手機有訊號就能穩定聽與說。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          您帶學生到山區進行戶外觀察，同一時間校內正在召開臨時教學會議必須出席。現場行動網路訊號只有一格，視訊完全連不上，但手機通話仍然正常。
+        </div>
+
+
+        <div style="background:#fef7e0; border:2px solid #f9ab00; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#b06000; font-size:1.05rem;">🎙️ 本單元練習方式：講師開房間，全體進去實測</strong>
+            
+          </div>
+          <div style="background:white; border:1px solid #fde293; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="border:1px dashed #f9ab00; border-radius:6px; padding:10px 14px; margin-bottom:10px; font-size:0.9rem; color:#b06000;">🔑 <strong>講師現場公布</strong>：會議連結／課程代碼 ＿＿＿＿＿＿＿＿＿＿</div><div style="font-size:0.95rem; color:#b06000; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">進入講師開設的研習會議室，實際拿出手機撥打畫面上的號碼與 PIN 碼，把自己的音訊切換成電話線路。</span></div><div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; border-top:1px dashed #fde293; padding-top:10px;">💬 請自備手機。<strong>這個功能有三個前提</strong>：① 會議須由 Workspace 帳戶主辦；② 你必須與會議主辦者<strong>位於同一網域</strong>；③ 管理員已啟用電話撥入。跨校研習的學員很可能因此完全看不到這個選項——若你的畫面沒有，請改看講師示範。重點是記住「網路不穩時改走電話語音」這個判斷，不是真的要撥出去。</div>
+          </div>
+          <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/document/d/1W99umvavUbQiq0ccu3nkc-DKRP-CaJX0abhMQVUUAE8/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 20）</a></div>
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m1-s1">
+            <label for="m1-s1">用講師公布的會議連結進入 Meet 會議。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s2">
+            <label for="m1-s2">點選右下角 <strong>「更多選項（三點圖示）」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s3">
+            <label for="m1-s3">點選 <strong>「使用電話收發音訊 (Use a phone for audio)」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s4">
+            <label for="m1-s4">選擇<strong>「撥入 (Dial in)」</strong>，記下畫面顯示的電話號碼與 <strong>PIN 碼</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s5">
+            <label for="m1-s5">用手機撥打並輸入 PIN 碼與 <code>#</code>；驗證：電腦端音訊自動靜音，聲音改由電話進出。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-1')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 2 -->
+      <div class="module-card" id="module-2" style="display:none;">
+        <span class="tag">核心功能演練二</span>
+        <h2>從 Google Docs/Slides 頂部工具列直接發起或加入 Meet 會議</h2>
+        <p>檔案內 Meet 整合可讓視訊小窗<strong>浮動在文件右側</strong>，一邊開會一邊即時修改同一份檔案，省去「切分頁 ➔ 分享畫面 ➔ 對方看不到游標」的來回。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          您與學年夥伴要共同修訂一份課程計畫。若用傳統作法，得先開 Meet、再分享畫面，對方只能看不能改，改到哪還要口頭說「第三段第二行」。您希望大家能同時在文件裡動手改，視訊就在旁邊。
+        </div>
+
+
+        <div style="background:#e6f4ea; border:2px solid #34a853; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#137333; font-size:1.05rem;">📄 本單元練習方式：複製一份範本，改壞了也沒關係</strong>
+            <a href="https://docs.google.com/document/d/1mqkFlFOl_Wg_V2Z6aQIgzMZWZgRd9iVIciKD-lJKHUM/copy" target="_blank" rel="noopener" style="text-decoration:none; background:#137333; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">📄 建立我的專屬副本</a>
+          </div>
+          <div style="background:white; border:1px solid #a8dab5; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">範本：<strong>文件內即時視訊邊看邊修範本 (檔案內Meet演練)</strong>（Task 25 ‧ Google Docs）</div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕後會問你「要建立副本嗎」，按下去就會在<strong>你自己的雲端硬碟</strong>產生一份，怎麼改都不會影響別人。</div><div style="font-size:0.95rem; color:#137333; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">複製這份共編範本後分享給夥伴，點右上角 Meet 圖示發起會議，兩人在視訊進行中同時編輯同一段文字。</span></div>
+          </div>
+          
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m2-s1">
+            <label for="m2-s1">點上方按鈕複製共編範本，並把檔案分享給夥伴（設為可編輯）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s2">
+            <label for="m2-s2">點選文件右上角的 <strong>Meet 視訊圖示</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s3">
+            <label for="m2-s3">選擇 <strong>「在此發起新會議」</strong>（或加入已排定的會議）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s4">
+            <label for="m2-s4">視訊窗格會固定於文件右側；必要時把分享畫面改為<strong>「分享此分頁」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s5">
+            <label for="m2-s5">驗證：視訊進行中，雙方游標可同時在文件上編輯同一段落。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-2')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 3 -->
+      <div class="module-card" id="module-3" style="display:none;">
+        <span class="tag">核心功能演練三</span>
+        <h2>主持人控制項 (Host controls) 與分組討論室 (Breakout rooms)</h2>
+        <p>主持人控制項能一鍵限制學生的分享畫面、聊天與麥克風權限；分組討論室則可把全班自動或手動分到不同小房間，教師可<strong>逐室巡堂</strong>並廣播訊息。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          線上授課時，常有學生誤按分享畫面打斷課程，或在聊天室洗版。同時，這節課要進行小組討論，您需要把 30 位學生分成 6 組各自討論，再逐組去聽他們講得如何。
+        </div>
+
+
+        <div style="background:#fef7e0; border:2px solid #f9ab00; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#b06000; font-size:1.05rem;">🎙️ 本單元練習方式：講師開房間，全體進去實測</strong>
+            
+          </div>
+          <div style="background:white; border:1px solid #fde293; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="border:1px dashed #f9ab00; border-radius:6px; padding:10px 14px; margin-bottom:10px; font-size:0.9rem; color:#b06000;">🔑 <strong>講師現場公布</strong>：會議連結／課程代碼 ＿＿＿＿＿＿＿＿＿＿</div><div style="font-size:0.95rem; color:#b06000; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">第一輪：全體進入講師的會議室當「學生」，看講師關掉分享畫面與聊天、開 6 間分組討論室。第二輪：兩人一組，各自開一場會議互相邀請，輪流當主持人操作一次。</span></div><div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; border-top:1px dashed #fde293; padding-top:10px;">💬 分組討論室需要主持人身分才看得到「活動」按鈕，所以一定要自己開一場會議當主持人，光是待在別人的會議裡是練不到的。</div>
+          </div>
+          <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/document/d/1W99umvavUbQiq0ccu3nkc-DKRP-CaJX0abhMQVUUAE8/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 20）</a></div>
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m3-s1">
+            <label for="m3-s1">（第二輪起）自己建立一場 Meet 會議並邀請夥伴加入。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s2">
+            <label for="m3-s2">在右下角點選 <strong>「主持人控制項 (Host controls)」</strong> 盾牌圖示。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s3">
+            <label for="m3-s3">關閉 <strong>「分享畫面」與「傳送聊天訊息」</strong>權限，請夥伴確認他那邊按鈕變成灰色。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s4">
+            <label for="m3-s4">點選右下角 <strong>「活動 (Activities) ➔ 分組討論室 (Breakout rooms)」</strong>，設定房間數量與討論時間。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s5">
+            <label for="m3-s5">點選各房間 <strong>「加入」逐室巡堂</strong>，並用「廣播」對全部房間發送提醒。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-3')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast">已複製操作步驟至剪貼簿！</div>
+
+  <script>
+    function showModule(idx) {
+      document.querySelectorAll('.menu-item').forEach((btn, i) => {
+        btn.classList.toggle('active', i === idx);
+      });
+      document.querySelectorAll('.module-card').forEach((card, i) => {
+        card.style.display = (i === idx) ? 'block' : 'none';
+        card.classList.toggle('active', i === idx);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copySteps(modId) {
+      const mod = document.getElementById(modId);
+      const title = mod.querySelector('h2').innerText;
+      const steps = Array.from(mod.querySelectorAll('.step-item label'))
+        .map((l, i) => `${i + 1}. ${l.innerText}`)
+        .join('\n');
+
+      const text = `【${title}】\n${steps}`;
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 2500);
+      });
+    }
+  </script>
+</body>
+</html>

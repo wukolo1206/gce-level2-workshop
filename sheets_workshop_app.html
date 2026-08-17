@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Sheets 成績分析與問卷統計研習講義 (互動網頁版)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --primary-light: #e8f0fe;
+      --secondary: #34a853;
+      --text-main: #202124;
+      --text-muted: #5f6368;
+      --bg-body: #f8f9fa;
+      --bg-card: #ffffff;
+      --border: #dadce0;
+      --shadow: 0 4px 16px rgba(0,0,0,0.06);
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Google Sans', 'Noto Sans TC', sans-serif;
+      background: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 24px 32px;
+      box-shadow: 0 4px 12px rgba(26,115,232,0.25);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-title h1 { font-size: 1.5rem; font-weight: 700; }
+    .header-title p { font-size: 0.9rem; opacity: 0.9; margin-top: 4px; }
+
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav-btn {
+      text-decoration: none;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover { background: white; color: var(--primary); }
+
+    .app-layout {
+      max-width: 1200px;
+      margin: 28px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .app-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+
+    .sidebar {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+
+    .sidebar-heading {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .menu-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: none;
+      background: transparent;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text-main);
+      cursor: pointer;
+      margin-bottom: 6px;
+      transition: all 0.2s;
+    }
+
+    .menu-item:hover { background: var(--bg-body); color: var(--primary); }
+    .menu-item.active { background: var(--primary-light); color: var(--primary); font-weight: 700; }
+
+    .content-area {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .module-card { display: none; }
+    .module-card.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 16px; color: var(--primary-dark); }
+    h3 { font-size: 1.1rem; font-weight: 700; margin: 20px 0 10px 0; color: var(--text-main); }
+    p { margin-bottom: 14px; color: #3c4043; line-height: 1.7; }
+
+    .scenario-box {
+      background: #fef7e0;
+      border-left: 4px solid #f9ab00;
+      padding: 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+
+    .scenario-box strong { color: #b06000; }
+
+    .step-list {
+      background: #f8f9fa;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .step-item input[type="checkbox"] {
+      margin-top: 5px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    code {
+      background: #f1f3f4;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.92em;
+      color: #c5221f;
+    }
+
+    .action-bar {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn {
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #323232;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-title">
+      <h1>📊 Google Sheets 成績分析與問卷統計研習講義</h1>
+      <p>不及格自動警示 ‧ 樞紐分析 ‧ 共用表格防呆</p>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn">🏠 回講義首頁</a>
+      <a href="course_structure_map.html" class="nav-btn">🗺️ 課程結構對照</a>
+    </div>
+  </header>
+
+  <div class="app-layout">
+
+    <nav class="sidebar">
+      <div class="sidebar-heading">實務演練章節選單</div>
+      <button class="menu-item active" onclick="showModule(0)">🎯 工具篇總覽與研習目標</button>
+      <button class="menu-item" onclick="showModule(1)">🎨 演練一：條件式格式自動警示</button>
+      <button class="menu-item" onclick="showModule(2)">📈 演練二：資料欄統計資料與樞紐分析</button>
+      <button class="menu-item" onclick="showModule(3)">🔒 演練三：篩選器檢視畫面與資料驗證</button>
+    </nav>
+
+    <main class="content-area">
+
+      <!-- MODULE 0: OVERVIEW -->
+      <div class="module-card active" id="module-0" style="display:block;">
+        <span class="tag">研習簡介與教學策略</span>
+        <h2>Google Sheets 實務應用總覽</h2>
+        <p>歡迎來到 <strong>Google Sheets（Google 試算表）</strong>工具篇講義！本單元的目標很單純：讓您<strong>不用會寫函數</strong>，也能把成績單與問卷回應變成看得懂、看得快的分析結果。</p>
+
+        <div style="background:#e8f0fe; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="color:#1a73e8; margin-top:0;">💡 本章三大實務演練目標：</h3>
+          <ul style="padding-left:20px; line-height:1.8; color:#3c4043;">
+            <li><strong>演練一</strong>：用條件式格式設定，讓不及格分數自動跳紅、不必逐格檢查。</li>
+            <li><strong>演練二</strong>：用資料欄統計資料與樞紐分析表，數秒統計數百筆問卷回應。</li>
+            <li><strong>演練三</strong>：用篩選器檢視畫面與資料驗證，讓多人共用的表格不會被改壞。</li>
+          </ul>
+        </div>
+
+
+        <div style="background:#fff; border:1px solid #dadce0; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="margin-top:0;">🔤 本篇功能術語中英對照</h3>
+          <p style="font-size:.9rem; color:#5f6368; margin-bottom:12px;">
+            Google 介面可切換語言，官方文件與國際研習場合也多用英文。
+            操作時請順便記住右欄的英文名稱。
+            <span style="color:#b06000; font-weight:700;">★</span> ＝核心功能
+            <span style="color:#137333; font-weight:700;">⚙</span> ＝名稱須完全一致（系統逐字比對）
+            <span style="color:#b3261e; font-weight:700;">⚠️</span> ＝容易混淆
+          </p>
+          <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; font-size:.93rem;">
+              <tr style="background:#f8f9fa;">
+                <th style="text-align:left; padding:9px 10px; width:30%;">繁體中文介面</th>
+                <th style="text-align:left; padding:9px 10px; width:32%;">English</th>
+                <th style="text-align:left; padding:9px 10px;">備註</th>
+              </tr>
+              <tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 條件式格式設定</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Conditional formatting</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">讓分數自動變色</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">小於／大於</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Less than / Greater than</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">格式規則的條件名稱</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 資料欄統計資料</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Column stats</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">選一欄就看到分佈與次數</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 樞紐分析表</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Pivot table</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">可交叉統計的正式表格</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">列／欄／值</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Rows / Columns / Values</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">樞紐分析編輯器的欄位</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">篩選器檢視畫面</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Filter views</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">只影響自己，不動到別人畫面</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">資料驗證</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Data validation</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">下拉選單與格式限制</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span style="color:#b3261e;">⚠️</span> 資料清理</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Data cleanup</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">清理重複與空白用，不是統計工具</td></tr>
+            </table>
+          </div>
+        </div>
+        <div style="background:#f8f9fa; border:1px solid #dadce0; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="margin-top:0;">🧭 本篇會用到的練習方式：</h3>
+          <ul style="padding-left:20px; line-height:1.8; color:#3c4043; list-style:none;">
+<li style="margin-bottom:6px;"><strong style="color:#137333;">📄 複製範本</strong>　點按鈕直接複製一份範本到你的雲端硬碟，隨便改。</li>
+          </ul>
+          <p style="margin:10px 0 0 0; font-size:0.9rem; color:#5f6368;">
+            每則演練都先讀黃色的<strong>實務教學情境</strong>了解為什麼要做，再看彩色框的<strong>練習方式</strong>取得你的練習環境，
+            最後照步驟清單逐項打勾。
+          </p>
+        </div>
+      </div>
+
+
+      <!-- MODULE 1 -->
+      <div class="module-card" id="module-1" style="display:none;">
+        <span class="tag">核心功能演練一</span>
+        <h2>條件式格式設定 (Conditional Formatting) 自動變更儲存格外觀</h2>
+        <p>條件式格式會依照儲存格「內容是否符合條件」自動套用顏色。設定一次之後，<strong>之後輸入的新成績會即時自動變色</strong>，是成績追蹤最實用的自動化功能。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          期中考成績剛登錄完畢，全班 30 位學生、六個科目的分數擠在一張表上。您希望一眼就能看出哪些學生哪一科需要補救教學，而不是自己一格一格用眼睛掃描找出低於 60 分的數字。
+        </div>
+
+
+        <div style="background:#e6f4ea; border:2px solid #34a853; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#137333; font-size:1.05rem;">📄 本單元練習方式：複製一份範本，改壞了也沒關係</strong>
+            <a href="https://docs.google.com/spreadsheets/d/1ImVbSaihFvqZ72Zo8-7MnkY9KA4ISajTqxj6plWfeAc/copy" target="_blank" rel="noopener" style="text-decoration:none; background:#137333; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">📄 建立我的專屬副本</a>
+          </div>
+          <div style="background:white; border:1px solid #a8dab5; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">範本：<strong>期中測驗成績單 (條件式格式演練)</strong>（Task 18 ‧ Google 試算表）</div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕後會問你「要建立副本嗎」，按下去就會在<strong>你自己的雲端硬碟</strong>產生一份，怎麼改都不會影響別人。</div><div style="font-size:0.95rem; color:#137333; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請選取整個成績欄位範圍，點選「格式 ➔ 條件式格式設定」，將「小於 60」的儲存格設為紅底白字！</span></div>
+          </div>
+          
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m1-s1">
+            <label for="m1-s1">選取要套用的成績欄位範圍（可整欄選取，含之後才要輸入的空格）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s2">
+            <label for="m1-s2">點選選單 <strong>「格式 ➔ 條件式格式設定 (Conditional formatting)」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s3">
+            <label for="m1-s3">在「格式規則」下拉選單選取 <strong>「小於 (Less than)」</strong>，數值輸入 <code>60</code>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s4">
+            <label for="m1-s4">設定<strong>紅色背景 + 白色粗體文字</strong>，點選「完成」。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s5">
+            <label for="m1-s5">驗證：隨手把某一格改成 <code>55</code>，該格應立即自動變紅。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-1')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 2 -->
+      <div class="module-card" id="module-2" style="display:none;">
+        <span class="tag">核心功能演練二</span>
+        <h2>資料欄統計資料 (Column stats) 與樞紐分析表 (Pivot table) 快速統計回應</h2>
+        <p>「資料欄統計資料 (Column stats)」是最快的一眼分析：選取一欄就直接看到分佈長條圖與各值出現次數；「樞紐分析表」則能產出可交叉、可再運算的正式統計表格，兩者都<strong>不需要輸入任何函數</strong>。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          校慶進場服裝的線上投票剛截止，表單回應累積了數百筆資料。學務主任下午開會就要知道哪個顏色最高票、各班票數分佈如何，您需要在幾分鐘內生出可以直接投影的統計結果。
+        </div>
+
+
+        <div style="background:#e6f4ea; border:2px solid #34a853; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#137333; font-size:1.05rem;">📄 本單元練習方式：複製一份範本，改壞了也沒關係</strong>
+            <a href="https://docs.google.com/spreadsheets/d/1rUIAbMleZg__fHBpBCa2_L0JIE5PCf1JPj04FIvB2Bc/copy" target="_blank" rel="noopener" style="text-decoration:none; background:#137333; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">📄 建立我的專屬副本</a>
+          </div>
+          <div style="background:white; border:1px solid #a8dab5; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">範本：<strong>運動會進場服裝投票紀錄 (資料欄統計資料與樞紐演練)</strong>（Task 19 ‧ Google 試算表）</div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕後會問你「要建立副本嗎」，按下去就會在<strong>你自己的雲端硬碟</strong>產生一份，怎麼改都不會影響別人。</div><div style="font-size:0.95rem; color:#137333; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請選取「服裝顏色」欄位後點選「資料 ➔ 資料欄統計資料」查看分佈，再點選「插入 ➔ 樞紐分析表」，以 COUNTA 統計各色票數！</span></div>
+          </div>
+          
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m2-s1">
+            <label for="m2-s1">選取要分析的欄位（如「服裝顏色」整欄）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s2">
+            <label for="m2-s2">點選選單 <strong>「資料 ➔ 資料欄統計資料 (Column stats)」</strong>，右側面板即顯示分佈圖與出現次數。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s3">
+            <label for="m2-s3">選取整份資料範圍，點選 <strong>「插入 ➔ 樞紐分析表 (Pivot table)」</strong>，建立在新工作表。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s4">
+            <label for="m2-s4">在右側編輯器把「服裝顏色」拉入 <strong>「列 (Rows)」</strong>，再把同欄位拉入 <strong>「值 (Values)」</strong> 並選 <code>COUNTA</code>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s5">
+            <label for="m2-s5">（進階）把「班級」拉入 <strong>「欄 (Columns)」</strong>，即產出班級 × 顏色的交叉統計表。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-2')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 3 -->
+      <div class="module-card" id="module-3" style="display:none;">
+        <span class="tag">核心功能演練三</span>
+        <h2>篩選器檢視畫面 (Filter views) 與資料驗證 (Data validation) 保護共用表格</h2>
+        <p>多位教師同時開一張表時，一般「篩選器」會<strong>連別人的畫面一起改掉</strong>；「篩選器檢視畫面 (Filter views)」則只影響自己。搭配資料驗證做成下拉選單，可從源頭杜絕輸入格式錯亂。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          學年共用一張「補救教學名單」試算表，六位老師同時在線上編輯。常發生的狀況是：您正在篩選自己班級的資料，別的老師一按篩選，您的畫面就跳掉；而「已完成／完成／OK」等各種寫法混雜，事後根本無法統計。
+        </div>
+
+
+        <div style="background:#e6f4ea; border:2px solid #34a853; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#137333; font-size:1.05rem;">📄 本單元練習方式：複製一份範本，改壞了也沒關係</strong>
+            <a href="https://docs.google.com/spreadsheets/d/1ImVbSaihFvqZ72Zo8-7MnkY9KA4ISajTqxj6plWfeAc/copy" target="_blank" rel="noopener" style="text-decoration:none; background:#137333; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">📄 建立我的專屬副本</a>
+          </div>
+          <div style="background:white; border:1px solid #a8dab5; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">範本：<strong>期中測驗成績單 (條件式格式演練)</strong>（Task 18 ‧ Google 試算表）</div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕後會問你「要建立副本嗎」，按下去就會在<strong>你自己的雲端硬碟</strong>產生一份，怎麼改都不會影響別人。</div><div style="font-size:0.95rem; color:#137333; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請在同一份成績表上點選「資料 ➔ 建立篩選器檢視畫面」建立專屬檢視，並對狀態欄位設定「資料驗證 ➔ 下拉式選單」限定選項！</span></div>
+          </div>
+          
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m3-s1">
+            <label for="m3-s1">點選選單 <strong>「資料 ➔ 建立篩選器檢視畫面」</strong>（畫面外框會變成深灰色）。注意：現行介面是直接一個選項，不是先進「篩選器檢視」子選單。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s2">
+            <label for="m3-s2">在深灰色模式下設定自己要看的篩選條件，命名後關閉；他人畫面完全不受影響。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s3">
+            <label for="m3-s3">選取「狀態」欄位，點選 <strong>「資料 ➔ 資料驗證 (Data validation)」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s4">
+            <label for="m3-s4">規則選擇 <strong>「下拉式選單」</strong>，輸入固定選項（如：未開始／進行中／已完成）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s5">
+            <label for="m3-s5">勾選<strong>拒絕輸入不符合的資料</strong>，驗證：手動輸入其他文字會被擋下。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-3')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast">已複製操作步驟至剪貼簿！</div>
+
+  <script>
+    function showModule(idx) {
+      document.querySelectorAll('.menu-item').forEach((btn, i) => {
+        btn.classList.toggle('active', i === idx);
+      });
+      document.querySelectorAll('.module-card').forEach((card, i) => {
+        card.style.display = (i === idx) ? 'block' : 'none';
+        card.classList.toggle('active', i === idx);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copySteps(modId) {
+      const mod = document.getElementById(modId);
+      const title = mod.querySelector('h2').innerText;
+      const steps = Array.from(mod.querySelectorAll('.step-item label'))
+        .map((l, i) => `${i + 1}. ${l.innerText}`)
+        .join('\n');
+
+      const text = `【${title}】\n${steps}`;
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 2500);
+      });
+    }
+  </script>
+</body>
+</html>

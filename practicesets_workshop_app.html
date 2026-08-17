@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice Sets 自主練習與學習鷹架研習講義 (互動網頁版)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --primary-light: #e8f0fe;
+      --secondary: #34a853;
+      --text-main: #202124;
+      --text-muted: #5f6368;
+      --bg-body: #f8f9fa;
+      --bg-card: #ffffff;
+      --border: #dadce0;
+      --shadow: 0 4px 16px rgba(0,0,0,0.06);
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Google Sans', 'Noto Sans TC', sans-serif;
+      background: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 24px 32px;
+      box-shadow: 0 4px 12px rgba(26,115,232,0.25);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-title h1 { font-size: 1.5rem; font-weight: 700; }
+    .header-title p { font-size: 0.9rem; opacity: 0.9; margin-top: 4px; }
+
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav-btn {
+      text-decoration: none;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover { background: white; color: var(--primary); }
+
+    .app-layout {
+      max-width: 1200px;
+      margin: 28px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .app-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+
+    .sidebar {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+
+    .sidebar-heading {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .menu-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: none;
+      background: transparent;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text-main);
+      cursor: pointer;
+      margin-bottom: 6px;
+      transition: all 0.2s;
+    }
+
+    .menu-item:hover { background: var(--bg-body); color: var(--primary); }
+    .menu-item.active { background: var(--primary-light); color: var(--primary); font-weight: 700; }
+
+    .content-area {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .module-card { display: none; }
+    .module-card.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 16px; color: var(--primary-dark); }
+    h3 { font-size: 1.1rem; font-weight: 700; margin: 20px 0 10px 0; color: var(--text-main); }
+    p { margin-bottom: 14px; color: #3c4043; line-height: 1.7; }
+
+    .scenario-box {
+      background: #fef7e0;
+      border-left: 4px solid #f9ab00;
+      padding: 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+
+    .scenario-box strong { color: #b06000; }
+
+    .step-list {
+      background: #f8f9fa;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .step-item input[type="checkbox"] {
+      margin-top: 5px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    code {
+      background: #f1f3f4;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.92em;
+      color: #c5221f;
+    }
+
+    .action-bar {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn {
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #323232;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-title">
+      <h1>💡 Practice Sets 自主練習與學習鷹架研習講義</h1>
+      <p>額外協助鷹架 ‧ 題組共享 ‧ 學習成效洞察</p>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn">🏠 回講義首頁</a>
+      <a href="course_structure_map.html" class="nav-btn">🗺️ 課程結構對照</a>
+    </div>
+  </header>
+
+  <div class="app-layout">
+
+    <nav class="sidebar">
+      <div class="sidebar-heading">實務演練章節選單</div>
+      <button class="menu-item active" onclick="showModule(0)">🎯 工具篇總覽與研習目標</button>
+      <button class="menu-item" onclick="showModule(1)">🪜 演練一：額外協助 (Extra Help) 學習鷹架</button>
+      <button class="menu-item" onclick="showModule(2)">🔗 演練二：題組連結共享給備課團隊</button>
+      <button class="menu-item" onclick="showModule(3)">📊 演練三：課程深入分析與補救教學決策</button>
+    </nav>
+
+    <main class="content-area">
+
+      <!-- MODULE 0: OVERVIEW -->
+      <div class="module-card active" id="module-0" style="display:block;">
+        <span class="tag">研習簡介與教學策略</span>
+        <h2>Practice Sets 實務應用總覽</h2>
+        <p>歡迎來到 <strong>Practice Sets（練習組）</strong>工具篇講義！Practice Sets 與一般測驗最大的差別是：它<strong>在學生卡關的當下就給提示</strong>，並自動標示出全班共同的迷思概念，是自主學習與補救教學的利器。</p>
+
+        <div style="background:#fce8e6; border:2px solid #d93025; border-radius:12px; padding:16px 20px; margin:20px 0;">
+          <strong style="color:#b3261e;">⚠️ 開始前務必確認你的帳號授權</strong>
+          <p style="margin:8px 0 0 0; color:#3c4043; line-height:1.7;">Practice Sets 需要 <strong>Google Workspace for Education Plus</strong> 或 <strong>Teaching &amp; Learning Upgrade</strong> 付費授權才能建立。個人 Gmail 帳號與陽春版 Education Fundamentals 帳號<strong>看不到這個功能</strong>。本篇每則演練都附上「一般帳號替代練習」，用 Google Forms 達成同樣的教學設計概念；本篇的功能設計概念仍然值得了解，請務必看完講師示範。</p>
+        </div>
+        <div style="background:#e8f0fe; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="color:#1a73e8; margin-top:0;">💡 本章三大實務演練目標：</h3>
+          <ul style="padding-left:20px; line-height:1.8; color:#3c4043;">
+            <li><strong>演練一</strong>：為題目加上「額外協助」影音資源，建立即時學習鷹架。</li>
+            <li><strong>演練二</strong>：開啟「允許老師透過連結存取」，把自製題組分享給同科備課團隊複製使用。</li>
+            <li><strong>演練三</strong>：閱讀「課程深入分析」，找出需要補救的學生與概念。</li>
+          </ul>
+        </div>
+
+
+        <div style="background:#fff; border:1px solid #dadce0; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="margin-top:0;">🔤 本篇功能術語中英對照</h3>
+          <p style="font-size:.9rem; color:#5f6368; margin-bottom:12px;">
+            Google 介面可切換語言，官方文件與國際研習場合也多用英文。
+            操作時請順便記住右欄的英文名稱。
+            <span style="color:#b06000; font-weight:700;">★</span> ＝核心功能
+            <span style="color:#137333; font-weight:700;">⚙</span> ＝名稱須完全一致（系統逐字比對）
+            <span style="color:#b3261e; font-weight:700;">⚠️</span> ＝容易混淆
+          </p>
+          <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; font-size:.93rem;">
+              <tr style="background:#f8f9fa;">
+                <th style="text-align:left; padding:9px 10px; width:30%;">繁體中文介面</th>
+                <th style="text-align:left; padding:9px 10px; width:32%;">English</th>
+                <th style="text-align:left; padding:9px 10px;">備註</th>
+              </tr>
+              <tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 練習題</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Practice sets</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">需 Education Plus / T&L</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 額外協助</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Extra help</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">每題最多可掛 10 個資源</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 允許老師透過連結存取</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Allow teachers to access via link</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">對方拿到的是可複製的副本</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span style="color:#b3261e;">⚠️</span> 技能</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Skills</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">與額外協助不同，別搞混</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span style="color:#b3261e;">⚠️</span> 匯入</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Import</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">同樣是誘答選項</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">課程深入分析</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Class insights</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">教師端查看全班與個別學生的困難題目</td></tr>
+            </table>
+          </div>
+        </div>
+        <div style="background:#f8f9fa; border:1px solid #dadce0; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="margin-top:0;">🧭 本篇會用到的練習方式：</h3>
+          <ul style="padding-left:20px; line-height:1.8; color:#3c4043; list-style:none;">
+<li style="margin-bottom:6px;"><strong style="color:#b3261e;">⚠️ 需付費授權</strong>　此功能需付費授權，一般帳號請做替代練習。</li>
+          </ul>
+          <p style="margin:10px 0 0 0; font-size:0.9rem; color:#5f6368;">
+            每則演練都先讀黃色的<strong>實務教學情境</strong>了解為什麼要做，再看彩色框的<strong>練習方式</strong>取得你的練習環境，
+            最後照步驟清單逐項打勾。
+          </p>
+        </div>
+      </div>
+
+
+      <!-- MODULE 1 -->
+      <div class="module-card" id="module-1" style="display:none;">
+        <span class="tag">核心功能演練一</span>
+        <h2>在題目中設定「額外協助 (Extra help)」影音學習資源</h2>
+        <p>Practice Sets 允許每題掛上多筆學習資源（YouTube 影片、網頁或自製說明）。學生答錯或卡住時可自行點開查看，形成<strong>不必等老師到場的即時鷹架</strong>。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          國中理化的自主複習題組，班上程度落差大。程度好的學生一路做完，卡關的學生則是坐在那裡發呆等您走過去；您無法同時照顧 30 個人，希望學生卡住時能自己先看一段解題說明再試一次。
+        </div>
+
+
+        <div style="background:#fce8e6; border:2px solid #d93025; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#b3261e; font-size:1.05rem;">⚠️ 本單元練習方式：需 Education Plus 授權（附一般帳號替代練習）</strong>
+            
+          </div>
+          <div style="background:white; border:1px solid #f6aea9; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.9rem; color:#b3261e; font-weight:700; margin-bottom:8px;">此功能需 Education Plus 或 Teaching &amp; Learning Upgrade 授權；沒有授權者請直接做下方的替代練習。</div><div style="font-size:0.95rem; color:#b3261e; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;"><strong>有授權者</strong>：在 Classroom 左側「資源 ➔ 新增練習題」建立題組，替一題掛上「額外協助」的 YouTube 解題影片。</span></div><div style="background:#fff; border:1px solid #dadce0; border-left:4px solid #1a73e8; border-radius:6px; padding:12px 16px; margin-top:10px; font-size:0.92rem; color:#202124; line-height:1.6;">🔄 <strong>一般帳號替代練習</strong>：用 Google Forms 建立同一題，開啟測驗模式後，在「答錯」的答案意見回饋中貼上同一支解題影片連結。兩者的教學設計完全相同（答錯 ➔ 立即獲得鷹架），差別只在 Practice Sets 是作答當下就能點、不必等送出。</div>
+          </div>
+          <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/document/d/1OQDRSLip7A-HqjAJd2aosGXwRWI8lMXb_cRvDUjGR2U/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 21）</a></div>
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m1-s1">
+            <label for="m1-s1">在 Google Classroom 首頁左側點選 <strong>「資源 ➔ 新增練習題 (Practice sets)」</strong>；若要直接指派給課程，則走「課堂作業 ➔ 建立 ➔ 作業」，在附件區建立或附加練習題。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s2">
+            <label for="m1-s2">輸入題目與答案（系統會自動辨識可用的作答型式）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s3">
+            <label for="m1-s3">在該題下方點選 <strong>「額外協助 (Extra help)」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s4">
+            <label for="m1-s4">點選 <strong>「+ 新增資源」</strong>，搜尋內嵌 YouTube 解題影片或貼上教學網頁連結（每題最多 10 筆）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s5">
+            <label for="m1-s5">驗證：以學生身分作答，卡關時可點開資源自行觀看後再作答。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-1')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 2 -->
+      <div class="module-card" id="module-2" style="display:none;">
+        <span class="tag">核心功能演練二</span>
+        <h2>允許老師透過連結存取 (Allow teachers to access via link) 分享題組給同科教師</h2>
+        <p>Practice Sets 開啟「允許老師透過連結存取」後，其他教師點選連結即可<strong>複製一份到自己的 Classroom</strong>，各自修改不會影響原始版本——這是學年共備最有效率的散播方式。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          您花了兩個晚上做好一份高品質的理化練習題組。同科三位夥伴都想用，但您不希望他們直接在您的原始檔上改動，也不想一份一份重做給他們。
+        </div>
+
+
+        <div style="background:#fce8e6; border:2px solid #d93025; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#b3261e; font-size:1.05rem;">⚠️ 本單元練習方式：需 Education Plus 授權（附一般帳號替代練習）</strong>
+            
+          </div>
+          <div style="background:white; border:1px solid #f6aea9; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.9rem; color:#b3261e; font-weight:700; margin-bottom:8px;">此功能需 Education Plus 或 Teaching &amp; Learning Upgrade 授權；沒有授權者請直接做下方的替代練習。</div><div style="font-size:0.95rem; color:#b3261e; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;"><strong>有授權者</strong>：到「資源」找到題組，點卡片右下角「更多 ➔ 分享連結」，開啟「允許老師透過連結存取」後複製連結給夥伴，請他確認自己拿到的是「可複製的副本」而不是編輯你的原檔。</span></div><div style="background:#fff; border:1px solid #dadce0; border-left:4px solid #1a73e8; border-radius:6px; padding:12px 16px; margin-top:10px; font-size:0.92rem; color:#202124; line-height:1.6;">🔄 <strong>一般帳號替代練習</strong>：把你在 Forms 篇做的表單，網址結尾的 <code>/edit</code> 改成 <code>/copy</code> 再傳給夥伴——對方會拿到一份自己的副本，你的原檔完全不受影響。這就是本則演練真正要建立的觀念：<strong>共享的是副本，不是編輯權</strong>。</div>
+          </div>
+          <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/document/d/1A0zZCWymdunCwW6zeht6SwDlzMK0LG4fVxtXiKjqxQ4/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 22）</a></div>
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m2-s1">
+            <label for="m2-s1">到 Classroom 左側 <strong>「資源」</strong>，在該題組卡片右下角點 <strong>「更多」➔「分享連結」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s2">
+            <label for="m2-s2">開啟 <strong>「允許老師透過連結存取 (Allow teachers to access via link)」</strong>，再複製連結。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s3">
+            <label for="m2-s3">複製連結，透過 Email 或群組發送給同科教師。<strong>限制</strong>：接收者須為<strong>同一 Workspace 網域內、已通過 Classroom 教師身分驗證</strong>且可使用練習題的帳號，跨校或個人 Gmail 帳號打不開。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s4">
+            <label for="m2-s4">請夥伴點選連結，確認可<strong>複製題組至自己的 Classroom</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s5">
+            <label for="m2-s5">驗證：夥伴的修改不影響您的原始版本。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-2')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 3 -->
+      <div class="module-card" id="module-3" style="display:none;">
+        <span class="tag">核心功能演練三</span>
+        <h2>閱讀課程深入分析 (Class insights) 精準規劃補救教學</h2>
+        <p>Practice Sets 會自動彙整全班作答狀況，在<strong>「課程深入分析 (Class insights)」</strong>中呈現<strong>全班與個別學生遇到困難的題目</strong>——這讓補救教學的對象與內容有客觀依據，不再憑印象。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          這份複習題組全班都做完了，您需要決定下週補救教學的時段要找誰、要重講哪一個概念，而不是憑上課的印象猜「好像是浮力那邊怪怪的」。
+        </div>
+
+
+        <div style="background:#fce8e6; border:2px solid #d93025; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#b3261e; font-size:1.05rem;">⚠️ 本單元練習方式：需 Education Plus 授權（附一般帳號替代練習）</strong>
+            
+          </div>
+          <div style="background:white; border:1px solid #f6aea9; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.9rem; color:#b3261e; font-weight:700; margin-bottom:8px;">此功能需 Education Plus 或 Teaching &amp; Learning Upgrade 授權；沒有授權者請直接做下方的替代練習。</div><div style="font-size:0.95rem; color:#b3261e; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;"><strong>有授權者</strong>：開啟<strong>已有學生作答</strong>的練習題，進入「課程深入分析」，找出作答狀況顯示較多困難的學生，以及錯誤率最高的題目，寫下你的補救教學決定。</span></div><div style="background:#fff; border:1px solid #dadce0; border-left:4px solid #1a73e8; border-radius:6px; padding:12px 16px; margin-top:10px; font-size:0.92rem; color:#202124; line-height:1.6;">🔄 <strong>一般帳號替代練習</strong>：開啟 Forms 的「回覆 ➔ 摘要」分頁（前提：表單已開啟<strong>收集電子郵件地址</strong>或有姓名／座號題，否則無法辨識是誰），看「經常答錯的問題」區塊；再切到「個別」分頁看單一學生的作答。功能較陽春（不會標示誰需要協助），但同樣能回答「該找誰、該重講哪一題」這兩個問題。</div>
+          </div>
+          <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/document/d/1A0zZCWymdunCwW6zeht6SwDlzMK0LG4fVxtXiKjqxQ4/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 22）</a></div>
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m3-s1">
+            <label for="m3-s1">進入 <strong>「課堂作業 ➔ 該份作業」</strong>，點選「已繳交／已指派」上方的數字進入學生作業頁，再點左側面板頂端的 <strong>「課程深入分析 (Class insights)」</strong>。（<strong>必須已有學生作答</strong>，數字為 0 時進不去。）</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s2">
+            <label for="m3-s2">查看<strong>哪些學生、哪些題目</strong>顯示較多困難（實際欄位與名稱依你的授權版本而異）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s3">
+            <label for="m3-s3">檢視<strong>各題錯誤率排序</strong>，找出全班共同的迷思概念。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s4">
+            <label for="m3-s4">（若介面有提供）確認學生是否曾點開「額外協助」資源，判斷是不懂、還是根本沒去看。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s5">
+            <label for="m3-s5">依據結果排定補救名單與重講概念，並針對高錯誤率題目補充新的學習資源。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-3')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast">已複製操作步驟至剪貼簿！</div>
+
+  <script>
+    function showModule(idx) {
+      document.querySelectorAll('.menu-item').forEach((btn, i) => {
+        btn.classList.toggle('active', i === idx);
+      });
+      document.querySelectorAll('.module-card').forEach((card, i) => {
+        card.style.display = (i === idx) ? 'block' : 'none';
+        card.classList.toggle('active', i === idx);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copySteps(modId) {
+      const mod = document.getElementById(modId);
+      const title = mod.querySelector('h2').innerText;
+      const steps = Array.from(mod.querySelectorAll('.step-item label'))
+        .map((l, i) => `${i + 1}. ${l.innerText}`)
+        .join('\n');
+
+      const text = `【${title}】\n${steps}`;
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 2500);
+      });
+    }
+  </script>
+</body>
+</html>

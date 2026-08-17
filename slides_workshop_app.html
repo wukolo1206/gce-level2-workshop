@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Slides 互動簡報與協作審閱研習講義 (互動網頁版)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --primary-light: #e8f0fe;
+      --secondary: #34a853;
+      --text-main: #202124;
+      --text-muted: #5f6368;
+      --bg-body: #f8f9fa;
+      --bg-card: #ffffff;
+      --border: #dadce0;
+      --shadow: 0 4px 16px rgba(0,0,0,0.06);
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Google Sans', 'Noto Sans TC', sans-serif;
+      background: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 24px 32px;
+      box-shadow: 0 4px 12px rgba(26,115,232,0.25);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-title h1 { font-size: 1.5rem; font-weight: 700; }
+    .header-title p { font-size: 0.9rem; opacity: 0.9; margin-top: 4px; }
+
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav-btn {
+      text-decoration: none;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover { background: white; color: var(--primary); }
+
+    .app-layout {
+      max-width: 1200px;
+      margin: 28px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .app-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+
+    .sidebar {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+
+    .sidebar-heading {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .menu-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: none;
+      background: transparent;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text-main);
+      cursor: pointer;
+      margin-bottom: 6px;
+      transition: all 0.2s;
+    }
+
+    .menu-item:hover { background: var(--bg-body); color: var(--primary); }
+    .menu-item.active { background: var(--primary-light); color: var(--primary); font-weight: 700; }
+
+    .content-area {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .module-card { display: none; }
+    .module-card.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 16px; color: var(--primary-dark); }
+    h3 { font-size: 1.1rem; font-weight: 700; margin: 20px 0 10px 0; color: var(--text-main); }
+    p { margin-bottom: 14px; color: #3c4043; line-height: 1.7; }
+
+    .scenario-box {
+      background: #fef7e0;
+      border-left: 4px solid #f9ab00;
+      padding: 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+
+    .scenario-box strong { color: #b06000; }
+
+    .step-list {
+      background: #f8f9fa;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .step-item input[type="checkbox"] {
+      margin-top: 5px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    code {
+      background: #f1f3f4;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.92em;
+      color: #c5221f;
+    }
+
+    .action-bar {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn {
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #323232;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-title">
+      <h1>🎨 Google Slides 互動簡報與協作審閱研習講義</h1>
+      <p>互動教材設計 ‧ 全校統一母版 ‧ 批註任務指派</p>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn">🏠 回講義首頁</a>
+      <a href="course_structure_map.html" class="nav-btn">🗺️ 課程結構對照</a>
+    </div>
+  </header>
+
+  <div class="app-layout">
+
+    <nav class="sidebar">
+      <div class="sidebar-heading">實務演練章節選單</div>
+      <button class="menu-item active" onclick="showModule(0)">🎯 工具篇總覽與研習目標</button>
+      <button class="menu-item" onclick="showModule(1)">🔗 演練一：投影片超連結互動記憶卡</button>
+      <button class="menu-item" onclick="showModule(2)">🖼️ 演練二：主題製作工具與圖片預留位置</button>
+      <button class="menu-item" onclick="showModule(3)">🎬 演練三：內嵌影片與批註指派審閱</button>
+      <button class="menu-item" onclick="showModule(4)">🔐 演練四：分享權限層級與審閱</button>
+    </nav>
+
+    <main class="content-area">
+
+      <!-- MODULE 0: OVERVIEW -->
+      <div class="module-card active" id="module-0" style="display:block;">
+        <span class="tag">研習簡介與教學策略</span>
+        <h2>Google Slides 實務應用總覽</h2>
+        <p>歡迎來到 <strong>Google Slides（Google 簡報）</strong>工具篇講義！本單元不談美編技巧，而是聚焦在如何把簡報從「單向播放的投影片」，變成<strong>學生可以點、老師可以派任務</strong>的互動教材與團隊協作平台。</p>
+
+        <div style="background:#e8f0fe; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="color:#1a73e8; margin-top:0;">💡 本章四大實務演練目標：</h3>
+          <ul style="padding-left:20px; line-height:1.8; color:#3c4043;">
+            <li><strong>演練一</strong>：用投影片超連結（Hyperlink Slides）做出可自我檢測的互動單字記憶卡。</li>
+            <li><strong>演練二</strong>：用主題製作工具（Theme builder）建立全校統一母版與圖片預留位置。</li>
+            <li><strong>演練三</strong>：內嵌 YouTube 與雲端硬碟影片，並用批註 <code>+Email</code> 指派同仁審閱。</li>
+            <li><strong>演練四</strong>：分辨檢視者／註解者／編輯者，送審一律用「註解者」保護原稿。</li>
+          </ul>
+        </div>
+
+
+        <div style="background:#fff; border:1px solid #dadce0; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="margin-top:0;">🔤 本篇功能術語中英對照</h3>
+          <p style="font-size:.9rem; color:#5f6368; margin-bottom:12px;">
+            Google 介面可切換語言，官方文件與國際研習場合也多用英文。
+            操作時請順便記住右欄的英文名稱。
+            <span style="color:#b06000; font-weight:700;">★</span> ＝核心功能
+            <span style="color:#137333; font-weight:700;">⚙</span> ＝名稱須完全一致（系統逐字比對）
+            <span style="color:#b3261e; font-weight:700;">⚠️</span> ＝容易混淆
+          </p>
+          <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; font-size:.93rem;">
+              <tr style="background:#f8f9fa;">
+                <th style="text-align:left; padding:9px 10px; width:30%;">繁體中文介面</th>
+                <th style="text-align:left; padding:9px 10px; width:32%;">English</th>
+                <th style="text-align:left; padding:9px 10px;">備註</th>
+              </tr>
+              <tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 超連結投影片</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Hyperlink slides</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">做互動記憶卡的關鍵功能</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">簡報中的投影片</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Slides in this presentation</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">連結對話框中的選項名稱</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 連結</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Link</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">插入選單與右鍵兩條路徑效果相同</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 主題製作工具</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Theme builder</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">查看 ➔ 主題製作工具，即母版編輯區</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">版面配置</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Layout</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;"></td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="名稱須完全一致" style="color:#137333;">⚙</span> 圖片預留位置</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Image placeholder</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">命名須完全一致，系統逐字比對</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="名稱須完全一致" style="color:#137333;">⚙</span> 內嵌影片</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Insert video</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">自製影片走「Google 雲端硬碟」分頁，非 YouTube</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">格式選項 ➔ 影片播放</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Format options ➔ Video playback</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">設定起訖秒數</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="名稱須完全一致" style="color:#137333;">⚙</span> 註解者</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Commenter</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">送審一律用這一層，原稿才不會被改</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">檢視者／編輯者</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Viewer / Editor</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;"></td></tr>
+            </table>
+          </div>
+        </div>
+        <div style="background:#f8f9fa; border:1px solid #dadce0; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="margin-top:0;">🧭 本篇會用到的練習方式：</h3>
+          <ul style="padding-left:20px; line-height:1.8; color:#3c4043; list-style:none;">
+<li style="margin-bottom:6px;"><strong style="color:#137333;">📄 複製範本</strong>　點按鈕直接複製一份範本到你的雲端硬碟，隨便改。</li><li style="margin-bottom:6px;"><strong style="color:#00695c;">🔨 自己建一次</strong>　沒有範本，從空白自己做一次（這類功能自己排過才會懂）。</li>
+          </ul>
+          <p style="margin:10px 0 0 0; font-size:0.9rem; color:#5f6368;">
+            每則演練都先讀黃色的<strong>實務教學情境</strong>了解為什麼要做，再看彩色框的<strong>練習方式</strong>取得你的練習環境，
+            最後照步驟清單逐項打勾。
+          </p>
+        </div>
+      </div>
+
+
+      <!-- MODULE 1 -->
+      <div class="module-card" id="module-1" style="display:none;">
+        <span class="tag">核心功能演練一</span>
+        <h2>物件與文字超連結 (Hyperlink Slides) 製作互動單字記憶卡</h2>
+        <p>在 Google Slides 中，任何一個文字方塊或圖形都能被設為「連結到本簡報中的某一張投影片」。這是把線性簡報改造成<strong>非線性互動教材</strong>最省力的方法，完全不需要任何外掛。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          您正在為班上準備英檢單字複習教材。您希望學生在自習時，先看到單字題面自己回想意思，想好之後再點選畫面上的「看解答」按鈕，直接跳到該單字的解答頁；看完解答還能點「回題目區」返回目錄，反覆自我檢測。
+        </div>
+
+
+        <div style="background:#e6f4ea; border:2px solid #34a853; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#137333; font-size:1.05rem;">📄 本單元練習方式：複製一份範本，改壞了也沒關係</strong>
+            <a href="https://docs.google.com/presentation/d/1e4CsXlrX-6XQ8iuBBHtKUaYwmRJ66hpPoQ215IVz-as/copy" target="_blank" rel="noopener" style="text-decoration:none; background:#137333; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">📄 建立我的專屬副本</a>
+          </div>
+          <div style="background:white; border:1px solid #a8dab5; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">範本：<strong>英檢單字互動記憶卡 (超連結演練)</strong>（Task 13 ‧ Google 簡報）</div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕後會問你「要建立副本嗎」，按下去就會在<strong>你自己的雲端硬碟</strong>產生一份，怎麼改都不會影響別人。</div><div style="font-size:0.95rem; color:#137333; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請選取投影片上的單字按鈕，按右鍵點選「連結」，改連結到「簡報中的投影片」對應的解答頁，並在解答頁加上一個連回目錄頁的返回按鈕！</span></div>
+          </div>
+          
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m1-s1">
+            <label for="m1-s1">開啟你複製的簡報，選取題目頁上的單字按鈕（文字方塊或圖形）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s2">
+            <label for="m1-s2">建立連結有<strong>兩條路徑</strong>：按滑鼠右鍵選 <strong>「連結 (Link)」</strong>，或用選單 <strong>「插入 ➔ 連結」</strong>（快捷鍵 <code>Ctrl + K</code>）——兩者效果相同。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s3">
+            <label for="m1-s3">在彈出視窗選擇 <strong>「簡報中的投影片 (Slides in this presentation)」</strong>，點選目標解答頁碼。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s4">
+            <label for="m1-s4">同一個視窗也能貼上<strong>外部網址或雲端硬碟檔案</strong>，把補充教材、影片、學習單掛在物件上。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s5">
+            <label for="m1-s5">在解答頁另外插入一個「返回」圖形，同樣設定連結回到題目目錄頁。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s6">
+            <label for="m1-s6">按 <strong>「投影播放 (Present)」</strong> 實測：點按鈕應直接跳頁，而非往下一張前進。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-1')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 2 -->
+      <div class="module-card" id="module-2" style="display:none;">
+        <span class="tag">核心功能演練二</span>
+        <h2>使用主題製作工具 (Theme builder) 插入圖片預留位置 (Placeholder)</h2>
+        <p>「主題製作工具 (Theme builder)」就是 Google Slides 的母版編輯區（繁中選單在「查看」底下）。在這裡改一次字型、顏色或版面配置，整份簡報所有套用該版面的投影片會同步更新；而<strong>圖片預留位置</strong>能讓填寫者一鍵上傳照片就自動對齊，不會歪掉。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          學校要各處室在期末成果發表會上報告，您被指派製作一份「學校簡報標準母版」發給全校同仁套用。為了讓大家交回來的簡報格式一致，您需要在母版中預先設定好統一的標題字級與一個固定尺寸的照片框。
+        </div>
+
+
+        <div style="background:#e6f4ea; border:2px solid #34a853; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#137333; font-size:1.05rem;">📄 本單元練習方式：複製一份範本，改壞了也沒關係</strong>
+            <a href="https://docs.google.com/presentation/d/18n8iq45pZ0qDogQYsFkXxp7VGBG14vyQpJtswluGjTs/copy" target="_blank" rel="noopener" style="text-decoration:none; background:#137333; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">📄 建立我的專屬副本</a>
+          </div>
+          <div style="background:white; border:1px solid #a8dab5; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">範本：<strong>學校簡報標準母版 (主題製作工具演練)</strong>（Task 14 ‧ Google 簡報）</div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕後會問你「要建立副本嗎」，按下去就會在<strong>你自己的雲端硬碟</strong>產生一份，怎麼改都不會影響別人。</div><div style="font-size:0.95rem; color:#137333; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請點選「查看 ➔ 主題製作工具」進入母版編輯區，在版面配置中插入一個「圖片預留位置」（需先選形狀），並調整標題字型與色彩後離開母版！</span></div>
+          </div>
+          
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m2-s1">
+            <label for="m2-s1">點選選單 <strong>「查看 ➔ 主題製作工具 (Theme builder)」</strong>（注意：繁中介面是「查看」不是「檢視」）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s2">
+            <label for="m2-s2">在左側選取要修改的<strong>版面配置 (Layout)</strong>（注意：改最上方那張主投影片才會全部套用）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s3">
+            <label for="m2-s3">點選 <strong>「插入 ➔ 預留位置 ➔ 圖片預留位置 (Image placeholder)」</strong>，接著<strong>先在跳出的選單選取預留位置形狀</strong>，才能拖曳出照片框位置與大小。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s4">
+            <label for="m2-s4"><strong>替版面配置命名</strong>（在左側縮圖按右鍵 ➔ 重新命名）。若要與他人共用同一套母版，請完全依題目指定的名稱命名（例如 <code>Image Placeholder</code>）——<strong>自動評分是逐字比對的</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s5">
+            <label for="m2-s5">調整標題文字的字型、字級與顏色，設定全校統一規格。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s6">
+            <label for="m2-s6">點右上角 <strong>「X」離開主題製作工具</strong>，回到一般頁面驗證：照片框出現一鍵上傳圖示。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-2')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 3 -->
+      <div class="module-card" id="module-3" style="display:none;">
+        <span class="tag">核心功能演練三</span>
+        <h2>簡報內嵌 YouTube 影片與註解 +Email 指派審閱任務</h2>
+        <p>簡報可直接內嵌 YouTube 影片並設定<strong>起訖播放秒數</strong>，上課時不必切換分頁；而在註解中輸入 <code>+對方Email</code> 並勾選「指派」，該同仁會收到一封含任務的 Email，任務完成前註解會持續標示為未處理。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          您正在製作「校園植物導覽」簡報，想在介紹頁直接播放一段校園實拍影片。簡報完成後要送給自然科召集人審閱，您希望不是口頭拜託，而是在簡報中明確標記出「請你確認這一頁的植物名稱」這項待辦。
+        </div>
+
+
+        <div style="background:#e6f4ea; border:2px solid #34a853; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#137333; font-size:1.05rem;">📄 本單元練習方式：複製一份範本，改壞了也沒關係</strong>
+            <a href="https://docs.google.com/presentation/d/1QWGOhuKITGsc3mFlbap-VlGFsAvBm0_Y1utRgPM5E2c/copy" target="_blank" rel="noopener" style="text-decoration:none; background:#137333; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">📄 建立我的專屬副本</a>
+          </div>
+          <div style="background:white; border:1px solid #a8dab5; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">範本：<strong>校園植物導覽簡報 (影片內嵌與指派演練)</strong>（Task 15 ‧ Google 簡報）</div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕後會問你「要建立副本嗎」，按下去就會在<strong>你自己的雲端硬碟</strong>產生一份，怎麼改都不會影響別人。</div><div style="font-size:0.95rem; color:#137333; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請點選「插入 ➔ 影片」內嵌一段 YouTube 教學影片，再選取該頁物件新增註解，輸入 <code>+同仁Email</code> 並勾選「指派給…」！</span></div>
+          </div>
+          
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m3-s1">
+            <label for="m3-s1">點選選單 <strong>「插入 ➔ 影片 (Video)」</strong>。視窗上方有<strong>三個分頁</strong>：<strong>搜尋 YouTube／貼上網址／Google 雲端硬碟</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s2">
+            <label for="m3-s2">先用 YouTube 內嵌一支公開影片；再切到 <strong>「Google 雲端硬碟」</strong>分頁，內嵌一支自己錄製的影片（<strong>自製教學影片、學生作品必須走這條</strong>——沒有公開上傳 YouTube 的影片只能用這個分頁）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s3">
+            <label for="m3-s3">選取影片後開啟右側 <strong>「格式選項 ➔ 影片播放」</strong>，設定起始與結束秒數（只播需要的片段）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s4">
+            <label for="m3-s4">選取要審閱的物件，點選 <strong>「新增註解 (Add comment)」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s5">
+            <label for="m3-s5">在註解框輸入 <strong><code>+同仁Email</code></strong>，並<strong>勾選「指派給… (Assign to…)」</strong>——只打文字不勾選，對方收到的只是一般註解，不會變成待辦任務。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s6">
+            <label for="m3-s6">點選「指派」，確認對方收到 Email 通知且註解顯示為待辦任務。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-3')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 4 -->
+      <div class="module-card" id="module-4" style="display:none;">
+        <span class="tag">核心功能演練四</span>
+        <h2>檢視者／註解者／編輯者 (Viewer, Commenter, Editor) 的正確選用</h2>
+        <p>Google 檔案的三種權限層級對應三種協作情境：<strong>檢視者只能看、註解者能提意見但改不動內容、編輯者可直接修改</strong>。送審時給錯權限，輕則對方改不了、重則你的原稿被人動掉。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          您完成了要對外發表的成果簡報，需要送給主任審閱。您希望主任能在簡報上留下修改建議，但<strong>不希望他直接改動內容</strong>——因為簡報還要送給其他人看，內容必須由您統一把關。
+        </div>
+
+
+        <div style="background:#e0f2f1; border:2px solid #00897b; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#00695c; font-size:1.05rem;">🔨 本單元練習方式：從零自己建一次（不需要範本檔）</strong>
+            
+          </div>
+          <div style="background:white; border:1px solid #80cbc4; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.95rem; color:#00695c; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">拿你在演練二複製的那份簡報，分享給旁邊的夥伴並<strong>刻意設為「註解者」</strong>，請對方試著直接修改文字（會失敗），再請他改用註解留下建議。接著把權限改成「編輯者」再試一次，比較差別。</span></div><div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; border-top:1px dashed #80cbc4; padding-top:10px;">💬 <strong>送審一律用「註解者」</strong>是最實用的一條規則：既能收到意見，原稿又不會被動到。另外注意分享視窗右側的<strong>齒輪</strong>，可關閉「檢視者可下載、列印及複製」——涉及學生個資或未公開的評量素材時務必關掉。</div>
+          </div>
+          <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/presentation/d/18n8iq45pZ0qDogQYsFkXxp7VGBG14vyQpJtswluGjTs/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 14）</a></div>
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m4-s1">
+            <label for="m4-s1">開啟簡報，點右上角 <strong>「共用 (Share)」</strong>，輸入夥伴的 Email。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m4-s2">
+            <label for="m4-s2">在名字右側的<strong>權限下拉選單</strong>選擇 <strong>「註解者 (Commenter)」</strong>，送出。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m4-s3">
+            <label for="m4-s3">請夥伴嘗試直接修改文字——他會發現只能看與註解，改不動內容。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m4-s4">
+            <label for="m4-s4">請夥伴改用 <strong>「新增註解」</strong> 留下修改建議；你會收到通知並可回覆或標示已解決。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m4-s5">
+            <label for="m4-s5">把權限改為 <strong>「編輯者 (Editor)」</strong> 再試一次，親身比較兩者的差別。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m4-s6">
+            <label for="m4-s6">（進階）點分享視窗右側<strong>齒輪</strong>，取消勾選「檢視者和註解者可以下載、列印及複製」。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-4')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast">已複製操作步驟至剪貼簿！</div>
+
+  <script>
+    function showModule(idx) {
+      document.querySelectorAll('.menu-item').forEach((btn, i) => {
+        btn.classList.toggle('active', i === idx);
+      });
+      document.querySelectorAll('.module-card').forEach((card, i) => {
+        card.style.display = (i === idx) ? 'block' : 'none';
+        card.classList.toggle('active', i === idx);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copySteps(modId) {
+      const mod = document.getElementById(modId);
+      const title = mod.querySelector('h2').innerText;
+      const steps = Array.from(mod.querySelectorAll('.step-item label'))
+        .map((l, i) => `${i + 1}. ${l.innerText}`)
+        .join('\n');
+
+      const text = `【${title}】\n${steps}`;
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 2500);
+      });
+    }
+  </script>
+</body>
+</html>

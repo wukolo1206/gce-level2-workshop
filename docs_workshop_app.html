@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Docs 進階功能與行政自動化研習講義 (互動網頁版)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --primary-light: #e8f0fe;
+      --secondary: #34a853;
+      --text-main: #202124;
+      --text-muted: #5f6368;
+      --bg-body: #f8f9fa;
+      --bg-card: #ffffff;
+      --border: #dadce0;
+      --shadow: 0 4px 16px rgba(0,0,0,0.06);
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Google Sans', 'Noto Sans TC', sans-serif;
+      background: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 24px 32px;
+      box-shadow: 0 4px 12px rgba(26,115,232,0.25);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-title h1 { font-size: 1.5rem; font-weight: 700; }
+    .header-title p { font-size: 0.9rem; opacity: 0.9; margin-top: 4px; }
+
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav-btn {
+      text-decoration: none;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover { background: white; color: var(--primary); }
+
+    .app-layout {
+      max-width: 1200px;
+      margin: 28px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .app-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+
+    .sidebar {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+
+    .sidebar-heading {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .menu-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: none;
+      background: transparent;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text-main);
+      cursor: pointer;
+      margin-bottom: 6px;
+      transition: all 0.2s;
+    }
+
+    .menu-item:hover { background: var(--bg-body); color: var(--primary); }
+    .menu-item.active { background: var(--primary-light); color: var(--primary); font-weight: 700; }
+
+    .content-area {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .module-card { display: none; }
+    .module-card.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 16px; color: var(--primary-dark); }
+    h3 { font-size: 1.1rem; font-weight: 700; margin: 20px 0 10px 0; color: var(--text-main); }
+    p { margin-bottom: 14px; color: #3c4043; line-height: 1.7; }
+
+    .scenario-box {
+      background: #fef7e0;
+      border-left: 4px solid #f9ab00;
+      padding: 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+
+    .scenario-box strong { color: #b06000; }
+
+    .step-list {
+      background: #f8f9fa;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .step-item input[type="checkbox"] {
+      margin-top: 5px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    code {
+      background: #f1f3f4;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.92em;
+      color: #c5221f;
+    }
+
+    .action-bar {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn {
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #323232;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-title">
+      <h1>📄 Google Docs 進階功能與行政自動化研習講義</h1>
+      <p>實務情境演練 ‧ 智慧型畫布 ‧ 步驟互動清單</p>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn">🏠 回講義首頁</a>
+      <a href="course_structure_map.html" class="nav-btn">🗺️ 課程結構對照</a>
+    </div>
+  </header>
+
+  <div class="app-layout">
+
+    <nav class="sidebar">
+      <div class="sidebar-heading">實務演練章節選單</div>
+      <button class="menu-item active" onclick="showModule(0)">🎯 工具篇總覽與研習目標</button>
+      <button class="menu-item" onclick="showModule(1)">⚙️ 演練一：智慧型畫布 (@Smart Canvas)</button>
+      <button class="menu-item" onclick="showModule(2)">📚 演練二：段落樣式與自動目錄</button>
+      <button class="menu-item" onclick="showModule(3)">🔍 演練三：尋找與取代 (Ctrl+H)</button>
+      <button class="menu-item" onclick="showModule(4)">🌐 演練四：多語言通訊翻譯</button>
+      <button class="menu-item" onclick="showModule(5)">🎙️ 演練五：非同步語音回饋外掛</button>
+      <button class="menu-item" onclick="showModule(6)">📅 演練六：會議紀錄與任務指派</button>
+      <button class="menu-item" onclick="showModule(7)">🧭 演練七：表格＋超連結自主探索學習單</button>
+    </nav>
+
+    <main class="content-area">
+
+      <!-- MODULE 0: OVERVIEW -->
+      <div class="module-card active" id="module-0" style="display:block;">
+        <span class="tag">研習簡介與教學策略</span>
+        <h2>Google Docs 實務應用總覽</h2>
+        <p>歡迎來到 <strong>Google Docs（Google 文件）</strong>工具篇講義！本研習單元專為教師與教育行政人員設計，聚焦於如何靈活運用 Google Docs 的進階功能，提升教學素材製作與班級行政處理效率。</p>
+
+        <div style="background:#e8f0fe; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="color:#1a73e8; margin-top:0;">💡 本章七大實務演練目標：</h3>
+          <ul style="padding-left:20px; line-height:1.8; color:#3c4043;">
+            <li><strong>演練一</strong>：運用智慧型畫布 (Smart Canvas) 的使用者與日期智慧型方塊，指派負責人與截止日期。</li>
+            <li><strong>演練二</strong>：正確套用段落樣式 (Paragraph Styles)，一鍵生成動態導覽目錄。</li>
+            <li><strong>演練三</strong>：活用快捷鍵 <code>Ctrl + H</code> 批次尋找與取代全篇錯字。</li>
+            <li><strong>演練四</strong>：點選選單「翻譯文件」，生成多語言版本的雙語班級通訊。</li>
+            <li><strong>演練五</strong>：透過 Workspace Marketplace 安裝擴充外掛，提供非同步語音回饋。</li>
+            <li><strong>演練六</strong>：結合會議紀錄與批註 <code>+Email</code> 指派團隊任務。</li>
+            <li><strong>演練七</strong>：用表格與超連結做出讓學生自選路徑的探索學習單。</li>
+          </ul>
+        </div>
+
+
+        <div style="background:#fff; border:1px solid #dadce0; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="margin-top:0;">🔤 本篇功能術語中英對照</h3>
+          <p style="font-size:.9rem; color:#5f6368; margin-bottom:12px;">
+            Google 介面可切換語言，官方文件與國際研習場合也多用英文。
+            操作時請順便記住右欄的英文名稱。
+            <span style="color:#b06000; font-weight:700;">★</span> ＝核心功能
+            <span style="color:#137333; font-weight:700;">⚙</span> ＝名稱須完全一致（系統逐字比對）
+            <span style="color:#b3261e; font-weight:700;">⚠️</span> ＝容易混淆
+          </p>
+          <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; font-size:.93rem;">
+              <tr style="background:#f8f9fa;">
+                <th style="text-align:left; padding:9px 10px; width:30%;">繁體中文介面</th>
+                <th style="text-align:left; padding:9px 10px; width:32%;">English</th>
+                <th style="text-align:left; padding:9px 10px;">備註</th>
+              </tr>
+              <tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 智慧型畫布</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Smart Canvas</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">輸入 @ 觸發的整套功能總稱</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 使用者智慧型方塊</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">People smart chip</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">輸入 @ 後直接打姓名或 Email</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 段落樣式</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Paragraph styles</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">標題 1 = Heading 1，自動目錄靠它</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">目錄</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Table of contents</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">插入 ➔ 目錄</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 尋找與取代</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Find and replace</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">Ctrl + H</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">全部取代</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Replace all</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;"></td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 翻譯文件</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Translate document</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">工具 ➔ 翻譯文件，會另存新檔</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 擴充功能／外掛程式</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Extensions / Add-ons</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">來源是 Workspace Marketplace</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="名稱須完全一致" style="color:#137333;">⚙</span> 指派給…</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Assign to…</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">註解中 +Email 後必須勾選此項才算任務</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;">書籤</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Bookmark</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">文件內部跳轉用</td></tr>
+            </table>
+          </div>
+        </div>
+        <div style="background:#f8f9fa; border:1px solid #dadce0; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="margin-top:0;">🧭 本篇會用到的練習方式：</h3>
+          <ul style="padding-left:20px; line-height:1.8; color:#3c4043; list-style:none;">
+<li style="margin-bottom:6px;"><strong style="color:#137333;">📄 複製範本</strong>　點按鈕直接複製一份範本到你的雲端硬碟，隨便改。</li><li style="margin-bottom:6px;"><strong style="color:#00695c;">🔨 自己建一次</strong>　沒有範本，從空白自己做一次（這類功能自己排過才會懂）。</li>
+          </ul>
+          <p style="margin:10px 0 0 0; font-size:0.9rem; color:#5f6368;">
+            每則演練都先讀黃色的<strong>實務教學情境</strong>了解為什麼要做，再看彩色框的<strong>練習方式</strong>取得你的練習環境，
+            最後照步驟清單逐項打勾。
+          </p>
+        </div>
+      </div>
+
+
+      <!-- MODULE 1 -->
+      <div class="module-card" id="module-1" style="display:none;">
+        <span class="tag">核心功能演練一</span>
+        <h2>智慧型畫布 (Smart Canvas) 與團隊任務指派</h2>
+        <p>在 Google Docs 中輸入 <code>@</code> 符號，即可觸發「智慧型畫布」快捷選單。這能讓文件從單純的文字編輯器，升級為動態的團隊專案管理中心。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          您正在為校內專案團隊編輯一份「運動會籌備會議紀錄」文件。為了讓團隊學生與教師能清楚知道各自負責的硬體租借（如音響舞台、遮陽帳棚）與秩序冊印製等工作，您需要為不同任務指派具體負責人，並訂定各項任務的完成截止期限。
+        </div>
+
+
+        <div style="background:#e6f4ea; border:2px solid #34a853; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#137333; font-size:1.05rem;">📄 本單元練習方式：複製一份範本，改壞了也沒關係</strong>
+            <a href="https://docs.google.com/document/d/1ruUrTP1THD2J2LTbcTy3H2R0cinGNYdOBOY9c-aqwGI/copy" target="_blank" rel="noopener" style="text-decoration:none; background:#137333; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">📄 建立我的專屬副本</a>
+          </div>
+          <div style="background:white; border:1px solid #a8dab5; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">範本：<strong>運動會籌備會議紀錄 (智慧晶片演練)</strong>（Task 02 ‧ Google Docs）</div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕後會問你「要建立副本嗎」，按下去就會在<strong>你自己的雲端硬碟</strong>產生一份，怎麼改都不會影響別人。</div><div style="font-size:0.95rem; color:#137333; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請在「負責人」欄位輸入 <code>@</code> 再打姓名／Email 插入使用者智慧型方塊；在「完成期限」欄位輸入 <code>@date</code> 插入日期智慧型方塊！</span></div>
+          </div>
+          
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m1-s1">
+            <label for="m1-s1">開啟你剛複製的會議議程文件，移至「任務分工表」區段。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s2">
+            <label for="m1-s2">在「負責人」欄位輸入 <code>@</code>，<strong>接著直接打同仁的姓名或 Email</strong>，從跳出的清單選取 —— 這就是<strong>使用者智慧型方塊（People smart chip）</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s3">
+            <label for="m1-s3">在「預計完成日」欄位輸入 <code>@date</code> 或 <code>@today</code>（或輸入 <code>@</code> 後直接選日期），插入<strong>日期智慧型方塊</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s4">
+            <label for="m1-s4">滑鼠停留在人員晶片上，確認會跳出該同仁的聯絡資訊卡片。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-1')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 2 -->
+      <div class="module-card" id="module-2" style="display:none;">
+        <span class="tag">核心功能演練二</span>
+        <h2>結構化排版與動態導覽目錄 (Paragraph Styles)</h2>
+        <p>要讓長篇文件自動生成方便點選跳轉的目錄，必須正確套用<strong>段落樣式</strong>（如：標題 1、標題 2），而不是單純手動放大字體。這也是 Level 2 最常考的排版觀念。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          您正在準備一份包含多個章節的「校本課程實施計畫手冊」，內容涵蓋課程發展願景、全學期領域配課與多元評量規範。您希望建立一份結構嚴謹的文件，讓開啟檔案者能透過最上方的目錄快速點選跳轉至指定章節。
+        </div>
+
+
+        <div style="background:#e6f4ea; border:2px solid #34a853; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#137333; font-size:1.05rem;">📄 本單元練習方式：複製一份範本，改壞了也沒關係</strong>
+            <a href="https://docs.google.com/document/d/1xmyGLVmyT86_gO-tWYr4K4FmKZxG0wBQ0P_1sHV39Zg/copy" target="_blank" rel="noopener" style="text-decoration:none; background:#137333; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">📄 建立我的專屬副本</a>
+          </div>
+          <div style="background:white; border:1px solid #a8dab5; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">範本：<strong>校本課程實施計畫手冊 (段落樣式與目錄演練)</strong>（Task 03 ‧ Google Docs）</div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕後會問你「要建立副本嗎」，按下去就會在<strong>你自己的雲端硬碟</strong>產生一份，怎麼改都不會影響別人。</div><div style="font-size:0.95rem; color:#137333; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請選取文件中的「第一章、第二章、第三章」章節標題套用「標題 1」段落樣式，並在頂部點選「插入 ➔ 目錄」！</span></div>
+          </div>
+          
+        </div>
+
+
+        <div style="background:#f8f9fa; border:1px solid #dadce0; border-radius:10px; padding:16px; margin:16px 0; text-align:center;">
+          <p style="font-size:0.9rem; font-weight:700; color:#1a73e8; margin-bottom:8px;">📷 Google Docs 插入目錄介面對照圖（選單：插入 ➔ 目錄）：</p>
+          <img src="images/docs_insert_toc_menu.png" alt="Google Docs 插入目錄介面截圖" style="max-width:100%; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.12);">
+        </div>
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m2-s1">
+            <label for="m2-s1">選取文件中的章節標題（如「第一章：課程發展願景與核心素養」）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s2">
+            <label for="m2-s2">在工具列將段落樣式切換套用為 <strong><code>標題 1 (Heading 1)</code></strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s3">
+            <label for="m2-s3">移至文件開頭，點選選單 <strong>「插入 ➔ 往下拉至最底部 ➔ 目錄 (Table of contents)」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s4">
+            <label for="m2-s4">（或點選「查看 ➔ 顯示大綱」開啟左側動態大綱面板）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s5">
+            <label for="m2-s5">驗證：新增一個章節標題後，點選目錄的「重新整理」圖示，新章節應自動出現。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-2')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 3 -->
+      <div class="module-card" id="module-3" style="display:none;">
+        <span class="tag">核心功能演練三</span>
+        <h2>高效內文檢索與批次修正 (Find and Replace)</h2>
+        <p>在整理多頁報告或教學素材時，使用快捷鍵 <code>Ctrl + H</code> 可在數秒內完成全篇文件的搜尋與取代。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          您編輯完一份長達 10 頁的「全校週報」稿件後，才發現自己將本學期新到任的校長姓名全篇都誤打成了舊校長姓名<code>陳大文</code>。您需要快速定位並將所有錯字一次性更正為新校長姓名 <code>張小明</code>。
+        </div>
+
+
+        <div style="background:#e6f4ea; border:2px solid #34a853; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#137333; font-size:1.05rem;">📄 本單元練習方式：複製一份範本，改壞了也沒關係</strong>
+            <a href="https://docs.google.com/document/d/1kE7fdTcA9Po3xXxpHmt-iaC1EQtKI0QVuEN8HhnQcXE/copy" target="_blank" rel="noopener" style="text-decoration:none; background:#137333; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">📄 建立我的專屬副本</a>
+          </div>
+          <div style="background:white; border:1px solid #a8dab5; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">範本：<strong>全校週報範例 (尋找與取代演練)</strong>（Task 01 ‧ Google Docs）</div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕後會問你「要建立副本嗎」，按下去就會在<strong>你自己的雲端硬碟</strong>產生一份，怎麼改都不會影響別人。</div><div style="font-size:0.95rem; color:#137333; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請按下快捷鍵 <code>Ctrl + H</code> 開啟「尋找與取代」，將文件中所有的「陳大文」一次全部取代為「張小明」！</span></div>
+          </div>
+          
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m3-s1">
+            <label for="m3-s1">在 Google Docs 中按下快捷鍵 <strong><code>Ctrl + H</code></strong>（或點選「編輯 ➔ 尋找與取代」）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s2">
+            <label for="m3-s2">在「尋找」欄位輸入舊校長姓名 <code>陳大文</code>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s3">
+            <label for="m3-s3">在「取代為」欄位輸入新校長姓名 <code>張小明</code>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s4">
+            <label for="m3-s4">點選 <strong>「全部取代 (Replace all)」</strong>，畫面會顯示共取代了幾處。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s5">
+            <label for="m3-s5">（進階）勾選「大小寫需相符」或「使用規則運算式」處理更精確的比對需求。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-3')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 4 -->
+      <div class="module-card" id="module-4" style="display:none;">
+        <span class="tag">核心功能演練四</span>
+        <h2>跨語言親師溝通與文件一鍵翻譯 (Translate Document)</h2>
+        <p>Google Docs 內建機器翻譯引擎，免安裝外掛即可將全篇文件<strong>複製並翻譯</strong>為全球數十種語言，原始文件完全不受影響。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          身為導師，您每週都會編寫「班級每週學習通訊」發送給家長。為了讓班上不同母語背景（如越南語、印尼語、英語）的家長也能無障礙閱讀班級動態與親師座談會通知，您需要快速產出一份完整的翻譯版本。
+        </div>
+
+
+        <div style="background:#e6f4ea; border:2px solid #34a853; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#137333; font-size:1.05rem;">📄 本單元練習方式：複製一份範本，改壞了也沒關係</strong>
+            <a href="https://docs.google.com/document/d/1gL8HRiBBrpEztAzvpFkt8-WoX1liBD-HujJOeJDkzSQ/copy" target="_blank" rel="noopener" style="text-decoration:none; background:#137333; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">📄 建立我的專屬副本</a>
+          </div>
+          <div style="background:white; border:1px solid #a8dab5; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">範本：<strong>班級每週學習通訊 (多語言翻譯演練)</strong>（Task 05 ‧ Google Docs）</div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕後會問你「要建立副本嗎」，按下去就會在<strong>你自己的雲端硬碟</strong>產生一份，怎麼改都不會影響別人。</div><div style="font-size:0.95rem; color:#137333; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請點選選單「工具 ➔ 翻譯文件」，選擇目標語言（如越南語或印尼語），生成一份完整的翻譯新文件！</span></div>
+          </div>
+          
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m4-s1">
+            <label for="m4-s1">開啟你複製的中文「班級每週學習通訊」文件。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m4-s2">
+            <label for="m4-s2">點選頂部功能表 <strong>「工具 ➔ 翻譯文件 (Translate document)」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m4-s3">
+            <label for="m4-s3">為新文件命名，並選取目標語言（如越南語或印尼語）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m4-s4">
+            <label for="m4-s4">點選「翻譯」，系統會另開一份翻譯後的新文件（原文件保持不變）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m4-s5">
+            <label for="m4-s5">檢查專有名詞（校名、活動名稱）是否需要人工修正後再發送。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-4')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 5 -->
+      <div class="module-card" id="module-5" style="display:none;">
+        <span class="tag">核心功能演練五</span>
+        <h2>非同步語音註解與多媒體回饋 (Marketplace Add-ons)</h2>
+        <p>若希望針對學生的作文或作業給予更具親和力、非同步的「口頭回饋」，可安裝第三方工具擴充。<strong>注意兩條不同的安裝管道</strong>：Google 官方的 <strong>Workspace Marketplace</strong>（擴充功能 ➔ 外掛程式），以及 <strong>Chrome 線上應用程式商店</strong>——語音回饋工具 Mote 屬於後者。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          學生在 Google Docs 提交了期末作文〈那一刻，我長大了〉。您希望除了文字批改外，還能錄製一段親切的口頭說明，給予學生非同步的聽覺建議與鼓勵——尤其對閱讀理解較弱的學生特別有效。
+        </div>
+
+
+        <div style="background:#e6f4ea; border:2px solid #34a853; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#137333; font-size:1.05rem;">📄 本單元練習方式：複製一份範本，改壞了也沒關係</strong>
+            <a href="https://docs.google.com/document/d/15qv2cqzBkspXtIDjmiIZ7QAehMhTgXO0CMxOozEJBk8/copy" target="_blank" rel="noopener" style="text-decoration:none; background:#137333; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">📄 建立我的專屬副本</a>
+          </div>
+          <div style="background:white; border:1px solid #a8dab5; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">範本：<strong>國文作文範本 (語音回饋外掛演練)</strong>（Task 04 ‧ Google Docs）</div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕後會問你「要建立副本嗎」，按下去就會在<strong>你自己的雲端硬碟</strong>產生一份，怎麼改都不會影響別人。</div><div style="font-size:0.95rem; color:#137333; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請到 Chrome 線上應用程式商店安裝 Mote 擴充功能並登入，重新整理文件後在作文段落新增註解、錄製一段語音回饋！</span></div>
+          </div>
+          
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m5-s1">
+            <label for="m5-s1">先認識官方路徑：<strong>「擴充功能 ➔ 外掛程式 ➔ 取得外掛程式」</strong>會開啟 Workspace Marketplace。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m5-s2">
+            <label for="m5-s2">⚠️ 但<strong>語音回饋工具 Mote 實際上是 Chrome 擴充功能</strong>，不在 Marketplace：請到 <strong>Chrome 線上應用程式商店</strong>搜尋安裝 Mote，並登入 Mote 帳號。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m5-s3">
+            <label for="m5-s3">安裝後<strong>重新整理已開啟的 Docs 頁面</strong>，並允許瀏覽器使用麥克風。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m5-s4">
+            <label for="m5-s4">在學生作文段落新增註解，點選外掛的<strong>錄音圖示</strong>錄製語音後發布。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m5-s5">
+            <label for="m5-s5">驗證：註解區出現可直接點擊播放的語音波形。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-5')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 6 -->
+      <div class="module-card" id="module-6" style="display:none;">
+        <span class="tag">核心功能演練六</span>
+        <h2>跨軟體行政整合（會議紀錄與批註指派）</h2>
+        <p>Google Docs 能與 Calendar 及 Slides 深度連動，實現一鍵開立會議紀錄與批註指派任務。批註中輸入 <code>+Email</code> 並勾選「指派」，對方會收到含待辦的通知信。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          教研團隊正在進行教學專案討論，開啟了「教研會會議紀錄」文件供所有人共同編輯與腦力激盪。討論結束後，您要把「下週前完成教材試教」這類待辦，精確交付給特定同仁，而不是在群組裡喊一聲就算數。
+        </div>
+
+
+        <div style="background:#e6f4ea; border:2px solid #34a853; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#137333; font-size:1.05rem;">📄 本單元練習方式：複製一份範本，改壞了也沒關係</strong>
+            <a href="https://docs.google.com/document/d/14xJjbd7YdMKoPKf8hzVKJyHEfoscKQcPuacDvDW3OY0/copy" target="_blank" rel="noopener" style="text-decoration:none; background:#137333; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">📄 建立我的專屬副本</a>
+          </div>
+          <div style="background:white; border:1px solid #a8dab5; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">範本：<strong>教研會會議紀錄 (日曆連動演練)</strong>（Task 09 ‧ Google Docs）</div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕後會問你「要建立副本嗎」，按下去就會在<strong>你自己的雲端硬碟</strong>產生一份，怎麼改都不會影響別人。</div><div style="font-size:0.95rem; color:#137333; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請選取文件段落新增註解，輸入 <code>+成員Email</code> 並勾選「指派給…」核取方塊，交付團隊成員執行！</span></div>
+          </div>
+          
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m6-s1">
+            <label for="m6-s1">（<strong>此步為背景說明／講師示範</strong>，實作請直接用上方按鈕複製的範本）Calendar 活動的說明欄工具列點最左邊的 <strong>Google 文件圖示（建立會議記錄）</strong>，可自動產生共筆文件；完整操作見 Calendar 篇演練四。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m6-s2">
+            <label for="m6-s2">在文件中選取待辦段落，點選 <strong>「新增註解」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m6-s3">
+            <label for="m6-s3">在註解框輸入 <strong><code>+成員Email</code></strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m6-s4">
+            <label for="m6-s4"><strong>勾選「指派給… (Assign to…)」</strong>核取方塊後點選指派。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m6-s5">
+            <label for="m6-s5">驗證：註解標示為待辦任務，完成後由被指派人點選「標示為已完成」。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-6')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 7 -->
+      <div class="module-card" id="module-7" style="display:none;">
+        <span class="tag">核心功能演練七</span>
+        <h2>用表格與超連結做出讓學生自己走的探索學習單</h2>
+        <p>個人化學習不必靠昂貴平台。在 Docs 裡用一個<strong>表格</strong>列出主題與工具，每格掛上<strong>超連結</strong>（影片、網站、雲端檔案、甚至同一份文件的書籤），學生就能依自己的程度與興趣選路徑走——這是最低成本的差異化教學。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          同一個單元，班上有學生早就懂了想深入，也有學生連基本概念都還沒穩。您沒有時間為每個人設計不同教材，但希望給出一份「自助餐式」的探索清單：每個子主題都附上不同深度的資源，學生自己挑著看，您則把時間留給真正需要個別指導的人。
+        </div>
+
+
+        <div style="background:#e0f2f1; border:2px solid #00897b; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#00695c; font-size:1.05rem;">🔨 本單元練習方式：從零自己建一次（不需要範本檔）</strong>
+            
+          </div>
+          <div style="background:white; border:1px solid #80cbc4; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.95rem; color:#00695c; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">建立一份新文件，插入一個 3 欄的表格（子主題／基礎資源／進階挑戰），每一格用 <code>Ctrl + K</code> 掛上超連結，並在文件開頭用「書籤」做出可跳轉的說明區。</span></div><div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; border-top:1px dashed #80cbc4; padding-top:10px;">💬 三種連結目標都試一次：<strong>外部網址</strong>（維基、教育部資源）、<strong>雲端硬碟檔案</strong>（你自己的教材，輸入關鍵字就會跳出檔案清單）、<strong>本文件的書籤或標題</strong>（插入 ➔ 書籤，再連過去）。第三種最少人知道，卻是長文件內部導覽最好用的一招。</div>
+          </div>
+          
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m7-s1">
+            <label for="m7-s1">建立新文件，點選 <strong>「插入 ➔ 表格」</strong>，選擇 3 欄（子主題／基礎資源／進階挑戰）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m7-s2">
+            <label for="m7-s2">在儲存格輸入資源名稱後選取文字，按 <code>Ctrl + K</code> 貼上<strong>外部網址</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m7-s3">
+            <label for="m7-s3">同樣按 <code>Ctrl + K</code>，但這次<strong>直接輸入關鍵字</strong>——系統會列出你雲端硬碟中的檔案供選取。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m7-s4">
+            <label for="m7-s4">在文件開頭寫一段使用說明，點選 <strong>「插入 ➔ 書籤」</strong>，再從表格連結到該書籤。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m7-s5">
+            <label for="m7-s5">（延伸）把這份文件用 Classroom 作業<strong>「為每位學生建立副本」</strong>發出，學生可在自己的副本上記錄進度。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-7')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast">已複製操作步驟至剪貼簿！</div>
+
+  <script>
+    function showModule(idx) {
+      document.querySelectorAll('.menu-item').forEach((btn, i) => {
+        btn.classList.toggle('active', i === idx);
+      });
+      document.querySelectorAll('.module-card').forEach((card, i) => {
+        card.style.display = (i === idx) ? 'block' : 'none';
+        card.classList.toggle('active', i === idx);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copySteps(modId) {
+      const mod = document.getElementById(modId);
+      const title = mod.querySelector('h2').innerText;
+      const steps = Array.from(mod.querySelectorAll('.step-item label'))
+        .map((l, i) => `${i + 1}. ${l.innerText}`)
+        .join('\n');
+
+      const text = `【${title}】\n${steps}`;
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 2500);
+      });
+    }
+  </script>
+</body>
+</html>

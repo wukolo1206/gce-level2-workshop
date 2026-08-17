@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Calendar 時間管理與會議整合研習講義 (互動網頁版)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --primary-light: #e8f0fe;
+      --secondary: #34a853;
+      --text-main: #202124;
+      --text-muted: #5f6368;
+      --bg-body: #f8f9fa;
+      --bg-card: #ffffff;
+      --border: #dadce0;
+      --shadow: 0 4px 16px rgba(0,0,0,0.06);
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Google Sans', 'Noto Sans TC', sans-serif;
+      background: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 24px 32px;
+      box-shadow: 0 4px 12px rgba(26,115,232,0.25);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-title h1 { font-size: 1.5rem; font-weight: 700; }
+    .header-title p { font-size: 0.9rem; opacity: 0.9; margin-top: 4px; }
+
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav-btn {
+      text-decoration: none;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover { background: white; color: var(--primary); }
+
+    .app-layout {
+      max-width: 1200px;
+      margin: 28px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .app-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+
+    .sidebar {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+
+    .sidebar-heading {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .menu-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: none;
+      background: transparent;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text-main);
+      cursor: pointer;
+      margin-bottom: 6px;
+      transition: all 0.2s;
+    }
+
+    .menu-item:hover { background: var(--bg-body); color: var(--primary); }
+    .menu-item.active { background: var(--primary-light); color: var(--primary); font-weight: 700; }
+
+    .content-area {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .module-card { display: none; }
+    .module-card.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 16px; color: var(--primary-dark); }
+    h3 { font-size: 1.1rem; font-weight: 700; margin: 20px 0 10px 0; color: var(--text-main); }
+    p { margin-bottom: 14px; color: #3c4043; line-height: 1.7; }
+
+    .scenario-box {
+      background: #fef7e0;
+      border-left: 4px solid #f9ab00;
+      padding: 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+
+    .scenario-box strong { color: #b06000; }
+
+    .step-list {
+      background: #f8f9fa;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .step-item input[type="checkbox"] {
+      margin-top: 5px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    code {
+      background: #f1f3f4;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.92em;
+      color: #c5221f;
+    }
+
+    .action-bar {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn {
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #323232;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-title">
+      <h1>📅 Google Calendar 時間管理與會議整合研習講義</h1>
+      <p>預約時間表 ‧ 直播串流 ‧ 與會者權限 ‧ 會議紀錄連動</p>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn">🏠 回講義首頁</a>
+      <a href="course_structure_map.html" class="nav-btn">🗺️ 課程結構對照</a>
+    </div>
+  </header>
+
+  <div class="app-layout">
+
+    <nav class="sidebar">
+      <div class="sidebar-heading">實務演練章節選單</div>
+      <button class="menu-item active" onclick="showModule(0)">🎯 工具篇總覽與研習目標</button>
+      <button class="menu-item" onclick="showModule(1)">🗓️ 演練一：預約時間表 (Appointment Schedule)</button>
+      <button class="menu-item" onclick="showModule(2)">📹 演練二：Meet 視訊與串流直播</button>
+      <button class="menu-item" onclick="showModule(3)">🔒 演練三：Email 提醒與與會者權限</button>
+      <button class="menu-item" onclick="showModule(4)">📝 演練四：會議記錄一鍵連動共筆</button>
+      <button class="menu-item" onclick="showModule(5)">🔁 演練五：系列活動與活動素材</button>
+    </nav>
+
+    <main class="content-area">
+
+      <!-- MODULE 0: OVERVIEW -->
+      <div class="module-card active" id="module-0" style="display:block;">
+        <span class="tag">研習簡介與教學策略</span>
+        <h2>Google Calendar 實務應用總覽</h2>
+        <p>歡迎來到 <strong>Google Calendar（Google 日曆）</strong>工具篇講義！日曆不只是記事本，而是<strong>整個 Workspace 的會議樞紐</strong>——預約、視訊、直播、共筆紀錄與個資保護，都從這裡發動。</p>
+
+        <div style="background:#e8f0fe; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="color:#1a73e8; margin-top:0;">💡 本章五大實務演練目標：</h3>
+          <ul style="padding-left:20px; line-height:1.8; color:#3c4043;">
+            <li><strong>演練一</strong>：建立預約時間表，讓學生／家長自助預約且絕不撞期。</li>
+            <li><strong>演練二</strong>：在活動中新增 Meet 視訊並加開串流直播，容納大型跨校講座。</li>
+            <li><strong>演練三</strong>：設定 Email 提醒與與會者權限，避免外部名單個資外洩。</li>
+            <li><strong>演練四</strong>：一鍵建立會議記錄，權限自動同步給所有邀請對象。</li>
+            <li><strong>演練五</strong>：用重複活動建立整年系列行程，並夾帶素材與地點。</li>
+          </ul>
+        </div>
+
+
+        <div style="background:#fff; border:1px solid #dadce0; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="margin-top:0;">🔤 本篇功能術語中英對照</h3>
+          <p style="font-size:.9rem; color:#5f6368; margin-bottom:12px;">
+            Google 介面可切換語言，官方文件與國際研習場合也多用英文。
+            操作時請順便記住右欄的英文名稱。
+            <span style="color:#b06000; font-weight:700;">★</span> ＝核心功能
+            <span style="color:#137333; font-weight:700;">⚙</span> ＝名稱須完全一致（系統逐字比對）
+            <span style="color:#b3261e; font-weight:700;">⚠️</span> ＝容易混淆
+          </p>
+          <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; font-size:.93rem;">
+              <tr style="background:#f8f9fa;">
+                <th style="text-align:left; padding:9px 10px; width:30%;">繁體中文介面</th>
+                <th style="text-align:left; padding:9px 10px; width:32%;">English</th>
+                <th style="text-align:left; padding:9px 10px;">備註</th>
+              </tr>
+              <tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 預約時間表</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Appointment schedule</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">讓對方自助預約且不撞期</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 重複／自訂重複</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Repeat / Custom recurrence</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">一次建立整學期／整年系列</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="名稱須完全一致" style="color:#137333;">⚙</span> 串流直播</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Live stream</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">需 Education Plus；觀眾只看不互動</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="名稱須完全一致" style="color:#137333;">⚙</span> 邀請對象權限</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Guest permissions</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">最易出包處，關係到個資保護</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="名稱須完全一致" style="color:#137333;">⚙</span> 邀請其他使用者</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Invite others</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">必須取消勾選</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="名稱須完全一致" style="color:#137333;">⚙</span> 查看邀請對象名單</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">See guest list</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">必須取消勾選</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="核心功能" style="color:#b06000;">★</span> 建立會議記錄</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Create meeting notes</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">說明欄工具列最左邊的文件圖示</td></tr><tr><td style="padding:8px 10px; border-top:1px solid #e8eaed;"><span title="名稱須完全一致" style="color:#137333;">⚙</span> 通知（電子郵件）</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; font-weight:600; color:#1557b0;">Notification (Email)</td><td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#5f6368; font-size:.88rem;">可選「通知」或「電子郵件」兩種</td></tr>
+            </table>
+          </div>
+        </div>
+        <div style="background:#f8f9fa; border:1px solid #dadce0; border-radius:12px; padding:20px; margin:20px 0;">
+          <h3 style="margin-top:0;">🧭 本篇會用到的練習方式：</h3>
+          <ul style="padding-left:20px; line-height:1.8; color:#3c4043; list-style:none;">
+<li style="margin-bottom:6px;"><strong style="color:#1557b0;">⚡ 一鍵建立</strong>　點按鈕在你自己的日曆開一個已填好內容的活動草稿。</li><li style="margin-bottom:6px;"><strong style="color:#00695c;">🔨 自己建一次</strong>　沒有範本，從空白自己做一次（這類功能自己排過才會懂）。</li>
+          </ul>
+          <p style="margin:10px 0 0 0; font-size:0.9rem; color:#5f6368;">
+            每則演練都先讀黃色的<strong>實務教學情境</strong>了解為什麼要做，再看彩色框的<strong>練習方式</strong>取得你的練習環境，
+            最後照步驟清單逐項打勾。
+          </p>
+        </div>
+      </div>
+
+
+      <!-- MODULE 1 -->
+      <div class="module-card" id="module-1" style="display:none;">
+        <span class="tag">核心功能演練一</span>
+        <h2>諮詢／親師面談預約時間表設定與公開網址發布</h2>
+        <p>「預約時間表」會依您設定的開放時段自動產生一個公開預約頁。對方選走的時段會即時消失，而且系統會<strong>自動比對您日曆上既有的行程</strong>，衝突時段不會被預約走。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          您每週三下午開放 2 小時提供學生課後諮詢。過去用聯絡簿登記，常發生兩位學生登記同一時段、或是您臨時要開會卻已經答應學生的窘境。您希望改成學生自己上網選時段，且系統自動避開您的既有會議。
+        </div>
+
+
+        <div style="background:#e0f2f1; border:2px solid #00897b; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#00695c; font-size:1.05rem;">🔨 本單元練習方式：從零自己建一次（不需要範本檔）</strong>
+            
+          </div>
+          <div style="background:white; border:1px solid #80cbc4; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.95rem; color:#00695c; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">在自己的 Google 日曆點選「建立 ➔ 預約時間表」，做出一個每週三下午、單次 20 分鐘的諮詢預約頁，再從日曆左側的「預訂頁面」複製連結，貼到研習聊天室。</span></div><div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; border-top:1px dashed #80cbc4; padding-top:10px;">💬 預約時間表不是一般活動，無法用預填網址產生，請從零建立一次。完成後和旁邊的夥伴互換網址，實際去預約對方的時段，你會立刻看到自己日曆上多出一筆。</div>
+          </div>
+          <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/document/d/1qBR1L6VobSxKetqzC8j0bD-GVTQQmxNCOk0S1UNAIqk/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 06）</a></div>
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m1-s1">
+            <label for="m1-s1">在 Google Calendar 左上角點選 <strong>「建立 ➔ 預約時間表 (Appointment schedule)」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s2">
+            <label for="m1-s2">設定<strong>單次時段長度</strong>（如 20 分鐘）與每週重複的開放時間區間。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s3">
+            <label for="m1-s3">展開設定，開啟<strong>檢查日曆有空與否的選項</strong>（英文介面為 <code>Check calendars for availability</code>，繁中字樣依版本略有不同），並可設定預約緩衝時間與最大預約數。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s4">
+            <label for="m1-s4">儲存後到日曆左側的 <strong>「預訂頁面」</strong>，將滑鼠移到該預訂頁面上，點選 <strong>「複製連結」圖示</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m1-s5">
+            <label for="m1-s5">與夥伴交換網址互相預約，驗證：被預約走的時段會即時消失。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-1')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 2 -->
+      <div class="module-card" id="module-2" style="display:none;">
+        <span class="tag">核心功能演練二</span>
+        <h2>活動排定、新增 Google Meet 視訊與開啟串流直播 (Live stream)</h2>
+        <p>Meet 視訊會議有人數上限，且所有人都能開麥克風；當觀眾多達數百人且只需「觀看」時，正確作法是加開<strong>串流直播</strong>——直播網址的觀眾只能看，不會干擾會場，也不佔用會議人數。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          您負責承辦一場跨校線上講座。主講者與各校代表約 20 人需要互動問答，但同時要開放全校數百名師生線上觀看。若全部塞進同一個 Meet，不僅超過人數上限，秩序也會失控。
+        </div>
+
+
+        <div style="background:#e8f0fe; border:2px solid #1a73e8; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#1557b0; font-size:1.05rem;">⚡ 本單元練習方式：一鍵在你自己的日曆建立練習活動</strong>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%E8%B7%A8%E6%A0%A1%E7%B7%9A%E4%B8%8A%E8%AC%9B%E5%BA%A7%EF%BC%88%E7%9B%B4%E6%92%AD%E6%BC%94%E7%B7%B4%EF%BC%89&dates=20260820T060000Z%2F20260820T080000Z&details=%E3%80%90%E7%A0%94%E7%BF%92%E6%BC%94%E7%B7%B4%E4%BA%8C%E3%80%91%E8%AB%8B%E5%9C%A8%E6%9C%AC%E6%B4%BB%E5%8B%95%E4%B8%8A%E5%AE%8C%E6%88%90%EF%BC%9A%0A1.%20%E6%96%B0%E5%A2%9E%20Google%20Meet%20%E8%A6%96%E8%A8%8A%E6%9C%83%E8%AD%B0%0A2.%20%E9%BB%9E%E9%81%B8%E8%A6%96%E8%A8%8A%E6%97%81%E7%9A%84%E4%B8%8B%E6%8B%89%E7%AE%AD%E9%A0%AD%EF%BC%8C%E5%8A%A0%E9%96%8B%E3%80%8C%E4%B8%B2%E6%B5%81%E7%9B%B4%E6%92%AD%20%28Add%20live%20stream%29%E3%80%8D%0A3.%20%E5%84%B2%E5%AD%98%E5%BE%8C%E7%A2%BA%E8%AA%8D%E6%8B%BF%E5%88%B0%E5%85%A9%E7%B5%84%E7%B6%B2%E5%9D%80%EF%BC%9AMeet%20%E6%9C%83%E8%AD%B0%E7%B6%B2%E5%9D%80%EF%BC%88%E7%B5%A6%E8%AC%9B%E8%80%85%EF%BC%89%E8%88%87%E7%9B%B4%E6%92%AD%E8%A7%80%E7%9C%8B%E7%B6%B2%E5%9D%80%EF%BC%88%E7%B5%A6%E5%85%A8%E6%A0%A1%E5%B8%AB%E7%94%9F%EF%BC%89&location=%E7%B7%9A%E4%B8%8A%EF%BC%88Google%20Meet%EF%BC%89" target="_blank" rel="noopener" style="text-decoration:none; background:#1557b0; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">⚡ 開啟我的練習活動</a>
+          </div>
+          <div style="background:white; border:1px solid #aecbfa; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">活動：<strong>跨校線上講座（直播演練）</strong></div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕會在<strong>你自己的 Google 日曆</strong>開啟一個已填好標題與說明的新活動草稿（尚未儲存，可自行調整時間）。</div><div style="font-size:0.95rem; color:#1557b0; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請在這個活動草稿上：① 新增 Google Meet 視訊 ② 展開視訊下拉選單加開「串流直播」 ③ 儲存後找出兩組不同的網址。</span></div><div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; border-top:1px dashed #aecbfa; padding-top:10px;">💬 ⚠️ <strong>找不到「新增串流直播」是正常的</strong>（2026-08 實機確認三種帳號的畫面）：<br>‧ <strong>個人 Gmail</strong>：Meet 列只有<strong>齒輪（視訊會議設定）</strong>，連展開箭頭都沒有，上限 100 人。<br>‧ <strong>學校 Education Fundamentals</strong>：<strong>有展開箭頭，但展開後只有「會議代碼」欄位</strong>，仍然沒有串流直播。<br>‧ <strong>Education Plus／Teaching and Learning Upgrade</strong>：展開後才會出現「新增串流直播」。<br>沒有授權者請完成 ① 與 ③ 的 Meet 部分即可，並記住這個判斷：<strong>大量觀眾「只觀看、不互動」時要加開串流直播，而不是把所有人都邀進 Meet</strong>——這個觀念本身才是重點，不是你的帳號有沒有那個按鈕。</div>
+          </div>
+          <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/document/d/1AL2LqfbUAhAN_lNz4BcrF-bXJxsUxWidLM23vYOLddw/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 07）</a></div>
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m2-s1">
+            <label for="m2-s1">點上方按鈕，活動草稿會直接開在<strong>你自己的日曆</strong>（標題與說明皆已填好）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s2">
+            <label for="m2-s2">點選 <strong>「新增 Google Meet 視訊會議」</strong>，產生會議網址。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s3">
+            <label for="m2-s3">點選視訊選項旁的<strong>下拉箭頭 ➔ 「新增串流直播 (Add live stream)」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s4">
+            <label for="m2-s4">儲存活動，取得<strong>兩組網址</strong>：Meet 會議網址（給講者與代表）、直播觀看網址（給全校師生）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m2-s5">
+            <label for="m2-s5">注意：直播需由主辦者於會議中手動點選「開始串流」才會正式播出。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-2')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 3 -->
+      <div class="module-card" id="module-3" style="display:none;">
+        <span class="tag">核心功能演練三</span>
+        <h2>設定活動通知提醒與精確的與會者權限 (Guest permissions) 防護</h2>
+        <p>日曆活動預設允許與會者<strong>互相看見完整名單，也能自行邀請他人</strong>（新建活動時「邀請其他使用者」與「查看邀請對象名單」都是<strong>已勾選</strong>的狀態）。涉及外部專家、家長或學生時，這等同於把整份 Email 名單公開，必須主動取消勾選。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          您要召開一場邀請多位校外專家與家長代表出席的會議。您希望所有人在會議前 1 小時收到 Email 提醒，但絕不能讓與會者看到彼此的 Email、也不能讓任何人自行把其他人拉進來。
+        </div>
+
+
+        <div style="background:#e8f0fe; border:2px solid #1a73e8; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#1557b0; font-size:1.05rem;">⚡ 本單元練習方式：一鍵在你自己的日曆建立練習活動</strong>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%E6%A0%A1%E5%A4%96%E5%B0%88%E5%AE%B6%E8%AB%AE%E8%A9%A2%E6%9C%83%E8%AD%B0%EF%BC%88%E9%82%80%E8%AB%8B%E5%B0%8D%E8%B1%A1%E6%AC%8A%E9%99%90%E6%BC%94%E7%B7%B4%EF%BC%89&dates=20260821T010000Z%2F20260821T030000Z&details=%E3%80%90%E7%A0%94%E7%BF%92%E6%BC%94%E7%B7%B4%E4%B8%89%E3%80%91%E8%AB%8B%E5%9C%A8%E6%9C%AC%E6%B4%BB%E5%8B%95%E4%B8%8A%E5%AE%8C%E6%88%90%EF%BC%9A%0A1.%20%E6%96%B0%E5%A2%9E%E9%80%9A%E7%9F%A5%EF%BC%9AEmail%E3%80%811%20%E5%B0%8F%E6%99%82%E5%89%8D%0A2.%20%E9%82%80%E8%AB%8B%E5%B0%8D%E8%B1%A1%E6%AC%8A%E9%99%90%EF%BC%9A%E5%8F%96%E6%B6%88%E5%8B%BE%E9%81%B8%E3%80%8C%E9%82%80%E8%AB%8B%E5%85%B6%E4%BB%96%E4%BD%BF%E7%94%A8%E8%80%85%20%28Invite%20others%29%E3%80%8D%0A3.%20%E9%82%80%E8%AB%8B%E5%B0%8D%E8%B1%A1%E6%AC%8A%E9%99%90%EF%BC%9A%E5%8F%96%E6%B6%88%E5%8B%BE%E9%81%B8%E3%80%8C%E6%9F%A5%E7%9C%8B%E9%82%80%E8%AB%8B%E5%B0%8D%E8%B1%A1%E5%90%8D%E5%96%AE%20%28See%20guest%20list%29%E3%80%8D%0A%EF%BC%88%E5%8F%AF%E9%82%80%E8%AB%8B%E6%97%81%E9%82%8A%E5%A4%A5%E4%BC%B4%E7%95%B6%E9%82%80%E8%AB%8B%E5%B0%8D%E8%B1%A1%EF%BC%8C%E8%AB%8B%E4%BB%96%E7%A2%BA%E8%AA%8D%E6%98%AF%E5%90%A6%E7%9C%8B%E5%BE%97%E5%88%B0%E5%85%B6%E4%BB%96%E4%BA%BA%E7%9A%84%20Email%EF%BC%89&location=%E6%A0%A1%E6%9C%AC%E9%83%A8%E6%9C%83%E8%AD%B0%E5%AE%A4" target="_blank" rel="noopener" style="text-decoration:none; background:#1557b0; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">⚡ 開啟我的練習活動</a>
+          </div>
+          <div style="background:white; border:1px solid #aecbfa; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">活動：<strong>校外專家諮詢會議（邀請對象權限演練）</strong></div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕會在<strong>你自己的 Google 日曆</strong>開啟一個已填好標題與說明的新活動草稿（尚未儲存，可自行調整時間）。</div><div style="font-size:0.95rem; color:#1557b0; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請在這個活動草稿上：① 新增「Email、1 小時前」通知 ② 取消勾選「邀請其他使用者」 ③ 取消勾選「查看邀請對象名單」。</span></div><div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; border-top:1px dashed #aecbfa; padding-top:10px;">💬 右側「邀請對象權限」三個選項中，<strong>「修改活動」預設未勾選</strong>，而<strong>「邀請其他使用者」與「查看邀請對象名單」預設是勾選的</strong>——這兩個就是本演練要關掉的目標。通知設定需點開「更多選項」的完整編輯頁才看得到完整的通知欄位。</div>
+          </div>
+          <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/document/d/1G9VqLZkAKZCcK1_EwziY-8Yt58VQaBMeOmX8Ne8C1HE/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 08）</a></div>
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m3-s1">
+            <label for="m3-s1">點上方按鈕開啟活動草稿，在右側「邀請對象」欄輸入夥伴的 Email。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s2">
+            <label for="m3-s2">點選 <strong>「更多選項」</strong>進入完整編輯頁，於「通知」區塊選取 <strong>「電子郵件」</strong>、時間設為 <strong>「1 小時前」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s3">
+            <label for="m3-s3">在右側 <strong>「邀請對象權限 (Guest permissions)」</strong> 區塊，<strong>取消勾選「邀請其他使用者」</strong>。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s4">
+            <label for="m3-s4"><strong>取消勾選「查看邀請對象名單」</strong>，彼此的 Email 即互相隱藏。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m3-s5">
+            <label for="m3-s5">儲存後請夥伴開啟該活動驗證：他應該看不到其他邀請對象的名單。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-3')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 4 -->
+      <div class="module-card" id="module-4" style="display:none;">
+        <span class="tag">核心功能演練四</span>
+        <h2>建立會議記錄 (Create meeting notes) 自動產生共筆並同步權限</h2>
+        <p>在日曆活動的<strong>說明欄工具列</strong>點一下最左邊的 <strong>Google 文件圖示（建立會議記錄）</strong>，系統會自動生成一份 Docs，<strong>已預先填好會議標題、日期、出席者與議程欄位，並自動把編輯權限給所有邀請對象</strong>——不必再手動分享。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          每次教研會開會，您都要先開一份新文件、貼上與會名單、再一個一個加人共享，常常會議都開始了還有人說「我沒有權限」。您希望開會前一秒就能備妥一份大家都打得開的共筆紀錄。
+        </div>
+
+
+        <div style="background:#e8f0fe; border:2px solid #1a73e8; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#1557b0; font-size:1.05rem;">⚡ 本單元練習方式：一鍵在你自己的日曆建立練習活動</strong>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%E5%AD%B8%E6%9C%9F%E6%95%99%E7%A0%94%E6%9C%83%EF%BC%88%E6%9C%83%E8%AD%B0%E8%A8%98%E9%8C%84%E9%80%A3%E5%8B%95%E6%BC%94%E7%B7%B4%EF%BC%89&dates=20260822T053000Z%2F20260822T070000Z&details=%E3%80%90%E7%A0%94%E7%BF%92%E6%BC%94%E7%B7%B4%E5%9B%9B%E3%80%91%E8%AB%8B%E5%9C%A8%E6%9C%AC%E6%B4%BB%E5%8B%95%E4%B8%8A%E5%AE%8C%E6%88%90%EF%BC%9A%0A1.%20%E5%9C%A8%E5%8F%B3%E5%81%B4%E3%80%8C%E9%82%80%E8%AB%8B%E5%B0%8D%E8%B1%A1%E3%80%8D%E5%8A%A0%E5%85%A5%E6%97%81%E9%82%8A%E5%A4%A5%E4%BC%B4%E7%9A%84%20Email%0A2.%20%E9%BB%9E%E9%81%B8%E6%9C%AC%E8%AA%AA%E6%98%8E%E6%AC%84%E5%B7%A5%E5%85%B7%E5%88%97%E6%9C%80%E5%B7%A6%E9%82%8A%E7%9A%84%20Google%20%E6%96%87%E4%BB%B6%E5%9C%96%E7%A4%BA%EF%BC%88%E5%BB%BA%E7%AB%8B%E6%9C%83%E8%AD%B0%E8%A8%98%E9%8C%84%20%2F%20Create%20meeting%20notes%EF%BC%89%0A%20%20%20%E2%80%BB%20%E5%AE%83%E6%98%AF%E5%9C%96%E7%A4%BA%E4%B8%8D%E6%98%AF%E6%96%87%E5%AD%97%E9%80%A3%E7%B5%90%EF%BC%8C%E4%BD%8D%E7%BD%AE%E5%9C%A8%20B%20I%20U%20%E7%9A%84%E5%B7%A6%E9%82%8A%0A3.%20%E6%8C%89%E3%80%8C%E5%84%B2%E5%AD%98%E3%80%8D%EF%BC%8C%E5%86%8D%E9%96%8B%E5%95%9F%E8%87%AA%E5%8B%95%E9%99%84%E5%8A%A0%E7%9A%84%20Docs%EF%BC%8C%E7%A2%BA%E8%AA%8D%E5%A4%A5%E4%BC%B4%E4%B8%8D%E5%BF%85%E5%8F%A6%E5%A4%96%E5%88%86%E4%BA%AB%E5%B0%B1%E6%9C%89%E7%B7%A8%E8%BC%AF%E6%AC%8A%0A4.%20%E5%9C%A8%E6%96%87%E4%BB%B6%E4%B8%AD%E9%81%B8%E5%8F%96%E6%AE%B5%E8%90%BD%E6%96%B0%E5%A2%9E%E8%A8%BB%E8%A7%A3%EF%BC%8C%E8%BC%B8%E5%85%A5%20%2B%E5%A4%A5%E4%BC%B4Email%20%E4%B8%A6%E5%8B%BE%E9%81%B8%E3%80%8C%E6%8C%87%E6%B4%BE%E7%B5%A6%E2%80%A6%E3%80%8D&location=%E6%95%99%E5%B8%AB%E7%A0%94%E7%A9%B6%E5%AE%A4" target="_blank" rel="noopener" style="text-decoration:none; background:#1557b0; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">⚡ 開啟我的練習活動</a>
+          </div>
+          <div style="background:white; border:1px solid #aecbfa; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">活動：<strong>學期教研會（會議記錄連動演練）</strong></div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕會在<strong>你自己的 Google 日曆</strong>開啟一個已填好標題與說明的新活動草稿（尚未儲存，可自行調整時間）。</div><div style="font-size:0.95rem; color:#1557b0; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請在這個活動草稿上：① 邀請夥伴當邀請對象 ② 點說明欄工具列最左邊的 <strong>Google 文件圖示（建立會議記錄）</strong> ③ 儲存後開啟產生的 Docs，用 +Email 指派一項待辦。</span></div><div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; border-top:1px dashed #aecbfa; padding-top:10px;">💬 ⚠️ <strong>找不到按鈕的話看這裡</strong>：它<strong>不是</strong>說明欄上方的文字連結，而是說明欄工具列<strong>最左邊那個 Google 文件三角形圖示</strong>（在 <code>B</code> <code>I</code> <code>U</code> 的左側），滑鼠移上去會顯示「建立會議記錄」。另外三個前提：① 只有<strong>電腦版網頁</strong>有這個功能 ② 你必須是活動建立者或有編輯權 ③ 若已有人附加過會議記錄就不能再新增。</div>
+          </div>
+          <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/document/d/14xJjbd7YdMKoPKf8hzVKJyHEfoscKQcPuacDvDW3OY0/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 09）</a></div>
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m4-s1">
+            <label for="m4-s1">點上方按鈕開啟活動草稿，在右側「邀請對象」加入夥伴的 Email。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m4-s2">
+            <label for="m4-s2">在<strong>說明欄的工具列</strong>找到<strong>最左邊的 Google 文件三角形圖示</strong>（<code>B</code> <code>I</code> <code>U</code> 的左側），滑鼠移上去會顯示 <strong>「建立會議記錄」</strong>，點下去。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m4-s3">
+            <label for="m4-s3">點選 <strong>「儲存」</strong>；系統會建立 Docs 並附加於活動，文件已帶入標題、日期與出席者欄位。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m4-s4">
+            <label for="m4-s4">確認<strong>邀請對象已自動獲得編輯權限</strong>（請夥伴直接開啟驗證，不要另外分享）。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m4-s5">
+            <label for="m4-s5">在文件中選取待辦段落<strong>新增註解輸入 <code>+夥伴Email</code></strong>，勾選「指派給…」。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-4')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+      <!-- MODULE 5 -->
+      <div class="module-card" id="module-5" style="display:none;">
+        <span class="tag">核心功能演練五</span>
+        <h2>重複活動 (Repeat)、夾帶檔案與新增地點</h2>
+        <p>一整個學期或學年的固定行程，不必一筆一筆建立——設定<strong>重複規則</strong>即可一次產生整個系列，日後改動時還能選擇「只改這一筆／改後續全部」。活動也能<strong>直接夾帶 Drive 檔案</strong>與<strong>可導航的地點</strong>，讓與會者不必再回信箱翻附件。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          您與外縣市另一所學校談定了為期一年的班級交流計畫，雙方已排好全年每月一次的線上互動活動。您需要讓所有參與的老師都看得到完整的活動排程、能直接點進視訊，也能事先讀到每次活動的討論大綱；實體場次則要讓外校老師找得到路。
+        </div>
+
+
+        <div style="background:#e8f0fe; border:2px solid #1a73e8; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+            <strong style="color:#1557b0; font-size:1.05rem;">⚡ 本單元練習方式：一鍵在你自己的日曆建立練習活動</strong>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%E8%B7%A8%E6%A0%A1%E7%8F%AD%E7%B4%9A%E4%BA%A4%E6%B5%81%E8%A8%88%E7%95%AB%EF%BC%88%E7%B3%BB%E5%88%97%E6%B4%BB%E5%8B%95%E6%BC%94%E7%B7%B4%EF%BC%89&dates=20260901T060000Z%2F20260901T070000Z&details=%E3%80%90%E7%A0%94%E7%BF%92%E6%BC%94%E7%B7%B4%E4%BA%94%E3%80%91%E8%AB%8B%E5%9C%A8%E6%9C%AC%E6%B4%BB%E5%8B%95%E4%B8%8A%E5%AE%8C%E6%88%90%EF%BC%9A%0A1.%20%E6%8A%8A%E3%80%8C%E4%B8%8D%E9%87%8D%E8%A4%87%E3%80%8D%E6%94%B9%E9%81%B8%E3%80%8C%E8%87%AA%E8%A8%82%E2%80%A6%E3%80%8D%EF%BC%8C%E5%9C%A8%E8%A6%96%E7%AA%97%E4%B8%AD%E8%A8%AD%E5%AE%9A%E6%AF%8F%E6%9C%88%E9%87%8D%E8%A4%87%E8%88%87%E7%B5%90%E6%9D%9F%E6%97%A5%E6%9C%9F%EF%BC%88%E4%BE%8B%E5%A6%82%E6%98%8E%E5%B9%B4%206%20%E6%9C%88%EF%BC%89%EF%BC%8C%E5%BB%BA%E7%AB%8B%E6%95%B4%E5%B9%B4%E7%B3%BB%E5%88%97%0A2.%20%E9%BB%9E%E8%AA%AA%E6%98%8E%E6%AC%84%E5%B7%A5%E5%85%B7%E5%88%97%E7%9A%84%E8%BF%B4%E7%B4%8B%E9%87%9D%E5%9C%96%E7%A4%BA%EF%BC%8C%E5%A4%BE%E5%B8%B6%E4%B8%80%E4%BB%BD%20Drive%20%E6%AA%94%E6%A1%88%E4%BD%9C%E7%82%BA%E8%A8%8E%E8%AB%96%E5%A4%A7%E7%B6%B1%0A3.%20%E5%9C%A8%E5%9C%B0%E9%BB%9E%E6%AC%84%E8%BC%B8%E5%85%A5%E5%AF%A6%E9%9A%9B%E6%A0%A1%E5%90%8D%E6%88%96%E5%9C%B0%E5%9D%80%EF%BC%8C%E7%A2%BA%E8%AA%8D%E5%8F%B3%E5%81%B4%E5%87%BA%E7%8F%BE%E5%9C%B0%E5%9C%96%E5%9C%96%E7%A4%BA%0A4.%20%E5%84%B2%E5%AD%98%E5%BE%8C%E6%94%B9%E4%B8%80%E6%AC%A1%E6%99%82%E9%96%93%EF%BC%8C%E8%A7%80%E5%AF%9F%E7%B3%BB%E7%B5%B1%E8%A9%A2%E5%95%8F%E3%80%8C%E9%80%99%E5%80%8B%EF%BC%8F%E5%BE%8C%E7%BA%8C%EF%BC%8F%E6%89%80%E6%9C%89%E6%B4%BB%E5%8B%95%E3%80%8D%E7%9A%84%E6%8F%90%E7%A4%BA&location=" target="_blank" rel="noopener" style="text-decoration:none; background:#1557b0; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">⚡ 開啟我的練習活動</a>
+          </div>
+          <div style="background:white; border:1px solid #aecbfa; border-radius:8px; padding:12px 16px; margin-top:8px;">
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">活動：<strong>跨校班級交流計畫（系列活動演練）</strong></div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕會在<strong>你自己的 Google 日曆</strong>開啟一個已填好標題與說明的新活動草稿（尚未儲存，可自行調整時間）。</div><div style="font-size:0.95rem; color:#1557b0; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請在這個活動草稿上：① 把「不重複」改選<strong>「自訂…」</strong>，設定每月重複與結束日期 ② 夾帶一份 Drive 檔案當作討論大綱 ③ 在地點欄輸入實際校名或地址。</span></div><div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; border-top:1px dashed #aecbfa; padding-top:10px;">💬 重複活動的關鍵在<strong>修改時的三選一</strong>：改到系列活動時，Google 會問你要套用到「這個活動／這場及後續活動／所有活動」——選錯會把整年的排程一次改掉，這是實務上最常出包的地方，請在演練時故意改一次時間，體驗那個提示視窗。</div>
+          </div>
+          <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/document/d/1AL2LqfbUAhAN_lNz4BcrF-bXJxsUxWidLM23vYOLddw/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 07）</a></div>
+        </div>
+
+
+        <h3>▶️ 實作步驟導引清單：</h3>
+        <div class="step-list">
+          
+          <div class="step-item">
+            <input type="checkbox" id="m5-s1">
+            <label for="m5-s1">點上方按鈕開啟活動草稿，把時間下方的 <strong>「不重複」下拉選單</strong>直接改選 <strong>「自訂…」</strong>。（下拉選單中的現成選項是「每月第 1 個星期二」這類固定規則，選了不會讓你設結束日期。）</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m5-s2">
+            <label for="m5-s2">在「自訂重複頻率」視窗中設定<strong>每月重複</strong>與<strong>結束日期</strong>（避免產生無止盡的活動），按「完成」。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m5-s3">
+            <label for="m5-s3">在說明欄工具列點選<strong>迴紋針（新增附件）圖示</strong>，從 Drive 夾帶討論大綱檔案。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m5-s4">
+            <label for="m5-s4">在<strong>地點欄</strong>輸入校名或地址，確認右側出現可點擊的地圖圖示。</label>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="m5-s5">
+            <label for="m5-s5">儲存後試著修改其中一場的時間，觀察並理解<strong>「這個活動／這場及後續／所有活動」</strong>三個選項的差別。</label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="copySteps('module-5')">📋 複製本單元操作步驟</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast">已複製操作步驟至剪貼簿！</div>
+
+  <script>
+    function showModule(idx) {
+      document.querySelectorAll('.menu-item').forEach((btn, i) => {
+        btn.classList.toggle('active', i === idx);
+      });
+      document.querySelectorAll('.module-card').forEach((card, i) => {
+        card.style.display = (i === idx) ? 'block' : 'none';
+        card.classList.toggle('active', i === idx);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copySteps(modId) {
+      const mod = document.getElementById(modId);
+      const title = mod.querySelector('h2').innerText;
+      const steps = Array.from(mod.querySelectorAll('.step-item label'))
+        .map((l, i) => `${i + 1}. ${l.innerText}`)
+        .join('\n');
+
+      const text = `【${title}】\n${steps}`;
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 2500);
+      });
+    }
+  </script>
+</body>
+</html>
