@@ -152,6 +152,26 @@ def build_practice_box(pr):
         note = (f'<div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; '
                 f'border-top:1px dashed {st["inner"]}; padding-top:10px;">💬 {pr["note"]}</div>')
 
+    # 易混淆對照表（可選）
+    table = ''
+    if pr.get('table'):
+        t = pr['table']
+        head = ''.join(f'<th style="padding:8px 10px; text-align:left; border-bottom:2px solid {st["bd"]}; '
+                       f'color:{st["fg"]}; font-size:.86rem; white-space:nowrap;">{h}</th>' for h in t['head'])
+        rows = ''
+        for r in t['rows']:
+            cells = ''.join(f'<td style="padding:8px 10px; border-top:1px solid #e8eaed; color:#3c4043; '
+                            f'font-size:.86rem; line-height:1.6; vertical-align:top;">{c}</td>' for c in r)
+            rows += f'<tr>{cells}</tr>'
+        cap = (f'<div style="font-size:0.9rem; color:{st["fg"]}; font-weight:700; margin-bottom:8px;">'
+               f'🔍 {t["caption"]}</div>') if t.get('caption') else ''
+        foot = (f'<div style="font-size:0.84rem; color:#5f6368; margin-top:8px; line-height:1.6;">'
+                f'{t["foot"]}</div>') if t.get('foot') else ''
+        table = (f'<div style="margin-top:12px; border-top:1px dashed {st["inner"]}; padding-top:12px;">{cap}'
+                 f'<div style="overflow-x:auto;">'
+                 f'<table style="width:100%; border-collapse:collapse; min-width:420px;">'
+                 f'<thead><tr>{head}</tr></thead><tbody>{rows}</tbody></table></div>{foot}</div>')
+
     # 次要參考文件（非 copy 型態時，原本那份說明文件仍保留為選讀；一律唯讀 /preview）
     if pr['type'] not in ('copy',) and raw_url:
         ref = (f'<div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">'
@@ -165,7 +185,7 @@ def build_practice_box(pr):
             {action}
           </div>
           <div style="background:white; border:1px solid {st["inner"]}; border-radius:8px; padding:12px 16px; margin-top:8px;">
-            {body}{todo}{alt}{note}
+            {body}{todo}{alt}{note}{table}
           </div>
           {ref}
         </div>

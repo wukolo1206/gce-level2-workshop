@@ -621,6 +621,23 @@ APPS = [
                             '滑鼠移上去會顯示「建立會議記錄」。另外三個前提：'
                             '① 只有<strong>電腦版網頁</strong>有這個功能 ② 你必須是活動建立者或有編輯權 '
                             '③ 若已有人附加過會議記錄就不能再新增。',
+                    'table': {
+                        'caption': '第 ③ 步的 <code>+</code> 與智慧晶片的 <code>@</code>，是兩件不同的事',
+                        'head': ['做法', '打什麼', '效果'],
+                        'rows': [
+                            ['<strong>註解指派</strong><br>（本演練第 ③ 步）',
+                             '選取文字 → 新增註解（<code>Ctrl+Alt+M</code>）<br>→ 輸入 <code>+夥伴Email</code> → '
+                             '<strong>勾選「指派給…」</strong>',
+                             '產生可打勾結案的<strong>任務</strong>，<br>對方會收到指派通知信'],
+                            ['<strong>智慧晶片 Smart chip</strong>',
+                             '在<strong>內文</strong>直接輸入 <code>@姓名</code>、<code>@日期</code>',
+                             '只是插入人員／日期標籤，<br><strong>不會指派、不寄信</strong>'],
+                        ],
+                        'foot': '⚠️ <strong>只打 <code>+Email</code> 而沒勾「指派給…」不算指派</strong>，系統只當成提及某人——'
+                                '這是實務上最容易漏掉的一步。勾選後該行左側會出現對方頭像與打勾圈圈。'
+                                '另外，<strong>「註解」就是「批註」（Comment）</strong>，'
+                                '和 Slides 的「演講者備註」是完全不同的東西，只有註解能指派工作。',
+                    },
                     'cal': {
                         'text': '學期教研會（會議記錄連動演練）',
                         'dates': '20260822T053000Z/20260822T070000Z',

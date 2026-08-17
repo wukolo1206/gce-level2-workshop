@@ -171,9 +171,19 @@ copy_page('exam_registration.html'); copied += 1
 for img in ['docs_insert_toc_menu.png',
             # 認證報名頁使用（報名流程與控制台導覽）
             'gce_launchpad.png', 'confirm_eligibility.png', 'registration_complete.png',
-            'continue_exams_card.png', 'switch_language_menu.png',
-            'exam_structure_dropdown.png', 'actual_exam_screen.png']:
+            'continue_exams_card.png',
+            'exam_structure_dropdown.png']:
     shutil.copy2(os.path.join(ROOT, 'images', img), os.path.join(OUT, 'images', img)); copied += 1
+
+# 含個資或考題的截圖：公開版一律改用打碼版（原圖含真實題幹與帳號頭像，僅留在私人 repo）。
+# 輸出時沿用原檔名，exam_registration.html 不必改連結。
+# 打碼版由 scripts/mask_exam_screenshot.py 產生；缺檔即中止，絕不退回原圖。
+for img in ['actual_exam_screen.png', 'switch_language_menu.png']:
+    masked = os.path.join(ROOT, 'images', img.replace('.png', '_masked.png'))
+    if not os.path.exists(masked):
+        raise SystemExit('缺少 images/{}，請先執行 python scripts/mask_exam_screenshot.py'
+                         .format(os.path.basename(masked)))
+    shutil.copy2(masked, os.path.join(OUT, 'images', img)); copied += 1
 for f in ['workshop_content.py', 'workshop_glossary.py', 'build_workshop_apps.py',
           'build_course_structure_map.py', 'build_public_index.py']:
     shutil.copy2(os.path.join(ROOT, 'scripts', f), os.path.join(OUT, 'scripts', f)); copied += 1
