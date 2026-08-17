@@ -86,6 +86,12 @@ HTML = f'''<!DOCTYPE html>
        background:#f3e8fd; color:#7b1fa2; border-radius:8px; font-size:0.87rem; font-weight:600;">
       繁中 11 單元 × 英文 6 Units 對照</a>
 
+    <div class="sidebar-title" style="margin-top:20px;">📋 認證報名</div>
+    <a href="exam_registration.html" style="display:block; text-decoration:none; padding:10px 12px;
+       background:#e6f4ea; color:#137333; border-radius:8px; font-size:0.87rem; font-weight:600; line-height:1.45;">
+      官方報名流程與考試架構
+      <span style="display:block; font-size:.76rem; color:#5f6368; font-weight:500;">5 大步驟 ‧ 控制台導覽 ‧ 題型說明</span></a>
+
     <div class="sidebar-title" style="margin-top:20px;">🔗 官方課程</div>
     <a href="https://edu.exceedlms.com/student/path/1727915?locale=zh_tw" target="_blank" rel="noopener"
        style="display:block; text-decoration:none; padding:10px 12px; background:#e8f0fe; color:#1557b0;
@@ -155,7 +161,13 @@ copied = 1
 for key, *_ in TOOLS:
     copy_page(f'{key}_workshop_app.html'); copied += 1
 copy_page('course_structure_map.html'); copied += 1
-shutil.copy2(os.path.join(ROOT, 'images', 'docs_insert_toc_menu.png'), os.path.join(OUT, 'images', 'docs_insert_toc_menu.png')); copied += 1
+copy_page('exam_registration.html'); copied += 1
+for img in ['docs_insert_toc_menu.png',
+            # 認證報名頁使用（報名流程與控制台導覽）
+            'gce_launchpad.png', 'confirm_eligibility.png', 'registration_complete.png',
+            'continue_exams_card.png', 'switch_language_menu.png',
+            'exam_structure_dropdown.png', 'actual_exam_screen.png']:
+    shutil.copy2(os.path.join(ROOT, 'images', img), os.path.join(OUT, 'images', img)); copied += 1
 for f in ['workshop_content.py', 'workshop_glossary.py', 'build_workshop_apps.py',
           'build_course_structure_map.py', 'build_public_index.py']:
     shutil.copy2(os.path.join(ROOT, 'scripts', f), os.path.join(OUT, 'scripts', f)); copied += 1
