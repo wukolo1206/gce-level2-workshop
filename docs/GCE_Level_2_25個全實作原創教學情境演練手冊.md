@@ -393,6 +393,16 @@ ightarrow$ 樞紐分析表」，拉入顏色與計數。
 
 #### 演練 25
 
+##### 💻 Docs 檔案內發起 Meet 實務介面圖解
+![Google Docs 頂部 Meet 圖示下拉選單](../images/meet_docs_join_call_here_menu.png)
+*圖 12：點擊右上角攝影機圖示 ➔ 選擇「在這裡進行通話 (Join the call here)」*
+
+![Google Docs 右側浮動 Meet 側邊欄](../images/meet_docs_side_panel_video_collab.png)
+*圖 13：成果——左側文件即時共編、右側 Meet 側邊欄視訊與語音同步進行！*
+
+> ✨ **核心優勢**：免螢幕分享、免切換分頁，左邊打字修改、右邊視訊對話，支援一鍵發送「這個檔案和視訊通話」連結！
+
+
 
 ##### ⚙️ 演練二篩選器設定：在【搜尋面板】輸入條件 ➔ 點選「建立篩選器」
 ![Gmail 顯示搜尋選項與建立篩選器面板](../images/gmail_search_options_ui_panel.png)
