@@ -281,6 +281,19 @@ ightarrow$ 樞紐分析表」，拉入顏色與計數。
 ### 📹 【Google Meet, Practice Sets, Forms & Gmail】
 
 #### 演練 20
+
+##### 📞 Meet 實務介面圖解：使用電話收發音訊與地區支援
+![Google Meet 更多選項中的使用電話收發音訊](../images/meet_use_phone_audio_menu.png)
+*圖 10：點擊底部三點圖示 ➔ 選擇「使用電話收發音訊 (Use a phone for audio)」*
+
+![Google Meet 打電話給我國家地區選單](../images/meet_call_me_dialog_countries.png)
+*圖 11：Google Meet 免費「打電話給我」目前僅支援北美地區（美國 +1、加拿大 +1）*
+
+> 💡 **考點與實務解析**：
+> - **打電話給我 (Call me)**：Google 伺服器主動撥出，目前僅支援美加地區（+1）。
+> - **自行撥入 (Dial-in)**：提供會議號碼與 PIN 碼由使用者手機撥入。
+> - **Level 2 核心判斷**：當偏鄉山區或現場網路頻寬不足時，**改走電話語音線路 (Join by phone / Phone audio fallback)** 為標準解法！
+
 > 🔗 **雲端真實線上 Docs 實作檔案網址**：[https://docs.google.com/document/d/1W99umvavUbQiq0ccu3nkc-DKRP-CaJX0abhMQVUUAE8/preview](https://docs.google.com/document/d/1W99umvavUbQiq0ccu3nkc-DKRP-CaJX0abhMQVUUAE8/preview)
 ：山區戶外觀察即時語音會議連線 (電話撥號)
 - **🎯 實務情境課題**：戶外考察時網路訊號極差，老師需要透過電話撥號收聽線上會議。
