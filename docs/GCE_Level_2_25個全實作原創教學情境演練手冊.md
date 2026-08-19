@@ -377,6 +377,22 @@ ightarrow$ 使用電話收聽及發言」。
 
 #### 演練 25
 
+##### 🔍 觀念解密：【圖形搜尋選單】vs【鍵盤運算子指令】一對一完全對照
+![Gmail 顯示搜尋選項面板](../images/gmail_search_options_ui_panel.png)
+*圖 9：點擊搜尋列右側展開的「搜尋選項面板」各欄位與運算子指令 100% 對應*
+
+| 圖形面板欄位 (滑鼠填表) | 對應的搜尋運算子 (鍵盤指令) | 實務範例說明 |
+| :--- | :--- | :--- |
+| **寄件者** | `from:` | `from:教務處` 或 `from:apps.ntpc.edu.tw` |
+| **收件人** | `to:` | `to:家長會` |
+| **主旨** | `subject:` | `subject:校外教學` |
+| **包含字詞** | 直接輸入關鍵字 | `校務會議 提案` |
+| **不包含字詞** | `-` (減號排除) | `-廣告 -促銷` |
+| **勾選「有附件」** | `has:attachment` | `has:attachment filename:xlsx` |
+| **大小大於** | `larger:` 或 `size:` | `larger:5M` (清理超大容量信件) |
+| **日期範圍** | `after:` / `before:` | `after:2025/09/01 before:2026/01/20` |
+
+
 ##### ⚙️ 步驟前置作業：在「進階」設定中啟用【範本 (Templates)】
 ![Gmail 進階設定啟用範本功能](../images/gmail_advanced_templates_enable.png)
 *進入「設定 ➔ 進階」將「範本」勾選為【啟用】，並捲動至底部點選「儲存變更」*
