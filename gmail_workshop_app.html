@@ -436,12 +436,18 @@
         </div>
       </div>
 
-      <!-- MODULE 2 -->
+            <!-- MODULE 2 -->
       <div class="module-card" id="module-2" style="display:none;">
         <span class="tag">核心功能演練二</span>
         <h2>建立篩選器 (Filters) 與標籤 (Labels) 讓信件自動歸位</h2>
 
-        
+        <p>Gmail 沒有「資料夾」，只有可以<strong>一封信同時貼多個</strong>的標籤。篩選器則是規則引擎：符合條件的來信可自動貼標籤、自動標為已讀、自動略過收件匣、甚至自動轉寄。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          您同時是導師與研習承辦人，收件匣裡混雜著家長信件、系統通知、各校研習公文與學生作業繳交通知。每天早上要花十分鐘從一堆信裡挑出真正需要回覆的那幾封。
+        </div>
+
         <!-- 📂 演練二：透過搜尋選項面板【建立篩選器】自動歸檔 -->
         <div style="background:#ffffff; border:2px solid #00897b; border-radius:12px; padding:22px; margin:20px 0; box-shadow:0 4px 16px rgba(0,137,123,0.1);">
           <h3 style="color:#00695c; margin-top:0; font-size:1.2rem; display:flex; align-items:center; gap:8px;">
@@ -468,31 +474,20 @@
             </div>
           </div>
         </div>
-</div>
-
-        <p>Gmail 沒有「資料夾」，只有可以<strong>一封信同時貼多個</strong>的標籤。篩選器則是規則引擎：符合條件的來信可自動貼標籤、自動標為已讀、自動略過收件匣、甚至自動轉寄。</p>
-
-        <div class="scenario-box">
-          <strong>【實務教學情境】</strong>：<br>
-          您同時是導師與研習承辦人，收件匣裡混雜著家長信件、系統通知、各校研習公文與學生作業繳交通知。每天早上要花十分鐘從一堆信裡挑出真正需要回覆的那幾封。
-        </div>
-
 
         <div style="background:#e0f2f1; border:2px solid #00897b; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
             <strong style="color:#00695c; font-size:1.05rem;">🔨 本單元練習方式：從零自己建一次（不需要範本檔）</strong>
-            
           </div>
           <div style="background:white; border:1px solid #80cbc4; border-radius:8px; padding:12px 16px; margin-top:8px;">
-            <div style="font-size:0.95rem; color:#00695c; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">在自己的 Gmail 建立一個「家長來信」標籤與對應篩選器，並勾選「略過收件匣」與「一律標示為重要」，再用「套用至相符的對話」把過去的信一次歸位。</span></div><div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; border-top:1px dashed #80cbc4; padding-top:10px;">💬 最實用的一招是勾選<strong>「同時套用篩選器至 N 個相符的對話」</strong>——規則建立的當下就把過去幾年的舊信一次分類完，不必手動整理。</div>
+            <div style="font-size:0.95rem; color:#00695c; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">在自己的 Gmail 建立一個「家長來信」標籤與對應篩選器，並勾選「略過收件匣」與「一律標示為重要」，再用「套用至相符的對話」把過去的信一次歸位。</span></div>
+            <div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; border-top:1px dashed #80cbc4; padding-top:10px;">💬 最實用的一招是勾選<strong>「同時套用篩選器至 N 個相符的對話」</strong>——規則建立的當下就把過去幾年的舊信一次分類完，不必手動整理。</div>
           </div>
           <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/document/d/1L3tZLVdIW7qo1XRYRUc9w7vHSM0ay--qND3meTxBJVU/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 24）</a></div>
         </div>
 
-
         <h3>▶️ 實作步驟導引清單：</h3>
         <div class="step-list">
-          
           <div class="step-item">
             <input type="checkbox" id="m2-s1">
             <label for="m2-s1">在搜尋列右側點選<strong>篩選器圖示</strong>，輸入條件（如寄件者網域、主旨含「請假」）。</label>
@@ -525,7 +520,13 @@
         <span class="tag">核心功能演練三</span>
         <h2>範本 (Templates) 與排程傳送 (Schedule send) 處理重複性回信</h2>
 
-        
+        <p>範本（舊稱罐頭回應）需先到<strong>「設定 ➔ 進階」啟用</strong>才會出現，啟用後可把常用回覆存起來一鍵插入；排程傳送則讓你在方便的時候寫信、在恰當的時間寄出。</p>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：<br>
+          每學期初，您都要回覆數十封內容幾乎相同的家長詢問信（課後輔導時間、聯絡方式、請假流程）。此外，您常在深夜十一點整理完班務，但不希望信件在那個時間寄到家長手機上。
+        </div>
+
         <!-- ✍️ 簽名檔 vs 📋 範本 深度解析與實戰對照卡片 -->
         <div style="background:#ffffff; border:2px solid #00897b; border-radius:12px; padding:22px; margin:20px 0; box-shadow:0 4px 16px rgba(0,137,123,0.1);">
           <h3 style="color:#00695c; margin-top:0; font-size:1.2rem; display:flex; align-items:center; gap:8px;">
@@ -595,7 +596,6 @@
               💡 <strong>操作提示</strong>：複製上方整段文章，在 Gmail 點「撰寫」貼上主旨與內文，再點右下角 <code>三點 ➔ 範本 ➔ 將草稿儲存為範本 ➔ 另存為新範本</code> 即可！
             </p>
           </div>
-        </div>
 
           <!-- 8. 實務操作：在信件中儲存與插入範本 -->
           <div style="background:#f8f9fa; border:1.5px solid #1a73e8; border-radius:10px; padding:16px; margin-top:16px;">
@@ -613,32 +613,21 @@
               </ul>
             </div>
           </div>
-
-</div>
-
-        <p>範本（舊稱罐頭回應）需先到<strong>「設定 ➔ 進階」啟用</strong>才會出現，啟用後可把常用回覆存起來一鍵插入；排程傳送則讓你在方便的時候寫信、在恰當的時間寄出。</p>
-
-        <div class="scenario-box">
-          <strong>【實務教學情境】</strong>：<br>
-          每學期初，您都要回覆數十封內容幾乎相同的家長詢問信（課後輔導時間、聯絡方式、請假流程）。此外，您常在深夜十一點整理完班務，但不希望信件在那個時間寄到家長手機上。
         </div>
-
 
         <div style="background:#e0f2f1; border:2px solid #00897b; border-radius:12px; padding:18px; margin:18px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
             <strong style="color:#00695c; font-size:1.05rem;">🔨 本單元練習方式：從零自己建一次（不需要範本檔）</strong>
-            
           </div>
           <div style="background:white; border:1px solid #80cbc4; border-radius:8px; padding:12px 16px; margin-top:8px;">
-            <div style="font-size:0.95rem; color:#00695c; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">啟用「範本」功能，把一段常用的家長回覆存成範本，然後寫一封新信套用該範本，並用「排程傳送」指定明天早上 8:00 寄出。</span></div><div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; border-top:1px dashed #80cbc4; padding-top:10px;">💬 排程中的信件會待在<strong>「已排程」</strong>資料夾，寄出前都還能取消或修改——這也是避免深夜擾民、又不會忘記寄的最佳作法。</div>
+            <div style="font-size:0.95rem; color:#00695c; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">啟用「範本」功能，把一段常用的家長回覆存成範本，然後寫一封新信套用該範本，並用「排程傳送」指定明天早上 8:00 寄出。</span></div>
+            <div style="font-size:0.88rem; color:#5f6368; margin-top:10px; line-height:1.6; border-top:1px dashed #80cbc4; padding-top:10px;">💬 排程中的信件會待在<strong>「已排程」</strong>資料夾，寄出前都還能取消或修改——這也是避免深夜擾民、又不會忘記寄的最佳作法。</div>
           </div>
           <div style="margin-top:10px; font-size:0.82rem; color:#5f6368;">📎 <a href="https://docs.google.com/document/d/1L3tZLVdIW7qo1XRYRUc9w7vHSM0ay--qND3meTxBJVU/preview" target="_blank" rel="noopener" style="color:#5f6368;">情境補充說明文件（唯讀，Task 24）</a></div>
         </div>
 
-
         <h3>▶️ 實作步驟導引清單：</h3>
         <div class="step-list">
-          
           <div class="step-item">
             <input type="checkbox" id="m3-s1">
             <label for="m3-s1">點選<strong>齒輪 ➔ 查看所有設定 ➔ 「進階 (Advanced)」</strong>分頁，將 <strong>「範本」設為啟用</strong>並儲存。</label>
