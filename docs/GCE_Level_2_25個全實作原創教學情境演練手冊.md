@@ -343,6 +343,13 @@ ightarrow$ 使用電話收聽及發言」。
 ![Gmail 授予存取權確認對話框](../images/gmail_grant_access_confirm_dialog.png)
 *圖 3：授予存取權確認對話框（點擊「傳送電子郵件以授予存取權」）*
 
+![Gmail 代理人收到授權確認信](../images/gmail_delegate_invitation_email.png)
+*圖 4：代理人信箱收到之授權確認信（點擊接受存取要求連結）*
+
+![Gmail 點擊連結確認接受代理](../images/gmail_delegate_accept_confirmation.png)
+*圖 5：點選「確認」完成接受代理人授權*
+
+
 
 - **💡 研習實作提醒**：現場上機演練請使用**個人 `@gmail.com` 帳號**互加代理人，避免受限於學校網域管理員設定。
 - **🎯 實務情境課題**：主管需要授權秘書代表自己發送公文郵件，且不透露密碼。
