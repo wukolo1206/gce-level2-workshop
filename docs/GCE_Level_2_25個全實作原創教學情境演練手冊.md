@@ -340,6 +340,10 @@ ightarrow$ 使用電話收聽及發言」。
 ![教育版 Gmail 帳戶設定](../images/gmail_settings_education_workspace.png)
 *圖 2：學校教育版帳號（分頁為「帳戶」，若教育局管理後台關閉委派，此功能會被系統隱藏）*
 
+![Gmail 授予存取權確認對話框](../images/gmail_grant_access_confirm_dialog.png)
+*圖 3：授予存取權確認對話框（點擊「傳送電子郵件以授予存取權」）*
+
+
 - **💡 研習實作提醒**：現場上機演練請使用**個人 `@gmail.com` 帳號**互加代理人，避免受限於學校網域管理員設定。
 - **🎯 實務情境課題**：主管需要授權秘書代表自己發送公文郵件，且不透露密碼。
 - **🛠️ 指定工具功能**：Gmail **授予您帳戶的存取權 (Grant Access)**
