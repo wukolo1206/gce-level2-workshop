@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Certified Educator Level 2 官方 25 題線上模擬刷題 App (GCE 第 2 級：測驗 A)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --accent: #34a853;
+      --warning: #fbbc04;
+      --danger: #ea4335;
+      --dark: #202124;
+      --light-bg: #f8f9fa;
+      --border: #dadce0;
+      --text: #3c4043;
+      --text-muted: #5f6368;
+      --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans TC', 'Outfit', sans-serif; }
+
+    body { background: var(--light-bg); color: var(--text); padding-bottom: 60px; }
+
+    header {
+      background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+      color: white;
+      padding: 24px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(26, 115, 232, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand-title h1 { font-size: 1.4rem; font-weight: 700; }
+    .brand-title p { font-size: 0.88rem; opacity: 0.9; }
+
+    .lang-switcher {
+      display: flex;
+      background: rgba(255,255,255,0.2);
+      padding: 4px;
+      border-radius: 20px;
+      gap: 4px;
+    }
+
+    .lang-btn {
+      border: none;
+      background: transparent;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .lang-btn.active { background: white; color: var(--primary); }
+
+    .container { max-width: 960px; margin: 24px auto; padding: 0 16px; }
+
+    .dashboard-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .stat-item { text-align: center; flex: 1; min-width: 120px; }
+    .stat-val { font-size: 1.8rem; font-weight: 700; color: var(--primary); }
+    .stat-label { font-size: 0.85rem; color: var(--text-muted); }
+
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .filter-chip {
+      border: 1px solid var(--border);
+      background: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .filter-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+    .question-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      border-left: 5px solid var(--primary);
+    }
+
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .q-tag { background: #e8f0fe; color: var(--primary); padding: 4px 10px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; }
+    .q-num { font-weight: 700; color: var(--text-muted); font-size: 0.9rem; }
+    
+    .q-title { font-size: 1.12rem; font-weight: 600; color: var(--dark); margin-bottom: 18px; line-height: 1.6; }
+
+    .options { display: flex; flex-direction: column; gap: 10px; }
+
+    .option-btn {
+      display: flex;
+      align-items: flex-start;
+      padding: 14px 18px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      text-align: left;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+
+    .option-btn:hover { background: #f8f9fa; border-color: var(--primary); }
+    .option-btn.correct { background: #e6f4ea; border-color: var(--accent); color: #137333; font-weight: 600; }
+    .option-btn.wrong { background: #fce8e6; border-color: var(--danger); color: #c5221f; }
+
+    .opt-label { font-weight: 700; margin-right: 10px; min-width: 24px; }
+
+    .explanation-box {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 8px;
+      background: #e8f0fe;
+      border-left: 4px solid var(--primary);
+      display: none;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .submit-multi-btn {
+      margin-top: 14px;
+      padding: 10px 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 16px; }
+      .container { padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand-title">
+      <h1>Google Certified Educator Level 2 真題刷題系統</h1>
+      <p>收錄 GCE 第 2 級：測驗 A (Quiz A) 完整 25 題實務真題與中英雙語切換</p>
+    </div>
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="lang-zh" onclick="setGlobalLang('zh')">繁體中文</button>
+      <button class="lang-btn" id="lang-en" onclick="setGlobalLang('en')">English</button>
+      <button class="lang-btn" id="lang-bi" onclick="setGlobalLang('bi')">中英對照</button>
+    </div>
+  </header>
+
+  <div class="container">
+    
+    <div class="dashboard-card">
+      <div class="stat-item">
+        <div class="stat-val" id="total-count">25</div>
+        <div class="stat-label">總題數</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val" id="answered-count">0</div>
+        <div class="stat-label">已答題數</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val" id="score-count" style="color:var(--accent);">0 / 25</div>
+        <div class="stat-label">得分狀況</div>
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-chip active" onclick="filterCategory('all')">全選 (25 題)</button>
+      <button class="filter-chip" onclick="filterCategory('Unit 1')">Unit 1: 行政與自動化</button>
+      <button class="filter-chip" onclick="filterCategory('Unit 2')">Unit 2: 親師與跨校溝通</button>
+      <button class="filter-chip" onclick="filterCategory('Unit 3')">Unit 3: 班級素材與平台</button>
+      <button class="filter-chip" onclick="filterCategory('Unit 4')">Unit 4: 互動簡報與會議</button>
+      <button class="filter-chip" onclick="filterCategory('Unit 5')">Unit 5: 個人化差異學習</button>
+      <button class="filter-chip" onclick="filterCategory('Unit 6')">Unit 6: 數據與評量分析</button>
+    </div>
+
+    <div id="questions-list"></div>
+
+  </div>
+
+  <script>
+    const rawQuestions = [
+  {
+    "id": 1,
+    "unit": "Unit 2: 親師溝通與跨校合作",
+    "title_en": "A teacher wants to build a year-long connection with classrooms in other locations. The teacher has worked with the other teachers to plan out the interactions for the year. How can the teacher ensure all involved can see all the events as well as join and participate?",
+    "title_zh": "老師希望與其他地區的班級建立為期一年的交流合作，並已與其他老師共同規劃好全年的互動活動。老師該如何確保所有參與者都能看到所有活動，並順利加入與參與？",
+    "options_en": [
+      "Add all the dates to a shared Google Doc.",
+      "Send an email reminder before each event.",
+      "Send the Google Meet link in the Google Chat group.",
+      "Schedule all events and invite participants in Google Calendar with a Google Meet."
+    ],
+    "options_zh": [
+      "將所有日期新增至共用的 Google 文件中",
+      "在每次活動前發送電子郵件提醒",
+      "在 Google Chat 群組中發送 Google Meet 連結",
+      "在 Google 行事曆中排定所有活動、邀請參與者並附加 Google Meet 視訊連結"
+    ],
+    "answer": 3,
+    "explanation_zh": "正確答案為：在 Google 行事曆中排定所有活動、邀請參與者並附加 Google Meet。這樣能確保活動同步呈現於所有人的行事曆上，並提供一鍵加入 Meet 視訊的管道。"
+  },
+  {
+    "id": 2,
+    "unit": "Unit 3: 班級素材與作品展現",
+    "title_en": "A teacher has students work on a project-based learning activity of their choice. Students have taken various subtopics and used different Google tools (Docs, Slides, Youtube) to present the information. The teacher wants to provide a combined space for the students to share their findings of what they have learned. How would this be accomplished?",
+    "title_zh": "老師讓學生進行自主選擇的專題式學習 (PBL)。學生選擇了不同的子主題，並使用不同的 Google 工具 (Docs, Slides, YouTube) 來呈現資訊。老師希望提供一個整合空間，讓學生分享他們的學習成果。這該如何實現？",
+    "options_en": [
+      "Create a Google Site and provide each student with a page to share their work.",
+      "Create a Google Site and embed a Google Calendar showing when students will present their work.",
+      "Create a Google Site for each student to share their findings with the class.",
+      "Create a Google Site and embed a Google Form for students to submit their work."
+    ],
+    "options_zh": [
+      "建立一個 Google 協作平台 (Google Site)，並為每位學生提供一個頁面來分享他們的成果",
+      "建立一個 Google 協作平台，並內嵌 Google 行事曆顯示學生何時展示作品",
+      "為每位學生分別建立一個 Google 協作平台與全班分享成果",
+      "建立一個 Google 協作平台，並內嵌 Google 表單供學生提交作品"
+    ],
+    "answer": 0,
+    "explanation_zh": "正確答案為：建立一個 Google 協作平台並為每位學生提供一個專屬子頁面。Google Sites 是最佳的整合平台，能內嵌 Docs、Slides 與 YouTube 影片。"
+  },
+  {
+    "id": 3,
+    "unit": "Unit 1: 自動化課堂與擴充工具",
+    "title_en": "An educator would like to give asynchronous verbal feedback to their students on a document that they have submitted. How would the educator achieve this?",
+    "title_zh": "教育工作者希望對學生提交的文件提供非同步的口頭 (語音) 回饋。教育工作者該如何實現此目標？",
+    "options_en": [
+      "Search for an add-on from the Google Workspace Marketplace.",
+      "Send a message to the students using Chat.",
+      "Leave a private comment in Classroom.",
+      "Create a meeting invite to the students using Calendar."
+    ],
+    "options_zh": [
+      "從 Google Workspace Marketplace 搜尋並安裝擴充功能 (Add-on，如 Mote)",
+      "使用 Google Chat 發送訊息給學生",
+      "在 Google Classroom 中留下私人註解",
+      "使用 Google Calendar 建立會議邀請"
+    ],
+    "answer": 0,
+    "explanation_zh": "正確答案為：從 Google Workspace Marketplace 搜尋擴充功能（例如 Mote 語音回饋擴充功能），可在 Docs 中直接錄製並留下口頭語音回饋。"
+  },
+  {
+    "id": 4,
+    "unit": "Unit 1: 自動化行政與智慧畫布",
+    "title_en": "An educator is supervising a school project and has created a Google Doc to manage the agenda for a group of students. Which Smart chips would be used to assign specific tasks to students and set deadlines for each task within the document?",
+    "title_zh": "教育工作者正在指導一項學校專案，並建立了 Google 文件來管理小組學生的議程。若要在文件中將特定任務指派給學生並為每項任務設定截止日期，應使用哪些智慧標籤 (Smart chips)？",
+    "options_en": [
+      "People and File",
+      "File and Date",
+      "Date and Place",
+      "People and Date"
+    ],
+    "options_zh": [
+      "人員與檔案 (People and File)",
+      "檔案與日期 (File and Date)",
+      "日期與地點 (Date and Place)",
+      "人員與日期 (People and Date)"
+    ],
+    "answer": 3,
+    "explanation_zh": "正確答案為：人員與日期 (People and Date)。使用 @姓名 指派負責學生，使用 @日期 設定任務截止日期。"
+  },
+  {
+    "id": 5,
+    "unit": "Unit 4: 互動學習與遠距會議",
+    "title_en": "A team is collaborating on Google Meet, but one member's access to the internet is intermittent. What feature would allow the person to participate fully in the audio conversation?",
+    "title_zh": "團隊正在使用 Google Meet 進行協作，但其中一位成員的網路連線不穩定。什麼功能可以讓該成員完全參與語音對話？",
+    "options_en": [
+      "Join by phone",
+      "Call control",
+      "Noise cancellation",
+      "Push to talk"
+    ],
+    "options_zh": [
+      "透過電話加入 (Join by phone)",
+      "通話控制 (Call control)",
+      "雜訊消除 (Noise cancellation)",
+      "按鍵發聲 (Push to talk)"
+    ],
+    "answer": 0,
+    "explanation_zh": "正確答案為：透過電話加入 (Join by phone)。當網路不穩定時，成員可撥打 Meet 專用電話號碼連入語音會議。"
+  },
+  {
+    "id": 6,
+    "unit": "Unit 3: 班級素材與文件結構",
+    "title_en": "An educator is preparing a role play activity in Google Docs. Students will be assigned one of several different roles, each with specific instructions. The educator wants to create a clear and organized document, allowing students to easily navigate to their designated part using a table of contents. Which feature must be used in the document for the table of contents to function correctly?",
+    "title_zh": "教師正在 Google 文件中準備角色扮演活動。學生將被指派不同角色，每個角色都有具體說明。教師希望建立結構清晰的文件，讓學生能透過目錄輕鬆跳轉至指定部分。文件中必須使用什麼功能才能使目錄正常發揮作用？",
+    "options_en": [
+      "Bullets & numbering",
+      "Paragraph styles",
+      "Page numbers",
+      "Headers & footers"
+    ],
+    "options_zh": [
+      "項目符號與編號 (Bullets & numbering)",
+      "段落樣式 (Paragraph styles，如標題1、標題2)",
+      "頁碼 (Page numbers)",
+      "頁首與頁尾 (Headers & footers)"
+    ],
+    "answer": 1,
+    "explanation_zh": "正確答案為：段落樣式 (Paragraph styles)。Google Docs 的目錄是自動根據段落樣式中的標題階層 (Headings) 產生的。"
+  },
+  {
+    "id": 7,
+    "unit": "Unit 5: 學生個人化與學術誠信",
+    "title_en": "A student often forgets to cite their sources and wants to make sure their submission to their teacher will show as being free of plagiarism. Which Google Classroom feature allows the student to double-check their academic integrity?",
+    "title_zh": "學生經常忘記註明資料來源，並希望確保向老師提交的作業不會顯示抄襲。Google Classroom 的哪項功能可讓學生自行檢查學術誠信？",
+    "options_en": [
+      "Analytics",
+      "Add-ons",
+      "Originality reports",
+      "Rubrics"
+    ],
+    "options_zh": [
+      "數據分析 (Analytics)",
+      "擴充功能 (Add-ons)",
+      "原創性比對報告 (Originality reports)",
+      "評分基準 (Rubrics)"
+    ],
+    "answer": 2,
+    "explanation_zh": "正確答案為：原創性比對報告 (Originality reports)。開啟此功能後，學生在交作業前最多可進行 3 次自我比對，檢查引述與抄襲。"
+  },
+  {
+    "id": 8,
+    "unit": "Unit 5: 個人化差異與練習題集",
+    "title_en": "A teacher wants to provide activities to extend their students' knowledge using Practice sets. Which feature would allow teachers to add a list of up to 10 resources the students can reference?",
+    "title_zh": "老師希望使用練習題集 (Practice sets) 提供活動來擴展學生的知識。哪項功能允許老師新增多達 10 個供學生參考的資源？",
+    "options_en": [
+      "Import",
+      "Extra help",
+      "Skills",
+      "More options"
+    ],
+    "options_zh": [
+      "匯入 (Import)",
+      "額外協助 / 提示資源 (Extra help)",
+      "技能 (Skills)",
+      "更多選項 (More options)"
+    ],
+    "answer": 1,
+    "explanation_zh": "正確答案為：額外協助 (Extra help)。在 Practice sets 中，老師可為每題加入多達 10 個提示資源（影片、文字提示等）。"
+  },
+  {
+    "id": 9,
+    "unit": "Unit 6: 數據分析與條件式格式",
+    "title_en": "An educator uses Google Sheets to track and monitor student progress. They want to visualize the data based on student performance. Which Google Sheets feature should be applied to show different cell appearance based on specific criteria?",
+    "title_zh": "教育工作者使用 Google 試算表來追蹤和監控學生的學習進度，並希望根據學生的表現將數據視覺化。應套用 Google 試算表的哪項功能，以便根據特定條件顯示不同的儲存格外觀？",
+    "options_en": [
+      "Conditional Formatting",
+      "Autocomplete",
+      "Pivot table",
+      "Data extraction"
+    ],
+    "options_zh": [
+      "條件式格式設定 (Conditional Formatting)",
+      "自動完成 (Autocomplete)",
+      "樞紐分析表 (Pivot table)",
+      "資料擷取 (Data extraction)"
+    ],
+    "answer": 0,
+    "explanation_zh": "正確答案為：條件式格式設定 (Conditional Formatting)。能根據分數條件（如小於 60 分顯示紅色背景）自動變更儲存格外觀。"
+  },
+  {
+    "id": 10,
+    "unit": "Unit 2: 親師溝通與預約時間表",
+    "title_en": "An educator wants to set up time to meet with guardians for conferences in a way that allows their Google Calendar to automatically adjust to reflect available slots. Which method would they use?",
+    "title_zh": "教育工作者希望設定與家長進行面談的時間，並希望 Google 行事曆能自動調整以呈現可供預約的時段。他們應該使用什麼方法？",
+    "options_en": [
+      "Email guardians and send them individual Events for their preferred time.",
+      "Create an event and use Find a time to meet with guardians.",
+      "Add a location to Calendar invites.",
+      "Use Appointment schedule and send the URL link to guardians."
+    ],
+    "options_zh": [
+      "寄電子郵件給家長，並根據他們偏好的時間寄送個別活動邀請",
+      "建立活動並使用「尋找空檔」與家長開會",
+      "在行事曆邀請中新增地點",
+      "使用預約時間表 (Appointment schedule) 並將專屬 URL 連結發送給家長"
+    ],
+    "answer": 3,
+    "explanation_zh": "正確答案為：使用預約時間表 (Appointment schedule) 並發送 URL 連結。當家長預約後，行事曆會自動扣除該時段並防重複預約。"
+  },
+  {
+    "id": 11,
+    "unit": "Unit 3: 班級素材與協作平台",
+    "title_en": "Students are building a Google Site to showcase a project they have created. They want their site to be visible to their teacher and classmates. Where would the students go to adjust access?",
+    "title_zh": "學生正在建立 Google 協作平台 (Google Site) 來展示他們創作的專案。他們希望老師和同班同學都能看到網站。學生應該去哪裡調整存取權限？",
+    "options_en": [
+      "More",
+      "Publish",
+      "Home",
+      "Settings"
+    ],
+    "options_zh": [
+      "更多 (More)",
+      "發布 (Publish / 發布設定)",
+      "首頁 (Home)",
+      "設定 (Settings)"
+    ],
+    "answer": 1,
+    "explanation_zh": "正確答案為：發布 (Publish)。點選「發布」旁的下拉箭頭或發布按鈕，可調整「已發布的網站」存取權限（如校內限定或公開）。"
+  },
+  {
+    "id": 12,
+    "unit": "Unit 3: 班級素材與文件編輯",
+    "title_en": "A student has finished their multipage research and realized that they credited the wrong author in several places. Which Google Docs feature can be used to locate all instances of the incorrect name in order to change it?",
+    "title_zh": "一名學生完成了多頁的研究報告，發現自己在多個地方引用了錯誤的作者姓名。可以使用 Google 文件的哪項功能來定位所有錯誤姓名以便進行修改？",
+    "options_en": [
+      "Personal dictionary",
+      "Clear formatting",
+      "Find and replace",
+      "Compare documents"
+    ],
+    "options_zh": [
+      "個人字典 (Personal dictionary)",
+      "清除格式 (Clear formatting)",
+      "尋找與取代 (Find and replace)",
+      "比較文件 (Compare documents)"
+    ],
+    "answer": 2,
+    "explanation_zh": "正確答案為：尋找與取代 (Find and replace / Ctrl+H)。能一鍵找出所有錯誤作者姓名並批次取代為正確姓名。"
+  },
+  {
+    "id": 13,
+    "unit": "Unit 5: 個人化差異學習 (複選題)",
+    "title_en": "An educator would like to provide students with personalized learning to explore content. What are two ways an educator can use Google Workspace for Education tools to accomplish this? (Choose two.)",
+    "title_zh": "教育工作者希望為學生提供個人化學習以探索內容。教育工作者可以使用 Google Workspace for Education 工具透過哪兩種方式達成此目標？（選擇兩項）",
+    "options_en": [
+      "Restrict Drive folder access to students in each class to increase the safety of files.",
+      "Restrict Forms to one response per student to minimize cheating.",
+      "Create a simple table of tools and add hyperlinks in a Google Docs table to guide students to explore a concept.",
+      "Apply Flipped Classroom model by adding videos to Forms and ask questions about specific content.",
+      "Create a public Drive where students can go to print out assignments."
+    ],
+    "options_zh": [
+      "限制每個班級學生對雲端硬碟資料夾的存取權限以提高安全性",
+      "限制表單每位學生只能回覆一次以減少作弊",
+      "在 Google 文件表格中建立工具清單並新增超連結，引導學生自主探索概念",
+      "應用翻轉課堂 (Flipped Classroom) 模型，在表單中新增影片並針對特定內容提問",
+      "建立公開的雲端硬碟供學生列印作業"
+    ],
+    "answer": [
+      2,
+      3
+    ],
+    "explanation_zh": "正確答案為：C (在文件表格中建立超連結引導探索) 與 D (翻轉課堂：Forms 嵌入影片並提問)。這兩者皆為個人化與自主探索教學實踐。"
+  },
+  {
+    "id": 14,
+    "unit": "Unit 1: 自動化行政與會議記錄",
+    "title_en": "An education leader invited staff members to a Google Calendar event. The education leader wants to collaborate with all attendees by taking brainstorming notes on Google Docs. Which process allows them to do this?",
+    "title_zh": "教育主管邀請教職員參加 Google 行事曆活動。主管希望透過在 Google 文件上記錄腦力激盪筆記來與所有與會者協作。哪種流程可以達成此目的？",
+    "options_en": [
+      "Download the meeting notes as a PDF from Google Docs and email them individually to each attendee at the conclusion of the meeting.",
+      "Take screenshots of the meeting notes in Google Docs and share them in the chat during the Google Meet.",
+      "Create a document in Google Docs with meeting notes and attach the document to the Calendar invite for all attendees to view.",
+      "Use Google Docs to organize meeting notes and distribute the published web url link to all attendees."
+    ],
+    "options_zh": [
+      "在會議結束時將會議紀錄下載為 PDF，並個別寄信給每位與會者",
+      "對會議紀錄進行截圖，並在 Google Meet 聊天室中分享",
+      "在 Google Docs 建立包含會議紀錄的文件，並將文件附加至行事曆邀請中供所有與會者查看與協作",
+      "使用 Google Docs 整理會議紀錄並散布發布的網頁連結"
+    ],
+    "answer": 2,
+    "explanation_zh": "正確答案為：在 Google Docs 建立會議紀錄文件並將其附加至行事曆邀請中（或使用 Meeting Notes 智慧標籤），與會者皆可直接開啟協作。"
+  },
+  {
+    "id": 15,
+    "unit": "Unit 6: 數據分析與試算表 (複選題)",
+    "title_en": "A teacher uses a Google Form to ask students to vote for their favorite color and creates a Google Sheet with responses. Which two tools in Google Sheets would the teacher use to calculate how many votes each color received? (Choose two.)",
+    "title_zh": "老師使用 Google 表單讓學生投票選擇最喜歡的顏色，並將回應連結至 Google 試算表。老師會使用 Google 試算表中的哪兩種工具來計算每種顏色獲得了多少票？（選擇兩項）",
+    "options_en": [
+      "Column stats",
+      "Data cleanup",
+      "Data extraction",
+      "Timeline",
+      "Pivot table"
+    ],
+    "options_zh": [
+      "直行統計資料 (Column stats)",
+      "資料清理 (Data cleanup)",
+      "資料擷取 (Data extraction)",
+      "時間軸 (Timeline)",
+      "樞紐分析表 (Pivot table)"
+    ],
+    "answer": [
+      0,
+      4
+    ],
+    "explanation_zh": "正確答案為：A (Column stats 欄位統計) 與 E (Pivot table 樞紐分析表)。兩者皆能迅速計算重複文字項目的計數與比例。"
+  },
+  {
+    "id": 16,
+    "unit": "Unit 2: 跨校合作與班級管理",
+    "title_en": "Educators from different schools are planning a virtual exchange program. They want to collaborate in a space that allows them to add learning materials, moderate discussions, manage student participation, and host online meetings. Which Google Workspace for Education tool can they use to achieve their goal?",
+    "title_zh": "來自不同學校的教師正在規劃虛擬交流計畫。他們希望在一個可以新增學習材料、主持討論、管理學生參與和舉辦線上會議的空間中進行協作。他們可以使用哪種工具達成目標？",
+    "options_en": [
+      "Design a collaborative Google Sites where each educator edits a page.",
+      "Create a class in Google Classroom and add all educators as co-teachers.",
+      "Create a shared Google Drive folder and grant all educators Editor permission.",
+      "Create a shared Google Calendar where all educators can create events."
+    ],
+    "options_zh": [
+      "設計一個共用的 Google 協作平台，每位老師編輯一個頁面",
+      "在 Google Classroom 中建立一個班級，並將所有老師新增為協同教師 (Co-teachers)",
+      "建立共用雲端硬碟資料夾並給予編輯權限",
+      "建立共用行事曆供老師新增活動"
+    ],
+    "answer": 1,
+    "explanation_zh": "正確答案為：在 Google Classroom 建立班級並將所有老師新增為協同教師 (Co-teachers)。這樣能兼顧教材發布、學生管理與 Meet 線上會議。"
+  },
+  {
+    "id": 17,
+    "unit": "Unit 6: 數據分析與 Classroom 測驗",
+    "title_en": "A teacher wants to send a Form that they've turned into a Quiz to students in Google Classroom, with scores going directly to their Grades tab. How would they accomplish this?",
+    "title_zh": "老師希望將已設為測驗的 Google 表單發送給 Google Classroom 中的學生，並讓分數直接匯入「成績 (Grades)」頁籤。老師該如何實現？",
+    "options_en": [
+      "Create an Assignment and attach the Shortened URL as a link.",
+      "Use the People page to email the link to the Form to each student.",
+      "Embed the HTML of the Form on the Stream page.",
+      "Create a Quiz Assignment and click Grade importing."
+    ],
+    "options_zh": [
+      "建立一般作業並將縮網址附加為連結",
+      "使用「成員」頁面寄信給每位學生表單連結",
+      "將表單 HTML 內嵌在訊息串頁面",
+      "建立「測驗作業 (Quiz Assignment)」並開啟「成績匯入 (Grade importing)」功能"
+    ],
+    "answer": 3,
+    "explanation_zh": "正確答案為：建立「測驗作業 (Quiz Assignment)」並開啟「成績匯入 (Grade importing)」。這樣表單測驗得分會自動同步至成績冊。"
+  },
+  {
+    "id": 18,
+    "unit": "Unit 4: 互動學習與簡報媒體 (複選題)",
+    "title_en": "A school leader is creating an interactive Google Slides presentation that includes several multimedia resources. What are two ways the school leader can attach the resources to a presentation? (Choose two.)",
+    "title_zh": "學校主管正在建立包含多個多媒體資源的互動式 Google 簡報。學校主管可以透過哪兩種方式將資源附加至簡報中？（選擇兩項）",
+    "options_en": [
+      "Access the file menu and select page setup.",
+      "Use the insert menu and select to link text or objects.",
+      "Go to the file menu and select page setup.",
+      "Select the extensions menu and select add-ons.",
+      "Right-click on highlighted text and select link."
+    ],
+    "options_zh": [
+      "進入檔案功能表並選擇頁面設定",
+      "使用「插入 (Insert)」功能表並選擇為文字或物件建立連結",
+      "進入檔案功能表並選擇頁面設定",
+      "選擇擴充功能功能表並選擇外掛程式",
+      "在反白文字上按右鍵並選擇「連結 (Link)」"
+    ],
+    "answer": [
+      1,
+      4
+    ],
+    "explanation_zh": "正確答案為：B (插入選單 $\rightarrow$ 超連結) 與 E (反白文字右鍵 $\rightarrow$ 連結)。這兩種方式皆能將多媒體超連結附加至簡報物件中。"
+  },
+  {
+    "id": 19,
+    "unit": "Unit 5: 個人化差異與練習題集",
+    "title_en": "A team of educators has decided to use Practice Sets to support all students with varying needs of support. Each educator is responsible for creating a practice set for a different part of the content. How would the educators share the practice sets so that team members can view and use them?",
+    "title_zh": "教師團隊決定使用練習題集 (Practice Sets) 來支援具有不同需求的所有學生。每位教師負責為不同部分的內容建立練習題集。教師應如何分享練習題集以便團隊成員查看和使用？",
+    "options_en": [
+      "Share the URL located at the top of the screen.",
+      "Print out a copy of the practice set for team members.",
+      "Turn on link sharing and copy link for the team.",
+      "Add the team to their classrooms."
+    ],
+    "options_zh": [
+      "分享螢幕頂部的網址",
+      "為團隊成員列印一份練習題集紙本",
+      "開啟連結共用並複製連結 (Turn on link sharing and copy link) 給團隊成員",
+      "將團隊成員新增至他們的 Classroom 課程中"
+    ],
+    "answer": 2,
+    "explanation_zh": "正確答案為：開啟連結共用並複製連結 (Turn on link sharing and copy link)。其他老師取得連結後即可檢視並複製該 Practice set 使用。"
+  },
+  {
+    "id": 20,
+    "unit": "Unit 1: 自動化行政與文件翻譯",
+    "title_en": "A teacher provides weekly classroom communications in five different languages. What Google Doc feature will allow them to do this?",
+    "title_zh": "老師使用五種不同的語言發送每週班級通訊。Google 文件的哪項功能可以讓老師做到這一點？",
+    "options_en": [
+      "Dictionary",
+      "Find and replace",
+      "Translate Document",
+      "Autocomplete"
+    ],
+    "options_zh": [
+      "字典 (Dictionary)",
+      "尋找與取代 (Find and replace)",
+      "翻譯文件 (Translate Document)",
+      "自動完成 (Autocomplete)"
+    ],
+    "answer": 2,
+    "explanation_zh": "正確答案為：翻譯文件 (Translate Document / 工具 $\rightarrow$ 翻譯文件)。能將目前 Docs 一鍵複製並翻譯為指定語言的新文件。"
+  },
+  {
+    "id": 21,
+    "unit": "Unit 4: 互動學習與簡報嵌入",
+    "title_en": "An educator wants to capture the attention of their students in a presentation resource created for a lesson. Which option would help the educator enhance the interactivity of the presentation with educational content?",
+    "title_zh": "教育工作者希望在為課堂製作的簡報資源中吸引學生的注意力。哪項選項可以幫助教育工作者透過教育內容增強簡報的互動性？",
+    "options_en": [
+      "Embed a YouTube video directly onto the slides.",
+      "Show collaborative pointers for all viewers of the presentation.",
+      "Change the look of the presentation using Theme builder.",
+      "Apply a different transition to each slide."
+    ],
+    "options_zh": [
+      "直接在投影片上內嵌 YouTube 影片 (Embed a YouTube video)",
+      "向簡報的所有檢視者顯示協作指標",
+      "使用主題建構工具變更簡報外觀",
+      "對每張投影片套用不同的轉場效果"
+    ],
+    "answer": 0,
+    "explanation_zh": "正確答案為：直接在投影片上內嵌 YouTube 影片 (Embed a YouTube video)。能在簡報播放時直接播放影音教學，大幅提升互動性。"
+  },
+  {
+    "id": 22,
+    "unit": "Unit 1: 自動化行政與 Gmail 代理授權",
+    "title_en": "An education leader would like several members of their team to read and send emails on their behalf. How can the education leader achieve this?",
+    "title_zh": "教育主管希望其團隊的幾名成員能代表他閱讀和發送電子郵件。教育主管該如何實現？",
+    "options_en": [
+      "Ask the team to send emails from their own mailbox signed as the leader.",
+      "Toggle confidential mode from the Compose window.",
+      "Use the Grant access to your account feature to delegate access.",
+      "Use the Priority Inbox feature in Quick settings."
+    ],
+    "options_zh": [
+      "要求團隊從他們自己的信箱發信並署名主管姓名",
+      "從撰寫視窗切換機密模式",
+      "使用「授予您帳戶的存取權 (Grant access to your account)」代理授權功能",
+      "使用快速設定中的優先收件匣功能"
+    ],
+    "answer": 2,
+    "explanation_zh": "正確答案為：使用「授予您帳戶的存取權 (Grant access to your account)」代理授權。授權代理人閱讀與發信，發信時會標示「由 XXX 代理發送」。"
+  },
+  {
+    "id": 23,
+    "unit": "Unit 3: 班級素材與協作平台權限",
+    "title_en": "A student wants to create a portfolio of their work (documents) on Google Sites to present to prospective universities. What permission options would assist them in reaching their goal?",
+    "title_zh": "一名學生想在 Google 協作平台 (Google Sites) 打造作品集 (文件)，向自己有意申請的大學展示。哪些權限選項有助達成此目標？",
+    "options_en": [
+      "Published site: Public, Documents: Restricted",
+      "Published site: Restricted, Documents: Restricted",
+      "Published site: Public, Documents: Publish to the web",
+      "Published site: Restricted, Documents: Publish to the web"
+    ],
+    "options_zh": [
+      "已發布網站：公開 (Public)，文件：限制 (Restricted)",
+      "已發布網站：限制 (Restricted)，文件：限制 (Restricted)",
+      "已發布網站：公開 (Public / 已知連結者可檢視)，文件：發布至網路 (Publish to the web / 權限開放)",
+      "已發布網站：限制 (Restricted)，文件：發布至網路 (Publish to the web)"
+    ],
+    "answer": 2,
+    "explanation_zh": "正確答案為：已發布網站設為 Public (公開)，內嵌文件亦需設為 Publish to the web (或開放權限)，確保校外大學審查人員能正常查看作品集。"
+  },
+  {
+    "id": 24,
+    "unit": "Unit 4: 互動學習與 Meet 整合 (複選題)",
+    "title_en": "An educator would like to work collaboratively with a guest speaker on a community project using Google Meet. What are two ways the educator can leverage Google Workspace for Education tools that integrate with Google Meet? (Choose two.)",
+    "title_zh": "教育工作者希望使用 Google Meet 與客座講師就社區專案進行協作。教育工作者可以透過哪兩種方式運用與 Google Meet 整合的工具？（選擇兩項）",
+    "options_en": [
+      "The guest speaker can watch a video about the community on YouTube to discuss with the educator in an email.",
+      "The guest speaker can start a meeting from Slides to give feedback on the project presentation.",
+      "The educator could quickly join Google Meet from Docs to discuss project details.",
+      "Share a video through Google Drive about the community project created by the educator and ask for email feedback.",
+      "Add a YouTube video to Forms and ask the guest speaker to submit feedback."
+    ],
+    "options_zh": [
+      "客座講師可在 YouTube 上觀看影片並寄信討論",
+      "客座講師可直接從 Google Slides (簡報) 中發起 Meet 會議，對專案簡報給予回饋",
+      "教育工作者可以從 Google Docs (文件) 中快速加入 Google Meet 討論專案細節",
+      "透過雲端硬碟分享影片並要求信件回饋",
+      "在表單新增影片並要求客座講師提交回饋"
+    ],
+    "answer": [
+      1,
+      2
+    ],
+    "explanation_zh": "正確答案為：B (直接從 Slides 發起 Meet) 與 C (直接從 Docs 快速加入 Meet)。Google Workspace 已將 Meet 整合至 Docs/Slides 工具列中。"
+  },
+  {
+    "id": 25,
+    "unit": "Unit 4: 互動學習與 Slides 記憶卡",
+    "title_en": "A teacher wants students to create flash cards for their upcoming exam where one slide has a word and the other slide has the definition. What action would the teacher have students complete in Google Slides to create these flash cards?",
+    "title_zh": "老師希望學生為即將到來的考試建立單字記憶卡 (Flash cards)，其中一張投影片寫有單字，另一張投影片寫有定義。老師會要求學生在 Google Slides 中完成什麼操作來建立這些記憶卡？",
+    "options_en": [
+      "Have students Auto-play Slides.",
+      "Have students hyperlink Slides to each other.",
+      "Have students use Edit theme in Slides.",
+      "Have students use Dictionary in Slides."
+    ],
+    "options_zh": [
+      "讓學生自動播放簡報 (Auto-play Slides)",
+      "讓學生將投影片互相建立超連結 (Hyperlink Slides to each other)",
+      "讓學生在簡報中使用「編輯主題 (Edit theme)」",
+      "讓學生在簡報中使用字典 (Dictionary)"
+    ],
+    "answer": 1,
+    "explanation_zh": "正確答案為：將投影片互相建立超連結 (Hyperlink Slides to each other)。點擊單字投影片按鈕跳轉至定義頁，定義頁按鈕跳回單字頁，實現記憶卡互動。"
+  }
+];
+
+    let currentLang = 'zh';
+    let userAnswers = {};
+    let currentFilter = 'all';
+
+    function setGlobalLang(lang) {
+      currentLang = lang;
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('lang-' + lang).classList.add('active');
+      renderQuestions();
+    }
+
+    function filterCategory(cat) {
+      currentFilter = cat;
+      document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      renderQuestions();
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById('questions-list');
+      container.innerHTML = '';
+
+      const filtered = rawQuestions.filter(q => {
+        if (currentFilter === 'all') return true;
+        return q.unit.includes(currentFilter);
+      });
+
+      document.getElementById('total-count').innerText = filtered.length;
+
+      filtered.forEach((q, idx) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+
+        let titleText = '';
+        if (currentLang === 'zh') titleText = q.title_zh;
+        else if (currentLang === 'en') titleText = q.title_en;
+        else titleText = '<div style="margin-bottom:8px;"><strong>[EN]</strong> ' + q.title_en + '</div><div><strong>[中]</strong> ' + q.title_zh + '</div>';
+
+        const isMulti = Array.isArray(q.answer);
+
+        let html = `
+          <div class="q-header">
+            <span class="q-tag">${q.unit} ${isMulti ? '【複選題】' : ''}</span>
+            <span class="q-num">Question ${q.id} / 25</span>
+          </div>
+          <div class="q-title">${titleText}</div>
+          <div class="options" id="opts-${q.id}">
+        `;
+
+        q.options_zh.forEach((optZh, optIdx) => {
+          const optEn = q.options_en[optIdx];
+          let optText = '';
+          if (currentLang === 'zh') optText = optZh;
+          else if (currentLang === 'en') optText = optEn;
+          else optText = '<div><strong>[EN]</strong> ' + optEn + '</div><div style="font-size:0.88rem; color:#5f6368;"><strong>[中]</strong> ' + optZh + '</div>';
+
+          const label = String.fromCharCode(65 + optIdx);
+
+          html += `
+            <button class="option-btn" id="opt-${q.id}-${optIdx}" onclick="handleSelect(${q.id}, ${optIdx}, ${isMulti})">
+              <span class="opt-label">${label}.</span>
+              <div>${optText}</div>
+            </button>
+          `;
+        });
+
+        html += `</div>`;
+
+        if (isMulti) {
+          html += `<button class="submit-multi-btn" onclick="checkMultiAnswer(${q.id})">確認提交複選答案</button>`;
+        }
+
+        html += `
+          <div class="explanation-box" id="exp-${q.id}">
+            <strong>💡 官方考點與詳細說明：</strong><br>
+            ${q.explanation_zh}
+          </div>
+        `;
+
+        card.innerHTML = html;
+        container.appendChild(card);
+
+        if (userAnswers[q.id]) {
+          restoreState(q.id, isMulti);
+        }
+      });
+
+      updateStats();
+    }
+
+    function handleSelect(qid, optIdx, isMulti) {
+      if (isMulti) {
+        if (!userAnswers[qid]) userAnswers[qid] = [];
+        const pos = userAnswers[qid].indexOf(optIdx);
+        if (pos > -1) userAnswers[qid].splice(pos, 1);
+        else userAnswers[qid].push(optIdx);
+
+        document.querySelectorAll(`#opts-${qid} .option-btn`).forEach((btn, idx) => {
+          if (userAnswers[qid].includes(idx)) btn.style.borderColor = 'var(--primary)';
+          else btn.style.borderColor = 'var(--border)';
+        });
+      } else {
+        userAnswers[qid] = optIdx;
+        const q = rawQuestions.find(item => item.id === qid);
+        const correct = q.answer;
+
+        document.querySelectorAll(`#opts-${qid} .option-btn`).forEach((btn, idx) => {
+          btn.disabled = true;
+          if (idx === correct) btn.classList.add('correct');
+          if (idx === optIdx && idx !== correct) btn.classList.add('wrong');
+        });
+
+        document.getElementById('exp-' + qid).style.display = 'block';
+        updateStats();
+      }
+    }
+
+    function checkMultiAnswer(qid) {
+      const q = rawQuestions.find(item => item.id === qid);
+      const correctArr = q.answer;
+      const userArr = userAnswers[qid] || [];
+
+      document.querySelectorAll(`#opts-${qid} .option-btn`).forEach((btn, idx) => {
+        btn.disabled = true;
+        if (correctArr.includes(idx)) btn.classList.add('correct');
+        if (userArr.includes(idx) && !correctArr.includes(idx)) btn.classList.add('wrong');
+      });
+
+      document.getElementById('exp-' + qid).style.display = 'block';
+      updateStats();
+    }
+
+    function restoreState(qid, isMulti) {
+      const q = rawQuestions.find(item => item.id === qid);
+      const correct = q.answer;
+      const userAns = userAnswers[qid];
+
+      if (isMulti) {
+        document.querySelectorAll(`#opts-${qid} .option-btn`).forEach((btn, idx) => {
+          btn.disabled = true;
+          if (correct.includes(idx)) btn.classList.add('correct');
+          if (Array.isArray(userAns) && userAns.includes(idx) && !correct.includes(idx)) btn.classList.add('wrong');
+        });
+      } else {
+        document.querySelectorAll(`#opts-${qid} .option-btn`).forEach((btn, idx) => {
+          btn.disabled = true;
+          if (idx === correct) btn.classList.add('correct');
+          if (idx === userAns && idx !== correct) btn.classList.add('wrong');
+        });
+      }
+      document.getElementById('exp-' + qid).style.display = 'block';
+    }
+
+    function updateStats() {
+      const answered = Object.keys(userAnswers).length;
+      document.getElementById('answered-count').innerText = answered;
+
+      let score = 0;
+      Object.keys(userAnswers).forEach(qidStr => {
+        const qid = parseInt(qidStr);
+        const q = rawQuestions.find(item => item.id === qid);
+        const uAns = userAnswers[qid];
+
+        if (Array.isArray(q.answer)) {
+          if (Array.isArray(uAns) && uAns.sort().join(',') === q.answer.sort().join(',')) {
+            score++;
+          }
+        } else {
+          if (uAns === q.answer) score++;
+        }
+      });
+
+      document.getElementById('score-count').innerText = score + ' / ' + rawQuestions.length;
+    }
+
+    window.onload = renderQuestions;
+  </script>
+</body>
+</html>

@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Certified Educator Level 2 互動式數位講義與備考系統</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --accent: #34a853;
+      --warning: #fbbc04;
+      --danger: #ea4335;
+      --dark: #202124;
+      --light-bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --border: #dadce0;
+      --text: #3c4043;
+      --text-muted: #5f6368;
+      --shadow-sm: 0 2px 6px rgba(0,0,0,0.06);
+      --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 8px 24px rgba(26, 115, 232, 0.15);
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans TC', 'Outfit', sans-serif; }
+
+    body {
+      background-color: var(--light-bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Top Navigation Header */
+    header {
+      background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+      color: white;
+      padding: 24px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(26, 115, 232, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand-title { display: flex; align-items: center; gap: 12px; }
+    .brand-logo { font-size: 1.8rem; }
+    .brand-text h1 { font-size: 1.4rem; font-weight: 700; }
+    .brand-text p { font-size: 0.88rem; opacity: 0.9; }
+
+    .search-box {
+      position: relative;
+      min-width: 280px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 16px 10px 40px;
+      border-radius: 24px;
+      border: none;
+      outline: none;
+      font-size: 0.95rem;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #757575;
+    }
+
+    /* Layout Wrapper */
+    .app-layout {
+      display: flex;
+      max-width: 1400px;
+      margin: 0 auto;
+      min-height: calc(100vh - 90px);
+    }
+
+    /* Sidebar Navigation */
+    aside {
+      width: 320px;
+      background: white;
+      border-right: 1px solid var(--border);
+      padding: 24px 16px;
+      position: sticky;
+      top: 90px;
+      height: calc(100vh - 90px);
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+
+    .sidebar-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      padding-left: 12px;
+    }
+
+    .nav-group { margin-bottom: 20px; }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: 8px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 500;
+      margin-bottom: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-item:hover { background: #f1f3f4; }
+    .nav-item.active { background: #e8f0fe; color: var(--primary); font-weight: 700; }
+    .nav-item .unit-num { font-size: 0.8rem; background: rgba(0,0,0,0.06); padding: 2px 6px; border-radius: 4px; margin-right: 8px; }
+
+    /* Main Content Area */
+    main {
+      flex: 1;
+      padding: 32px;
+      max-width: 1080px;
+    }
+
+    .top-tab-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .mode-tab {
+      padding: 10px 20px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: white;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mode-tab.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.25);
+    }
+
+    /* Content Cards */
+    .unit-section {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.05);
+      scroll-margin-top: 110px;
+    }
+
+    .unit-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 2px solid var(--light-bg);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+
+    .unit-badge {
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    .unit-title { font-size: 1.4rem; font-weight: 700; color: var(--dark); }
+
+    .sub-section { margin-bottom: 24px; }
+    .sub-title { font-size: 1.15rem; font-weight: 600; color: var(--primary-dark); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+
+    /* Callout Box */
+    .callout-box {
+      background: #e8f0fe;
+      border-left: 4px solid var(--primary);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+
+    .callout-title { font-weight: 700; color: var(--primary-dark); font-size: 0.95rem; margin-bottom: 6px; }
+
+    /* UI Screenshot Presentation */
+    .ui-preview {
+      margin: 20px 0;
+      text-align: center;
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .ui-preview img {
+      max-width: 100%;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .ui-caption {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    /* Code block */
+    pre code {
+      display: block;
+      background: #282c34;
+      color: #abb2bf;
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.92rem;
+      overflow-x: auto;
+      margin: 12px 0;
+    }
+
+    /* Feature Cards Grid */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin: 16px 0;
+    }
+
+    .feat-card {
+      background: var(--light-bg);
+      border-radius: 8px;
+      padding: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .feat-title { font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+    .feat-desc { font-size: 0.9rem; color: var(--text-muted); }
+
+    /* Link list */
+    .ref-link-list { list-style: none; }
+    .ref-link-list li { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    .ref-link-list a { color: var(--primary); font-weight: 600; text-decoration: none; }
+    .ref-link-list a:hover { text-decoration: underline; }
+
+    /* Step Timeline */
+    .step-box {
+      border-left: 3px solid var(--primary);
+      padding-left: 16px;
+      margin-bottom: 20px;
+    }
+    .step-num { font-weight: 700; color: var(--primary); font-size: 0.95rem; }
+    .step-title { font-size: 1.1rem; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+
+    /* Responsive Design */
+    @media (max-width: 900px) {
+      aside { display: none; }
+      main { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header>
+    <div class="brand-title">
+      <div class="brand-logo">🎓</div>
+      <div class="brand-text">
+        <h1>Google Certified Educator Level 2 數位講義與備考系統</h1>
+        <p>對照 Google Teacher Center 官方 6 大單元與 Knowledge Check 實務測驗</p>
+      </div>
+    </div>
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="搜尋關鍵字 (例如: Auto-advance, QUERY...)" oninput="handleSearch()">
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <div class="app-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside>
+      <div class="sidebar-title">🧰 十篇工具講義</div>
+      <div class="nav-group">
+        <a href="docs_workshop_app.html" style="display:flex; align-items:center; justify-content:space-between; text-decoration:none; padding:9px 12px; border-radius:8px; font-size:0.9rem; margin-bottom:3px; color:#3c4043;" onmouseover="this.style.background='#f1f3f4'" onmouseout="this.style.background='transparent'"><span>📄 Google Docs</span><span style="font-size:.78rem; color:#5f6368;">7 個演練</span></a>
+        <a href="classroom_workshop_app.html" style="display:flex; align-items:center; justify-content:space-between; text-decoration:none; padding:9px 12px; border-radius:8px; font-size:0.9rem; margin-bottom:3px; color:#3c4043;" onmouseover="this.style.background='#f1f3f4'" onmouseout="this.style.background='transparent'"><span>🏫 Google Classroom</span><span style="font-size:.78rem; color:#5f6368;">5 個演練</span></a>
+        <a href="calendar_workshop_app.html" style="display:flex; align-items:center; justify-content:space-between; text-decoration:none; padding:9px 12px; border-radius:8px; font-size:0.9rem; margin-bottom:3px; color:#3c4043;" onmouseover="this.style.background='#f1f3f4'" onmouseout="this.style.background='transparent'"><span>📅 Google Calendar</span><span style="font-size:.78rem; color:#5f6368;">5 個演練</span></a>
+        <a href="slides_workshop_app.html" style="display:flex; align-items:center; justify-content:space-between; text-decoration:none; padding:9px 12px; border-radius:8px; font-size:0.9rem; margin-bottom:3px; color:#3c4043;" onmouseover="this.style.background='#f1f3f4'" onmouseout="this.style.background='transparent'"><span>🎨 Google Slides</span><span style="font-size:.78rem; color:#5f6368;">4 個演練</span></a>
+        <a href="sheets_workshop_app.html" style="display:flex; align-items:center; justify-content:space-between; text-decoration:none; padding:9px 12px; border-radius:8px; font-size:0.9rem; margin-bottom:3px; color:#3c4043;" onmouseover="this.style.background='#f1f3f4'" onmouseout="this.style.background='transparent'"><span>📊 Google Sheets</span><span style="font-size:.78rem; color:#5f6368;">3 個演練</span></a>
+        <a href="meet_workshop_app.html" style="display:flex; align-items:center; justify-content:space-between; text-decoration:none; padding:9px 12px; border-radius:8px; font-size:0.9rem; margin-bottom:3px; color:#3c4043;" onmouseover="this.style.background='#f1f3f4'" onmouseout="this.style.background='transparent'"><span>📹 Google Meet</span><span style="font-size:.78rem; color:#5f6368;">3 個演練</span></a>
+        <a href="forms_workshop_app.html" style="display:flex; align-items:center; justify-content:space-between; text-decoration:none; padding:9px 12px; border-radius:8px; font-size:0.9rem; margin-bottom:3px; color:#3c4043;" onmouseover="this.style.background='#f1f3f4'" onmouseout="this.style.background='transparent'"><span>📋 Google Forms</span><span style="font-size:.78rem; color:#5f6368;">3 個演練</span></a>
+        <a href="sites_workshop_app.html" style="display:flex; align-items:center; justify-content:space-between; text-decoration:none; padding:9px 12px; border-radius:8px; font-size:0.9rem; margin-bottom:3px; color:#3c4043;" onmouseover="this.style.background='#f1f3f4'" onmouseout="this.style.background='transparent'"><span>🌐 Google Sites</span><span style="font-size:.78rem; color:#5f6368;">3 個演練</span></a>
+        <a href="gmail_workshop_app.html" style="display:flex; align-items:center; justify-content:space-between; text-decoration:none; padding:9px 12px; border-radius:8px; font-size:0.9rem; margin-bottom:3px; color:#3c4043;" onmouseover="this.style.background='#f1f3f4'" onmouseout="this.style.background='transparent'"><span>📧 Gmail</span><span style="font-size:.78rem; color:#5f6368;">4 個演練</span></a>
+        <a href="practicesets_workshop_app.html" style="display:flex; align-items:center; justify-content:space-between; text-decoration:none; padding:9px 12px; border-radius:8px; font-size:0.9rem; margin-bottom:3px; color:#3c4043;" onmouseover="this.style.background='#f1f3f4'" onmouseout="this.style.background='transparent'"><span>💡 Practice Sets</span><span style="font-size:.78rem; color:#5f6368;">3 個演練</span></a>
+      </div>
+
+      <div class="sidebar-title" style="margin-top:22px;">🗺️ 另一種視角</div>
+      <div class="nav-group">
+        <a href="course_structure_map.html" style="display:block; text-decoration:none; padding:10px 12px; background:#f3e8fd; color:#7b1fa2; border-radius:8px; font-size:0.88rem; font-weight:600;">繁中 11 單元 × 英文 6 Units 對照</a>
+      </div>
+
+      <!-- 僅在「完整版研習講義」檢視時顯示 -->
+      <div id="unit-nav-block" style="display:none;">
+        <div class="sidebar-title" style="margin-top:22px;">📖 本頁章節</div>
+        <div class="nav-group">
+          <a class="nav-item active" onclick="scrollToSection('unit-1')"><span class="unit-num">Unit 1</span> 自動化行政任務</a>
+          <a class="nav-item" onclick="scrollToSection('unit-2')"><span class="unit-num">Unit 2</span> 親師監護人溝通</a>
+          <a class="nav-item" onclick="scrollToSection('unit-3')"><span class="unit-num">Unit 3</span> 班級與教學素材</a>
+          <a class="nav-item" onclick="scrollToSection('unit-4')"><span class="unit-num">Unit 4</span> 互動自主學習</a>
+          <a class="nav-item" onclick="scrollToSection('unit-5')"><span class="unit-num">Unit 5</span> 個人化差異學習</a>
+          <a class="nav-item" onclick="scrollToSection('unit-6')"><span class="unit-num">Unit 6</span> 數據解讀與分析</a>
+        </div>
+      </div>
+
+      <div class="sidebar-title" style="margin-top:22px;">🔗 官方課程</div>
+      <div class="nav-group">
+        <a href="https://edu.exceedlms.com/student/path/1727915?locale=zh_tw" target="_blank" rel="noopener"
+           style="display:block; text-decoration:none; padding:10px 12px; background:#e8f0fe; color:#1557b0;
+                  border-radius:8px; font-size:0.87rem; font-weight:600; margin-bottom:5px; line-height:1.45;">
+          🇹🇼 繁體中文版課程
+          <span style="display:block; font-size:.76rem; color:#5f6368; font-weight:500;">11 個實務單元 ‧ Path 1727915</span></a>
+        <a href="https://edu.exceedlms.com/student/path/1717663" target="_blank" rel="noopener"
+           style="display:block; text-decoration:none; padding:10px 12px; background:#e8f0fe; color:#1557b0;
+                  border-radius:8px; font-size:0.87rem; font-weight:600; margin-bottom:5px; line-height:1.45;">
+          🇬🇧 英文版課程
+          <span style="display:block; font-size:.76rem; color:#5f6368; font-weight:500;">6 Units / 18 Lessons ‧ Path 1717663</span></a>
+        <a href="https://edu.google.com/teacher-center/" target="_blank" rel="noopener"
+           style="display:block; text-decoration:none; padding:10px 12px; background:#f1f3f4; color:#3c4043;
+                  border-radius:8px; font-size:0.87rem; font-weight:600; margin-bottom:5px; line-height:1.45;">
+          🎓 Google Teacher Center
+          <span style="display:block; font-size:.76rem; color:#5f6368; font-weight:500;">官方教師培訓總入口</span></a>
+        <button onclick="switchView('refs')"
+           style="width:100%; border:none; text-align:left; padding:10px 12px; background:#fef7e0; color:#b06000;
+                  border-radius:8px; font-size:0.87rem; font-weight:600; cursor:pointer; line-height:1.45;">
+          📚 18 個 Lessons 逐課連結
+          <span style="display:block; font-size:.76rem; color:#5f6368; font-weight:500;">直接跳到指定單元</span></button>
+      </div>
+
+      <div class="sidebar-title" style="margin-top:22px;">📋 認證報名</div>
+      <div class="nav-group">
+        <a href="exam_registration.html" style="display:block; text-decoration:none; padding:10px 12px;
+           background:#e6f4ea; color:#137333; border-radius:8px; font-size:0.87rem; font-weight:600; line-height:1.45;">
+          官方報名流程與考試架構
+          <span style="display:block; font-size:.76rem; color:#5f6368; font-weight:500;">5 大步驟 ‧ 控制台導覽 ‧ 題型說明</span></a>
+      </div>
+
+      <div class="nav-group" style="margin-top:22px;">
+        <a href="Google_Certified_Educator_Level_2_講義.docx" download style="display:block; text-decoration:none; padding:9px 12px; background:#f1f3f4; color:#3c4043; border-radius:8px; font-size:0.85rem; font-weight:600; text-align:center;">📄 下載 Word 講義</a>
+      </div>
+    </aside>
+
+    <!-- Main Content Container -->
+    <main>
+      
+      <!-- Top Mode Selector -->
+      <div class="top-tab-bar">
+        <button class="mode-tab active" id="tab-btn-tools" onclick="switchView('tools')">🧰 十篇工具講義</button>
+        <button class="mode-tab" id="tab-btn-full" onclick="switchView('full')">📖 完整版研習講義</button>
+        <button class="mode-tab" id="tab-btn-map" onclick="switchView('map')">🗺️ 課程結構對照</button>
+        <button class="mode-tab" id="tab-btn-cheat" onclick="switchView('cheatsheet')">⚡ 考前15分鐘速記卡</button>
+        <button class="mode-tab" id="tab-btn-refs" onclick="switchView('refs')">🔗 18 個 Lessons 連結庫</button>
+      </div>
+
+
+      <!-- VIEW 0: 工具講義總覽 -->
+      <div id="tools-view">
+        <h2 style="font-size:1.5rem; font-weight:700; color:#1557b0; margin-bottom:8px;">🧰 十篇工具講義</h2>
+        <p style="color:#5f6368; margin-bottom:6px;">
+          本研習以<strong>工具</strong>為主軸：一個工具的功能一次學完，不用在工具之間跳來跳去。
+          共 <strong>40 個實務演練</strong>，每則都有真實情境、可動手的練習環境與步驟清單。</p>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:16px;">
+
+          <a href="docs_workshop_app.html" style="display:block; text-decoration:none; background:#fff;
+             border:1px solid #dadce0; border-radius:12px; padding:18px; transition:all .2s;"
+             onmouseover="this.style.boxShadow='0 6px 18px rgba(0,0,0,.12)'; this.style.transform='translateY(-2px)'"
+             onmouseout="this.style.boxShadow='none'; this.style.transform='none'">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span style="font-size:1.6rem;">📄</span>
+            </div>
+            <div style="font-size:1.05rem; font-weight:700; color:#202124;">Google Docs</div>
+            <div style="font-size:.85rem; color:#5f6368; margin-top:5px; line-height:1.5;">智慧晶片、段落樣式、翻譯、探索學習單</div>
+            <div style="margin-top:10px; font-size:.82rem; color:#1a73e8; font-weight:700;">7 個實務演練 ➔</div>
+            
+          </a>
+          <a href="classroom_workshop_app.html" style="display:block; text-decoration:none; background:#fff;
+             border:1px solid #dadce0; border-radius:12px; padding:18px; transition:all .2s;"
+             onmouseover="this.style.boxShadow='0 6px 18px rgba(0,0,0,.12)'; this.style.transform='translateY(-2px)'"
+             onmouseout="this.style.boxShadow='none'; this.style.transform='none'">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span style="font-size:1.6rem;">🏫</span>
+            </div>
+            <div style="font-size:1.05rem; font-weight:700; color:#202124;">Google Classroom</div>
+            <div style="font-size:.85rem; color:#5f6368; margin-top:5px; line-height:1.5;">協同教師、主題、成績匯入、公告</div>
+            <div style="margin-top:10px; font-size:.82rem; color:#1a73e8; font-weight:700;">5 個實務演練 ➔</div>
+            </a>
+          <a href="calendar_workshop_app.html" style="display:block; text-decoration:none; background:#fff;
+             border:1px solid #dadce0; border-radius:12px; padding:18px; transition:all .2s;"
+             onmouseover="this.style.boxShadow='0 6px 18px rgba(0,0,0,.12)'; this.style.transform='translateY(-2px)'"
+             onmouseout="this.style.boxShadow='none'; this.style.transform='none'">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span style="font-size:1.6rem;">📅</span>
+            </div>
+            <div style="font-size:1.05rem; font-weight:700; color:#202124;">Google Calendar</div>
+            <div style="font-size:.85rem; color:#5f6368; margin-top:5px; line-height:1.5;">預約表、直播、權限、會議記錄、系列活動</div>
+            <div style="margin-top:10px; font-size:.82rem; color:#1a73e8; font-weight:700;">5 個實務演練 ➔</div>
+            </a>
+          <a href="slides_workshop_app.html" style="display:block; text-decoration:none; background:#fff;
+             border:1px solid #dadce0; border-radius:12px; padding:18px; transition:all .2s;"
+             onmouseover="this.style.boxShadow='0 6px 18px rgba(0,0,0,.12)'; this.style.transform='translateY(-2px)'"
+             onmouseout="this.style.boxShadow='none'; this.style.transform='none'">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span style="font-size:1.6rem;">🎨</span>
+            </div>
+            <div style="font-size:1.05rem; font-weight:700; color:#202124;">Google Slides</div>
+            <div style="font-size:.85rem; color:#5f6368; margin-top:5px; line-height:1.5;">超連結、母版、內嵌影片、分享權限</div>
+            <div style="margin-top:10px; font-size:.82rem; color:#1a73e8; font-weight:700;">4 個實務演練 ➔</div>
+            </a>
+          <a href="sheets_workshop_app.html" style="display:block; text-decoration:none; background:#fff;
+             border:1px solid #dadce0; border-radius:12px; padding:18px; transition:all .2s;"
+             onmouseover="this.style.boxShadow='0 6px 18px rgba(0,0,0,.12)'; this.style.transform='translateY(-2px)'"
+             onmouseout="this.style.boxShadow='none'; this.style.transform='none'">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span style="font-size:1.6rem;">📊</span>
+            </div>
+            <div style="font-size:1.05rem; font-weight:700; color:#202124;">Google Sheets</div>
+            <div style="font-size:.85rem; color:#5f6368; margin-top:5px; line-height:1.5;">條件式格式、樞紐分析、篩選器檢視</div>
+            <div style="margin-top:10px; font-size:.82rem; color:#1a73e8; font-weight:700;">3 個實務演練 ➔</div>
+            
+          </a>
+          <a href="meet_workshop_app.html" style="display:block; text-decoration:none; background:#fff;
+             border:1px solid #dadce0; border-radius:12px; padding:18px; transition:all .2s;"
+             onmouseover="this.style.boxShadow='0 6px 18px rgba(0,0,0,.12)'; this.style.transform='translateY(-2px)'"
+             onmouseout="this.style.boxShadow='none'; this.style.transform='none'">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span style="font-size:1.6rem;">📹</span>
+            </div>
+            <div style="font-size:1.05rem; font-weight:700; color:#202124;">Google Meet</div>
+            <div style="font-size:.85rem; color:#5f6368; margin-top:5px; line-height:1.5;">電話備援、檔案內視訊、分組討論室</div>
+            <div style="margin-top:10px; font-size:.82rem; color:#1a73e8; font-weight:700;">3 個實務演練 ➔</div>
+            
+          </a>
+          <a href="forms_workshop_app.html" style="display:block; text-decoration:none; background:#fff;
+             border:1px solid #dadce0; border-radius:12px; padding:18px; transition:all .2s;"
+             onmouseover="this.style.boxShadow='0 6px 18px rgba(0,0,0,.12)'; this.style.transform='translateY(-2px)'"
+             onmouseout="this.style.boxShadow='none'; this.style.transform='none'">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span style="font-size:1.6rem;">📋</span>
+            </div>
+            <div style="font-size:1.05rem; font-weight:700; color:#202124;">Google Forms</div>
+            <div style="font-size:.85rem; color:#5f6368; margin-top:5px; line-height:1.5;">區段跳轉、測驗評分、回應驗證</div>
+            <div style="margin-top:10px; font-size:.82rem; color:#1a73e8; font-weight:700;">3 個實務演練 ➔</div>
+            
+          </a>
+          <a href="sites_workshop_app.html" style="display:block; text-decoration:none; background:#fff;
+             border:1px solid #dadce0; border-radius:12px; padding:18px; transition:all .2s;"
+             onmouseover="this.style.boxShadow='0 6px 18px rgba(0,0,0,.12)'; this.style.transform='translateY(-2px)'"
+             onmouseout="this.style.boxShadow='none'; this.style.transform='none'">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span style="font-size:1.6rem;">🌐</span>
+            </div>
+            <div style="font-size:1.05rem; font-weight:700; color:#202124;">Google Sites</div>
+            <div style="font-size:.85rem; color:#5f6368; margin-top:5px; line-height:1.5;">子頁面、發布權限、內嵌動態內容</div>
+            <div style="margin-top:10px; font-size:.82rem; color:#1a73e8; font-weight:700;">3 個實務演練 ➔</div>
+            
+          </a>
+          <a href="gmail_workshop_app.html" style="display:block; text-decoration:none; background:#fff;
+             border:1px solid #dadce0; border-radius:12px; padding:18px; transition:all .2s;"
+             onmouseover="this.style.boxShadow='0 6px 18px rgba(0,0,0,.12)'; this.style.transform='translateY(-2px)'"
+             onmouseout="this.style.boxShadow='none'; this.style.transform='none'">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span style="font-size:1.6rem;">📧</span>
+            </div>
+            <div style="font-size:1.05rem; font-weight:700; color:#202124;">Gmail</div>
+            <div style="font-size:.85rem; color:#5f6368; margin-top:5px; line-height:1.5;">帳戶代理、篩選器、範本排程、搜尋運算子</div>
+            <div style="margin-top:10px; font-size:.82rem; color:#1a73e8; font-weight:700;">4 個實務演練 ➔</div>
+            
+          </a>
+          <a href="practicesets_workshop_app.html" style="display:block; text-decoration:none; background:#fff;
+             border:1px solid #dadce0; border-radius:12px; padding:18px; transition:all .2s;"
+             onmouseover="this.style.boxShadow='0 6px 18px rgba(0,0,0,.12)'; this.style.transform='translateY(-2px)'"
+             onmouseout="this.style.boxShadow='none'; this.style.transform='none'">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span style="font-size:1.6rem;">💡</span>
+            </div>
+            <div style="font-size:1.05rem; font-weight:700; color:#202124;">Practice Sets</div>
+            <div style="font-size:.85rem; color:#5f6368; margin-top:5px; line-height:1.5;">額外協助、題組共享、作答洞察</div>
+            <div style="margin-top:10px; font-size:.82rem; color:#1a73e8; font-weight:700;">3 個實務演練 ➔</div>
+            <div style="margin-top:8px; font-size:.8rem; color:#b06000; font-weight:600;">⚠️ 需 Education Plus</div>
+          </a>
+        </div>
+        <div style="background:#fef7e0; border-left:4px solid #f9ab00; padding:16px 20px; border-radius:0 8px 8px 0; margin-top:24px;">
+          <strong style="color:#b06000;">💡 想從「教學情境」而不是「工具」切入？</strong>
+          <p style="margin-top:6px; color:#3c4043;">
+            點上方的 <strong>🗺️ 課程結構對照</strong>，可以看到官方繁中 11 個實務單元、英文 6 大 Units
+            與這十篇工具講義的三方對應——同一批內容的另一種組織方式。</p>
+        </div>
+      </div>
+
+      <!-- VIEW: 課程結構對照 -->
+      <div id="map-view" style="display:none;">
+        <h2 style="font-size:1.5rem; font-weight:700; color:#1557b0; margin-bottom:10px;">🗺️ 課程結構對照</h2>
+        <p style="color:#5f6368; margin-bottom:18px;">
+          官方英文版是 <strong>6 Units / 18 Lessons</strong>（依能力領域分，考試大綱亦同），
+          繁體中文版則是 <strong>11 個實務單元</strong>（依教學情境分）。兩套教的是同一批內容，只是切法不同。</p>
+        <a href="course_structure_map.html" style="display:inline-block; text-decoration:none;
+           background:#1a73e8; color:#fff; padding:12px 26px; border-radius:22px; font-weight:700;">
+           開啟完整三方對照表 ➔</a>
+        <p style="margin-top:14px; color:#5f6368; font-size:.9rem;">
+          內含：繁中 11 單元 → 對應英文 Unit → 要練哪幾個工具演練（可直接點進去），以及反向查詢表。</p>
+      </div>
+
+      <!-- VIEW 1: FULL LECTURE HANDOUT -->
+      <div id="full-handout-view" style="display:none;">
+
+        <!-- Bilingual Alignment Card -->
+        <div style="background:#e8f0fe; border:1.5px solid #aecbfa; border-radius:12px; padding:20px; margin-bottom:28px;">
+          <h3 style="color:#1a73e8; font-size:1.15rem; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+            🌐 Google 官方中英文架構與關鍵考點術語意同對照 (Bilingual Alignment)
+          </h3>
+          <p style="font-size:0.92rem; color:#3c4043; line-height:1.6; margin-bottom:16px;">
+            正式認證考試為英文/中英雙語題型，而 Google Teacher Center 提供繁體中文培訓頁面。以下為研習必考之<strong>核心專業術語與情境意同對照矩陣</strong>：
+          </p>
+          <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; background:white; font-size:0.88rem; border-radius:8px; overflow:hidden;">
+              <thead>
+                <tr style="background:#1a73e8; color:white; text-align:left;">
+                  <th style="padding:10px 12px;">英文認證考綱術語 (English Exam Term)</th>
+                  <th style="padding:10px 12px;">官方繁體中文術語 (zh-TW Official Term)</th>
+                  <th style="padding:10px 12px;">對應講義與 11 單元意同對照</th>
+                  <th style="padding:10px 12px;">解題與應試關鍵 (Key Exam Focus)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid #e0e0e0;">
+                  <td style="padding:10px 12px; font-weight:700; color:#1a73e8;">Appointment schedule</td>
+                  <td style="padding:10px 12px; font-weight:700;">預約時間表</td>
+                  <td style="padding:10px 12px;">Unit 2 / 第 4 單元</td>
+                  <td style="padding:10px 12px; color:#137333;">親師面談自動呈現空閒時段與網址</td>
+                </tr>
+                <tr style="border-bottom:1px solid #e0e0e0; background:#f8f9fa;">
+                  <td style="padding:10px 12px; font-weight:700; color:#1a73e8;">Grant access to account</td>
+                  <td style="padding:10px 12px; font-weight:700;">授予您帳戶的存取權 (代理)</td>
+                  <td style="padding:10px 12px;">Unit 1 / 第 3 單元</td>
+                  <td style="padding:10px 12px; color:#137333;">團隊成員免密碼代表主管收發 Email</td>
+                </tr>
+                <tr style="border-bottom:1px solid #e0e0e0;">
+                  <td style="padding:10px 12px; font-weight:700; color:#1a73e8;">Paragraph styles (Headings)</td>
+                  <td style="padding:10px 12px; font-weight:700;">段落樣式 (標題1、標題2)</td>
+                  <td style="padding:10px 12px;">Unit 3 / 第 6 單元</td>
+                  <td style="padding:10px 12px; color:#137333;">Docs 自動生成 Table of Contents 目錄</td>
+                </tr>
+                <tr style="border-bottom:1px solid #e0e0e0; background:#f8f9fa;">
+                  <td style="padding:10px 12px; font-weight:700; color:#1a73e8;">Originality reports</td>
+                  <td style="padding:10px 12px; font-weight:700;">原創性比對報告</td>
+                  <td style="padding:10px 12px;">Unit 3 / 第 9 單元</td>
+                  <td style="padding:10px 12px; color:#137333;">Classroom 學生繳交前自主檢查抄襲</td>
+                </tr>
+                <tr style="border-bottom:1px solid #e0e0e0;">
+                  <td style="padding:10px 12px; font-weight:700; color:#1a73e8;">Conditional Formatting</td>
+                  <td style="padding:10px 12px; font-weight:700;">條件式格式設定</td>
+                  <td style="padding:10px 12px;">Unit 6 / 第 5 單元</td>
+                  <td style="padding:10px 12px; color:#137333;">Sheets 根據分數表現自動變更格子顏色</td>
+                </tr>
+                <tr style="border-bottom:1px solid #e0e0e0; background:#f8f9fa;">
+                  <td style="padding:10px 12px; font-weight:700; color:#1a73e8;">Quiz Assignment & Grade importing</td>
+                  <td style="padding:10px 12px; font-weight:700;">測驗作業 與 成績匯入</td>
+                  <td style="padding:10px 12px;">Unit 3 / 第 11 單元</td>
+                  <td style="padding:10px 12px; color:#137333;">Forms 測驗分數自動同步進入成績冊</td>
+                </tr>
+                <tr style="border-bottom:1px solid #e0e0e0;">
+                  <td style="padding:10px 12px; font-weight:700; color:#1a73e8;">Smart Chips (@People / @Date)</td>
+                  <td style="padding:10px 12px; font-weight:700;">智慧晶片 (@人員 / @日期)</td>
+                  <td style="padding:10px 12px;">Unit 1 / 第 1 單元</td>
+                  <td style="padding:10px 12px; color:#137333;">Docs 議程指派任務與設定截止日</td>
+                </tr>
+                <tr style="border-bottom:1px solid #e0e0e0; background:#f8f9fa;">
+                  <td style="padding:10px 12px; font-weight:700; color:#1a73e8;">Join by phone</td>
+                  <td style="padding:10px 12px; font-weight:700;">透過電話撥號加入</td>
+                  <td style="padding:10px 12px;">Unit 4 / 第 8 單元</td>
+                  <td style="padding:10px 12px; color:#137333;">Meet 網路不穩定時之備援通話</td>
+                </tr>
+                <tr style="border-bottom:1px solid #e0e0e0;">
+                  <td style="padding:10px 12px; font-weight:700; color:#1a73e8;">Marketplace Add-ons</td>
+                  <td style="padding:10px 12px; font-weight:700;">Workspace Marketplace 外掛程式</td>
+                  <td style="padding:10px 12px;">Unit 5 / 第 3 單元</td>
+                  <td style="padding:10px 12px; color:#137333;">在 Docs 給予非同步語音回饋 (Mote)</td>
+                </tr>
+                <tr style="border-bottom:1px solid #e0e0e0; background:#f8f9fa;">
+                  <td style="padding:10px 12px; font-weight:700; color:#1a73e8;">Hyperlink Slides to each other</td>
+                  <td style="padding:10px 12px; font-weight:700;">投影片互相建立超連結</td>
+                  <td style="padding:10px 12px;">Unit 4 / 第 7 單元</td>
+                  <td style="padding:10px 12px; color:#137333;">Slides 製作單字記憶卡與選擇板</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        
+        <!-- Unit 1 -->
+        <section class="unit-section" id="unit-1">
+          <div class="unit-header">
+            <span class="unit-badge">Unit 1</span>
+            <h2 class="unit-title">自動化課堂與行政任務 (Automate classroom tasks)</h2>
+          </div>
+
+          <div class="sub-section">
+            <h3 class="sub-title">1.1 Boost your efficiency in Gmail (提升 Gmail 郵件處理效率)</h3>
+            <p style="margin-bottom:12px;">在繁重的教學與行政工作中，透過數位工具自動化流程能為教師省下寶貴時間。</p>
+
+            <div class="callout-box">
+              <div class="callout-title">💡 官方隨堂測驗 (Knowledge Check) 原題考點：Auto-advance (自動進階)</div>
+              <p>一般情況下，刪除或封存郵件時系統會返回收件匣。啟用 <strong>「自動進階 (Auto-advance)」</strong> 後，系統會在刪除/封存目前郵件後，<strong>自動直接顯示下一封未讀郵件</strong>，大幅節省處理未讀信件的時間。</p>
+              <p style="font-size:0.88rem; color:#5f6368; margin-top:4px;">• 設定路徑：<code>Gmail 設定 (齒輪) → 觀看所有設定 →「進階」分頁 → 啟用「自動進階 (Auto-advance)」</code>。</p>
+            </div>
+
+            <div class="ui-preview">
+              <img src="images/gmail_auto_advance.jpg" alt="Gmail Auto-advance 功能示意圖">
+              <div class="ui-caption">▲ 圖 1-1：Gmail 進階設定 - Auto-advance 自動進階功能介面示意圖</div>
+            </div>
+
+            <div class="feature-grid">
+              <div class="feat-card">
+                <div class="feat-title">郵件篩選器與標籤</div>
+                <div class="feat-desc">搜尋欄輸入 <code>from:parent.com</code> 點選建立篩選器，可設定自動套用「家長來信」標籤並標示星號。</div>
+              </div>
+              <div class="feat-card">
+                <div class="feat-title">範本郵件 (Templates)</div>
+                <div class="feat-desc">針對常見親師詢問預先撰寫回覆範本，一鍵帶入罐頭回應。</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-section">
+            <h3 class="sub-title">1.3 Level up collaboration with smart canvas (智慧畫布與標籤)</h3>
+            <p>在 Google Docs 或 Sheets 中輸入 <code>@</code> 符號，可帶出人員標籤 (<code>@姓名</code>)、檔案預閱與會議紀錄範本 (<code>@Meeting notes</code>)。</p>
+
+            <div class="ui-preview">
+              <img src="images/smart_canvas_chips.jpg" alt="Smart Canvas 智慧標籤示意圖">
+              <div class="ui-caption">▲ 圖 1-2：Google Docs Smart Canvas 智慧標籤 (@ 符號功能) 介面示意圖</div>
+            </div>
+          </div>
+
+<div style="margin-top:28px; background:#fff8e1; border:1.5px solid #ffe082; border-radius:12px; padding:24px; box-shadow:0 4px 12px rgba(0,0,0,0.05);"><h3 style="color:#b06000; font-size:1.15rem; font-weight:700; margin-bottom:18px; display:flex; align-items:center; gap:8px;">📝 本單元官方認證真題對照與研習解題口訣</h3>
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 4 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(D)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] An educator is supervising a school project and has created a Google Doc to manage the agenda for a group of students. Which Smart chips would be used to assign specific tasks to students and set deadlines for each task within the document?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 教育工作者正在指導一項學校專案，並建立了 Google 文件來管理小組學生的議程。若要在文件中將特定任務指派給學生並為每項任務設定截止日期，應使用哪些智慧標籤 (Smart chips)？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] People and File<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 人員與檔案 (People and File)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] File and Date<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 檔案與日期 (File and Date)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (C) [EN] Date and Place<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 日期與地點 (Date and Place)</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (D) [EN] People and Date<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 人員與日期 (People and Date)</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：人員與日期 (People and Date)。使用 @姓名 指派負責學生，使用 @日期 設定任務截止日期。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 12 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(C)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] A student has finished their multipage research and realized that they credited the wrong author in several places. Which Google Docs feature can be used to locate all instances of the incorrect name in order to change it?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 一名學生完成了多頁的研究報告，發現自己在多個地方引用了錯誤的作者姓名。可以使用 Google 文件的哪項功能來定位所有錯誤姓名以便進行修改？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] Personal dictionary<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 個人字典 (Personal dictionary)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] Clear formatting<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 清除格式 (Clear formatting)</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (C) [EN] Find and replace<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 尋找與取代 (Find and replace)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Compare documents<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 比較文件 (Compare documents)</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：尋找與取代 (Find and replace / Ctrl+H)。能一鍵找出所有錯誤作者姓名並批次取代為正確姓名。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 14 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(C)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] An education leader invited staff members to a Google Calendar event. The education leader wants to collaborate with all attendees by taking brainstorming notes on Google Docs. Which process allows them to do this?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 教育主管邀請教職員參加 Google 行事曆活動。主管希望透過在 Google 文件上記錄腦力激盪筆記來與所有與會者協作。哪種流程可以達成此目的？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] Download the meeting notes as a PDF from Google Docs and email them individually to each attendee at the conclusion of the meeting.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 在會議結束時將會議紀錄下載為 PDF，並個別寄信給每位與會者</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] Take screenshots of the meeting notes in Google Docs and share them in the chat during the Google Meet.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 對會議紀錄進行截圖，並在 Google Meet 聊天室中分享</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (C) [EN] Create a document in Google Docs with meeting notes and attach the document to the Calendar invite for all attendees to view.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 在 Google Docs 建立包含會議紀錄的文件，並將文件附加至行事曆邀請中供所有與會者查看與協作</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Use Google Docs to organize meeting notes and distribute the published web url link to all attendees.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 使用 Google Docs 整理會議紀錄並散布發布的網頁連結</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：在 Google Docs 建立會議紀錄文件並將其附加至行事曆邀請中（或使用 Meeting Notes 智慧標籤），與會者皆可直接開啟協作。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 22 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(C)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] An education leader would like several members of their team to read and send emails on their behalf. How can the education leader achieve this?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 教育主管希望其團隊的幾名成員能代表他閱讀和發送電子郵件。教育主管該如何實現？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] Ask the team to send emails from their own mailbox signed as the leader.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 要求團隊從他們自己的信箱發信並署名主管姓名</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] Toggle confidential mode from the Compose window.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 從撰寫視窗切換機密模式</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (C) [EN] Use the Grant access to your account feature to delegate access.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 使用「授予您帳戶的存取權 (Grant access to your account)」代理授權功能</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Use the Priority Inbox feature in Quick settings.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 使用快速設定中的優先收件匣功能</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：使用「授予您帳戶的存取權 (Grant access to your account)」代理授權。授權代理人閱讀與發信，發信時會標示「由 XXX 代理發送」。
+          </div>
+        </div>
+        </div>
+        </section>
+
+        <!-- Unit 2 -->
+        <section class="unit-section" id="unit-2">
+          <div class="unit-header">
+            <span class="unit-badge" style="background:#34a853;">Unit 2</span>
+            <h2 class="unit-title">與家長及監護人高效溝通 (Communicate with parents and guardians)</h2>
+          </div>
+
+          <div class="sub-section">
+            <h3 class="sub-title">2.1 Google Forms 資料驗證 (Data Validation)</h3>
+            <p>收集家長 Email 或電話時，在簡答題右下角點選「驗證回應 (Data Validation)」，設定強制格式為「電子郵件位址」，防止輸入錯誤無效格式。</p>
+          </div>
+
+          <div class="sub-section">
+            <h3 class="sub-title">2.3 Google Calendar 預約時間表 (Appointment Schedules)</h3>
+            <p>自訂親師座談會或輔導時段（如 15 分鐘），開放家長線上預約，系統自動連動 Google Meet 連結與行事曆通知。</p>
+
+            <div class="ui-preview">
+              <img src="images/calendar_appointments.jpg" alt="Calendar 預約時間表示意圖">
+              <div class="ui-caption">▲ 圖 2-1：Google Calendar 預約時間表 (Appointment Schedules) 介面示意圖</div>
+            </div>
+          </div>
+
+<div style="margin-top:28px; background:#fff8e1; border:1.5px solid #ffe082; border-radius:12px; padding:24px; box-shadow:0 4px 12px rgba(0,0,0,0.05);"><h3 style="color:#b06000; font-size:1.15rem; font-weight:700; margin-bottom:18px; display:flex; align-items:center; gap:8px;">📝 本單元官方認證真題對照與研習解題口訣</h3>
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 1 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(D)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] A teacher wants to build a year-long connection with classrooms in other locations. The teacher has worked with the other teachers to plan out the interactions for the year. How can the teacher ensure all involved can see all the events as well as join and participate?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 老師希望與其他地區的班級建立為期一年的交流合作，並已與其他老師共同規劃好全年的互動活動。老師該如何確保所有參與者都能看到所有活動，並順利加入與參與？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] Add all the dates to a shared Google Doc.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 將所有日期新增至共用的 Google 文件中</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] Send an email reminder before each event.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 在每次活動前發送電子郵件提醒</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (C) [EN] Send the Google Meet link in the Google Chat group.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 在 Google Chat 群組中發送 Google Meet 連結</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (D) [EN] Schedule all events and invite participants in Google Calendar with a Google Meet.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 在 Google 行事曆中排定所有活動、邀請參與者並附加 Google Meet 視訊連結</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：在 Google 行事曆中排定所有活動、邀請參與者並附加 Google Meet。這樣能確保活動同步呈現於所有人的行事曆上，並提供一鍵加入 Meet 視訊的管道。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 10 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(D)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] An educator wants to set up time to meet with guardians for conferences in a way that allows their Google Calendar to automatically adjust to reflect available slots. Which method would they use?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 教育工作者希望設定與家長進行面談的時間，並希望 Google 行事曆能自動調整以呈現可供預約的時段。他們應該使用什麼方法？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] Email guardians and send them individual Events for their preferred time.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 寄電子郵件給家長，並根據他們偏好的時間寄送個別活動邀請</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] Create an event and use Find a time to meet with guardians.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 建立活動並使用「尋找空檔」與家長開會</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (C) [EN] Add a location to Calendar invites.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 在行事曆邀請中新增地點</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (D) [EN] Use Appointment schedule and send the URL link to guardians.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 使用預約時間表 (Appointment schedule) 並將專屬 URL 連結發送給家長</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：使用預約時間表 (Appointment schedule) 並發送 URL 連結。當家長預約後，行事曆會自動扣除該時段並防重複預約。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 16 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(B)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] Educators from different schools are planning a virtual exchange program. They want to collaborate in a space that allows them to add learning materials, moderate discussions, manage student participation, and host online meetings. Which Google Workspace for Education tool can they use to achieve their goal?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 來自不同學校的教師正在規劃虛擬交流計畫。他們希望在一個可以新增學習材料、主持討論、管理學生參與和舉辦線上會議的空間中進行協作。他們可以使用哪種工具達成目標？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] Design a collaborative Google Sites where each educator edits a page.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 設計一個共用的 Google 協作平台，每位老師編輯一個頁面</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (B) [EN] Create a class in Google Classroom and add all educators as co-teachers.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 在 Google Classroom 中建立一個班級，並將所有老師新增為協同教師 (Co-teachers)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (C) [EN] Create a shared Google Drive folder and grant all educators Editor permission.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 建立共用雲端硬碟資料夾並給予編輯權限</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Create a shared Google Calendar where all educators can create events.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 建立共用行事曆供老師新增活動</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：在 Google Classroom 建立班級並將所有老師新增為協同教師 (Co-teachers)。這樣能兼顧教材發布、學生管理與 Meet 線上會議。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 20 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(C)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] A teacher provides weekly classroom communications in five different languages. What Google Doc feature will allow them to do this?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 老師使用五種不同的語言發送每週班級通訊。Google 文件的哪項功能可以讓老師做到這一點？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] Dictionary<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 字典 (Dictionary)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] Find and replace<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 尋找與取代 (Find and replace)</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (C) [EN] Translate Document<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 翻譯文件 (Translate Document)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Autocomplete<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 自動完成 (Autocomplete)</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：翻譯文件 (Translate Document / 工具 $
+ightarrow$ 翻譯文件)。能將目前 Docs 一鍵複製並翻譯為指定語言的新文件。
+          </div>
+        </div>
+        </div>
+        </section>
+
+        <!-- Unit 3 -->
+        <section class="unit-section" id="unit-3">
+          <div class="unit-header">
+            <span class="unit-badge" style="background:#fbbc04; color:#202124;">Unit 3</span>
+            <h2 class="unit-title">系統化組織班級與教學素材 (Organize your class materials)</h2>
+          </div>
+
+          <div class="feature-grid">
+            <div class="feat-card">
+              <div class="feat-title">Docs 書籤 (Bookmark) 精準跳轉</div>
+              <div class="feat-desc">目標章節選取文字點選「插入 → 書籤」，於頁首目錄文字設定超連結指向該書籤，達成瞬移跳轉。</div>
+            </div>
+            <div class="feat-card">
+              <div class="feat-title">Sites 數位學習歷程 (Portfolio)</div>
+              <div class="feat-desc">整合學生作業、圖片與簡報，利用「在導覽列中隱藏 (Hide from navigation)」隱藏審查頁面。</div>
+            </div>
+          </div>
+
+<div style="margin-top:28px; background:#fff8e1; border:1.5px solid #ffe082; border-radius:12px; padding:24px; box-shadow:0 4px 12px rgba(0,0,0,0.05);"><h3 style="color:#b06000; font-size:1.15rem; font-weight:700; margin-bottom:18px; display:flex; align-items:center; gap:8px;">📝 本單元官方認證真題對照與研習解題口訣</h3>
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 2 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(A)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] A teacher has students work on a project-based learning activity of their choice. Students have taken various subtopics and used different Google tools (Docs, Slides, Youtube) to present the information. The teacher wants to provide a combined space for the students to share their findings of what they have learned. How would this be accomplished?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 老師讓學生進行自主選擇的專題式學習 (PBL)。學生選擇了不同的子主題，並使用不同的 Google 工具 (Docs, Slides, YouTube) 來呈現資訊。老師希望提供一個整合空間，讓學生分享他們的學習成果。這該如何實現？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#137333; font-weight:700;">✅ (A) [EN] Create a Google Site and provide each student with a page to share their work.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 建立一個 Google 協作平台 (Google Site)，並為每位學生提供一個頁面來分享他們的成果</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] Create a Google Site and embed a Google Calendar showing when students will present their work.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 建立一個 Google 協作平台，並內嵌 Google 行事曆顯示學生何時展示作品</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (C) [EN] Create a Google Site for each student to share their findings with the class.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 為每位學生分別建立一個 Google 協作平台與全班分享成果</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Create a Google Site and embed a Google Form for students to submit their work.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 建立一個 Google 協作平台，並內嵌 Google 表單供學生提交作品</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：建立一個 Google 協作平台並為每位學生提供一個專屬子頁面。Google Sites 是最佳的整合平台，能內嵌 Docs、Slides 與 YouTube 影片。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 6 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(B)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] An educator is preparing a role play activity in Google Docs. Students will be assigned one of several different roles, each with specific instructions. The educator wants to create a clear and organized document, allowing students to easily navigate to their designated part using a table of contents. Which feature must be used in the document for the table of contents to function correctly?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 教師正在 Google 文件中準備角色扮演活動。學生將被指派不同角色，每個角色都有具體說明。教師希望建立結構清晰的文件，讓學生能透過目錄輕鬆跳轉至指定部分。文件中必須使用什麼功能才能使目錄正常發揮作用？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] Bullets & numbering<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 項目符號與編號 (Bullets & numbering)</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (B) [EN] Paragraph styles<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 段落樣式 (Paragraph styles，如標題1、標題2)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (C) [EN] Page numbers<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 頁碼 (Page numbers)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Headers & footers<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 頁首與頁尾 (Headers & footers)</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：段落樣式 (Paragraph styles)。Google Docs 的目錄是自動根據段落樣式中的標題階層 (Headings) 產生的。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 7 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(C)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] A student often forgets to cite their sources and wants to make sure their submission to their teacher will show as being free of plagiarism. Which Google Classroom feature allows the student to double-check their academic integrity?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 學生經常忘記註明資料來源，並希望確保向老師提交的作業不會顯示抄襲。Google Classroom 的哪項功能可讓學生自行檢查學術誠信？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] Analytics<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 數據分析 (Analytics)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] Add-ons<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 擴充功能 (Add-ons)</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (C) [EN] Originality reports<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 原創性比對報告 (Originality reports)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Rubrics<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 評分基準 (Rubrics)</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：原創性比對報告 (Originality reports)。開啟此功能後，學生在交作業前最多可進行 3 次自我比對，檢查引述與抄襲。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 11 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(B)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] Students are building a Google Site to showcase a project they have created. They want their site to be visible to their teacher and classmates. Where would the students go to adjust access?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 學生正在建立 Google 協作平台 (Google Site) 來展示他們創作的專案。他們希望老師和同班同學都能看到網站。學生應該去哪裡調整存取權限？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] More<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 更多 (More)</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (B) [EN] Publish<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 發布 (Publish / 發布設定)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (C) [EN] Home<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 首頁 (Home)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Settings<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 設定 (Settings)</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：發布 (Publish)。點選「發布」旁的下拉箭頭或發布按鈕，可調整「已發布的網站」存取權限（如校內限定或公開）。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 17 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(D)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] A teacher wants to send a Form that they've turned into a Quiz to students in Google Classroom, with scores going directly to their Grades tab. How would they accomplish this?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 老師希望將已設為測驗的 Google 表單發送給 Google Classroom 中的學生，並讓分數直接匯入「成績 (Grades)」頁籤。老師該如何實現？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] Create an Assignment and attach the Shortened URL as a link.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 建立一般作業並將縮網址附加為連結</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] Use the People page to email the link to the Form to each student.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 使用「成員」頁面寄信給每位學生表單連結</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (C) [EN] Embed the HTML of the Form on the Stream page.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 將表單 HTML 內嵌在訊息串頁面</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (D) [EN] Create a Quiz Assignment and click Grade importing.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 建立「測驗作業 (Quiz Assignment)」並開啟「成績匯入 (Grade importing)」功能</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：建立「測驗作業 (Quiz Assignment)」並開啟「成績匯入 (Grade importing)」。這樣表單測驗得分會自動同步至成績冊。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 23 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(C)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] A student wants to create a portfolio of their work (documents) on Google Sites to present to prospective universities. What permission options would assist them in reaching their goal?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 一名學生想在 Google 協作平台 (Google Sites) 打造作品集 (文件)，向自己有意申請的大學展示。哪些權限選項有助達成此目標？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] Published site: Public, Documents: Restricted<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 已發布網站：公開 (Public)，文件：限制 (Restricted)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] Published site: Restricted, Documents: Restricted<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 已發布網站：限制 (Restricted)，文件：限制 (Restricted)</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (C) [EN] Published site: Public, Documents: Publish to the web<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 已發布網站：公開 (Public / 已知連結者可檢視)，文件：發布至網路 (Publish to the web / 權限開放)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Published site: Restricted, Documents: Publish to the web<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 已發布網站：限制 (Restricted)，文件：發布至網路 (Publish to the web)</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：已發布網站設為 Public (公開)，內嵌文件亦需設為 Publish to the web (或開放權限)，確保校外大學審查人員能正常查看作品集。
+          </div>
+        </div>
+        </div>
+        </section>
+
+        <!-- Unit 4 -->
+        <section class="unit-section" id="unit-4">
+          <div class="unit-header">
+            <span class="unit-badge" style="background:#ea4335;">Unit 4</span>
+            <h2 class="unit-title">打造互動式自主學習環境 (Create an interactive environment)</h2>
+          </div>
+
+          <div class="feature-grid">
+            <div class="feat-card">
+              <div class="feat-title">Slides 選擇板 (Choice Boards)</div>
+              <div class="feat-desc">按鈕超連結指向簡報內頁，將解答頁設定為「隱藏投影片 (Hide slide)」，防止點擊下一頁漏題。</div>
+            </div>
+            <div class="feat-card">
+              <div class="feat-title">Slides 觀眾問答 (Audience Q&A)</div>
+              <div class="feat-desc">簡報者檢視中開啟提問網址，聽眾可匿名或具名提問並進行按讚投票排序。</div>
+            </div>
+          </div>
+
+<div style="margin-top:28px; background:#fff8e1; border:1.5px solid #ffe082; border-radius:12px; padding:24px; box-shadow:0 4px 12px rgba(0,0,0,0.05);"><h3 style="color:#b06000; font-size:1.15rem; font-weight:700; margin-bottom:18px; display:flex; align-items:center; gap:8px;">📝 本單元官方認證真題對照與研習解題口訣</h3>
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 5 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(A)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] A team is collaborating on Google Meet, but one member's access to the internet is intermittent. What feature would allow the person to participate fully in the audio conversation?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 團隊正在使用 Google Meet 進行協作，但其中一位成員的網路連線不穩定。什麼功能可以讓該成員完全參與語音對話？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#137333; font-weight:700;">✅ (A) [EN] Join by phone<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 透過電話加入 (Join by phone)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] Call control<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 通話控制 (Call control)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (C) [EN] Noise cancellation<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 雜訊消除 (Noise cancellation)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Push to talk<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 按鍵發聲 (Push to talk)</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：透過電話加入 (Join by phone)。當網路不穩定時，成員可撥打 Meet 專用電話號碼連入語音會議。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 18 / 25 【複選題】</span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(B, E)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] A school leader is creating an interactive Google Slides presentation that includes several multimedia resources. What are two ways the school leader can attach the resources to a presentation? (Choose two.)</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 學校主管正在建立包含多個多媒體資源的互動式 Google 簡報。學校主管可以透過哪兩種方式將資源附加至簡報中？（選擇兩項）</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] Access the file menu and select page setup.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 進入檔案功能表並選擇頁面設定</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (B) [EN] Use the insert menu and select to link text or objects.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 使用「插入 (Insert)」功能表並選擇為文字或物件建立連結</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (C) [EN] Go to the file menu and select page setup.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 進入檔案功能表並選擇頁面設定</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Select the extensions menu and select add-ons.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 選擇擴充功能功能表並選擇外掛程式</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (E) [EN] Right-click on highlighted text and select link.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 在反白文字上按右鍵並選擇「連結 (Link)」</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：B (插入選單 $
+ightarrow$ 超連結) 與 E (反白文字右鍵 $
+ightarrow$ 連結)。這兩種方式皆能將多媒體超連結附加至簡報物件中。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 21 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(A)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] An educator wants to capture the attention of their students in a presentation resource created for a lesson. Which option would help the educator enhance the interactivity of the presentation with educational content?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 教育工作者希望在為課堂製作的簡報資源中吸引學生的注意力。哪項選項可以幫助教育工作者透過教育內容增強簡報的互動性？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#137333; font-weight:700;">✅ (A) [EN] Embed a YouTube video directly onto the slides.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 直接在投影片上內嵌 YouTube 影片 (Embed a YouTube video)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] Show collaborative pointers for all viewers of the presentation.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 向簡報的所有檢視者顯示協作指標</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (C) [EN] Change the look of the presentation using Theme builder.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 使用主題建構工具變更簡報外觀</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Apply a different transition to each slide.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 對每張投影片套用不同的轉場效果</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：直接在投影片上內嵌 YouTube 影片 (Embed a YouTube video)。能在簡報播放時直接播放影音教學，大幅提升互動性。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 24 / 25 【複選題】</span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(B, C)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] An educator would like to work collaboratively with a guest speaker on a community project using Google Meet. What are two ways the educator can leverage Google Workspace for Education tools that integrate with Google Meet? (Choose two.)</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 教育工作者希望使用 Google Meet 與客座講師就社區專案進行協作。教育工作者可以透過哪兩種方式運用與 Google Meet 整合的工具？（選擇兩項）</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] The guest speaker can watch a video about the community on YouTube to discuss with the educator in an email.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 客座講師可在 YouTube 上觀看影片並寄信討論</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (B) [EN] The guest speaker can start a meeting from Slides to give feedback on the project presentation.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 客座講師可直接從 Google Slides (簡報) 中發起 Meet 會議，對專案簡報給予回饋</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (C) [EN] The educator could quickly join Google Meet from Docs to discuss project details.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 教育工作者可以從 Google Docs (文件) 中快速加入 Google Meet 討論專案細節</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Share a video through Google Drive about the community project created by the educator and ask for email feedback.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 透過雲端硬碟分享影片並要求信件回饋</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (E) [EN] Add a YouTube video to Forms and ask the guest speaker to submit feedback.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 在表單新增影片並要求客座講師提交回饋</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：B (直接從 Slides 發起 Meet) 與 C (直接從 Docs 快速加入 Meet)。Google Workspace 已將 Meet 整合至 Docs/Slides 工具列中。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 25 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(B)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] A teacher wants students to create flash cards for their upcoming exam where one slide has a word and the other slide has the definition. What action would the teacher have students complete in Google Slides to create these flash cards?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 老師希望學生為即將到來的考試建立單字記憶卡 (Flash cards)，其中一張投影片寫有單字，另一張投影片寫有定義。老師會要求學生在 Google Slides 中完成什麼操作來建立這些記憶卡？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] Have students Auto-play Slides.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 讓學生自動播放簡報 (Auto-play Slides)</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (B) [EN] Have students hyperlink Slides to each other.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 讓學生將投影片互相建立超連結 (Hyperlink Slides to each other)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (C) [EN] Have students use Edit theme in Slides.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 讓學生在簡報中使用「編輯主題 (Edit theme)」</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Have students use Dictionary in Slides.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 讓學生在簡報中使用字典 (Dictionary)</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：將投影片互相建立超連結 (Hyperlink Slides to each other)。點擊單字投影片按鈕跳轉至定義頁，定義頁按鈕跳回單字頁，實現記憶卡互動。
+          </div>
+        </div>
+        </div>
+        </section>
+
+        <!-- Unit 5 -->
+        <section class="unit-section" id="unit-5">
+          <div class="unit-header">
+            <span class="unit-badge" style="background:#9c27b0;">Unit 5</span>
+            <h2 class="unit-title">實施學生個人化與差異化學習 (Personalize student learning)</h2>
+          </div>
+
+          <div class="feature-grid">
+            <div class="feat-card">
+              <div class="feat-title">Classroom 個別化分組派發</div>
+              <div class="feat-desc">發布作業時取消「所有學生」，指派給指定補救或資優小組進行個別輔導。</div>
+            </div>
+            <div class="feat-card">
+              <div class="feat-title">Forms 適應性路徑 (Branching)</div>
+              <div class="feat-desc">單選題與下拉題設定「根據回應跳轉至指定區段」，按答對或答錯自動引導不同教材。</div>
+            </div>
+          </div>
+
+<div style="margin-top:28px; background:#fff8e1; border:1.5px solid #ffe082; border-radius:12px; padding:24px; box-shadow:0 4px 12px rgba(0,0,0,0.05);"><h3 style="color:#b06000; font-size:1.15rem; font-weight:700; margin-bottom:18px; display:flex; align-items:center; gap:8px;">📝 本單元官方認證真題對照與研習解題口訣</h3>
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 3 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(A)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] An educator would like to give asynchronous verbal feedback to their students on a document that they have submitted. How would the educator achieve this?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 教育工作者希望對學生提交的文件提供非同步的口頭 (語音) 回饋。教育工作者該如何實現此目標？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#137333; font-weight:700;">✅ (A) [EN] Search for an add-on from the Google Workspace Marketplace.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 從 Google Workspace Marketplace 搜尋並安裝擴充功能 (Add-on，如 Mote)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] Send a message to the students using Chat.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 使用 Google Chat 發送訊息給學生</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (C) [EN] Leave a private comment in Classroom.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 在 Google Classroom 中留下私人註解</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Create a meeting invite to the students using Calendar.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 使用 Google Calendar 建立會議邀請</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：從 Google Workspace Marketplace 搜尋擴充功能（例如 Mote 語音回饋擴充功能），可在 Docs 中直接錄製並留下口頭語音回饋。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 8 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(B)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] A teacher wants to provide activities to extend their students' knowledge using Practice sets. Which feature would allow teachers to add a list of up to 10 resources the students can reference?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 老師希望使用練習題集 (Practice sets) 提供活動來擴展學生的知識。哪項功能允許老師新增多達 10 個供學生參考的資源？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] Import<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 匯入 (Import)</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (B) [EN] Extra help<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 額外協助 / 提示資源 (Extra help)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (C) [EN] Skills<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 技能 (Skills)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] More options<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 更多選項 (More options)</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：額外協助 (Extra help)。在 Practice sets 中，老師可為每題加入多達 10 個提示資源（影片、文字提示等）。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 13 / 25 【複選題】</span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(C, D)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] An educator would like to provide students with personalized learning to explore content. What are two ways an educator can use Google Workspace for Education tools to accomplish this? (Choose two.)</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 教育工作者希望為學生提供個人化學習以探索內容。教育工作者可以使用 Google Workspace for Education 工具透過哪兩種方式達成此目標？（選擇兩項）</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] Restrict Drive folder access to students in each class to increase the safety of files.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 限制每個班級學生對雲端硬碟資料夾的存取權限以提高安全性</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] Restrict Forms to one response per student to minimize cheating.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 限制表單每位學生只能回覆一次以減少作弊</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (C) [EN] Create a simple table of tools and add hyperlinks in a Google Docs table to guide students to explore a concept.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 在 Google 文件表格中建立工具清單並新增超連結，引導學生自主探索概念</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (D) [EN] Apply Flipped Classroom model by adding videos to Forms and ask questions about specific content.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 應用翻轉課堂 (Flipped Classroom) 模型，在表單中新增影片並針對特定內容提問</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (E) [EN] Create a public Drive where students can go to print out assignments.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 建立公開的雲端硬碟供學生列印作業</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：C (在文件表格中建立超連結引導探索) 與 D (翻轉課堂：Forms 嵌入影片並提問)。這兩者皆為個人化與自主探索教學實踐。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 19 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(C)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] A team of educators has decided to use Practice Sets to support all students with varying needs of support. Each educator is responsible for creating a practice set for a different part of the content. How would the educators share the practice sets so that team members can view and use them?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 教師團隊決定使用練習題集 (Practice Sets) 來支援具有不同需求的所有學生。每位教師負責為不同部分的內容建立練習題集。教師應如何分享練習題集以便團隊成員查看和使用？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#5f6368; font-weight:400;">  (A) [EN] Share the URL located at the top of the screen.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 分享螢幕頂部的網址</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] Print out a copy of the practice set for team members.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 為團隊成員列印一份練習題集紙本</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (C) [EN] Turn on link sharing and copy link for the team.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 開啟連結共用並複製連結 (Turn on link sharing and copy link) 給團隊成員</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Add the team to their classrooms.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 將團隊成員新增至他們的 Classroom 課程中</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：開啟連結共用並複製連結 (Turn on link sharing and copy link)。其他老師取得連結後即可檢視並複製該 Practice set 使用。
+          </div>
+        </div>
+        </div>
+        </section>
+
+        <!-- Unit 6 -->
+        <section class="unit-section" id="unit-6">
+          <div class="unit-header">
+            <span class="unit-badge" style="background:#009688;">Unit 6</span>
+            <h2 class="unit-title">分析與解讀學生學習數據 (Analyze & interpret student data)</h2>
+          </div>
+
+          <div class="sub-section">
+            <h3 class="sub-title">6.2 Google Sheets 高階數據函數與樞紐分析</h3>
+            <p>使用 QUERY SQL 語法動態過濾不及格名單：</p>
+            <pre><code>=QUERY(A1:E100, "SELECT A, B WHERE C < 60 AND E = '401' ORDER BY C ASC", 1)</code></pre>
+            <p style="margin-top:8px;">跨表連線使用 IMPORTRANGE，初次輸入必須點選「允許存取 (Allow Access)」：</p>
+            <pre><code>=IMPORTRANGE("https://docs.google.com/spreadsheets/d/xxx", "工作表1!A1:D50")</code></pre>
+
+            <div class="ui-preview">
+              <img src="images/sheets_data_query.jpg" alt="Google Sheets QUERY 與樞紐分析示意圖">
+              <div class="ui-caption">▲ 圖 6-1：Google Sheets QUERY 函數與樞紐分析數據視覺化介面示意圖</div>
+            </div>
+          </div>
+
+<div style="margin-top:28px; background:#fff8e1; border:1.5px solid #ffe082; border-radius:12px; padding:24px; box-shadow:0 4px 12px rgba(0,0,0,0.05);"><h3 style="color:#b06000; font-size:1.15rem; font-weight:700; margin-bottom:18px; display:flex; align-items:center; gap:8px;">📝 本單元官方認證真題對照與研習解題口訣</h3>
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 9 / 25 </span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(A)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] An educator uses Google Sheets to track and monitor student progress. They want to visualize the data based on student performance. Which Google Sheets feature should be applied to show different cell appearance based on specific criteria?</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 教育工作者使用 Google 試算表來追蹤和監控學生的學習進度，並希望根據學生的表現將數據視覺化。應套用 Google 試算表的哪項功能，以便根據特定條件顯示不同的儲存格外觀？</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#137333; font-weight:700;">✅ (A) [EN] Conditional Formatting<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 條件式格式設定 (Conditional Formatting)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] Autocomplete<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 自動完成 (Autocomplete)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (C) [EN] Pivot table<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 樞紐分析表 (Pivot table)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Data extraction<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 資料擷取 (Data extraction)</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：條件式格式設定 (Conditional Formatting)。能根據分數條件（如小於 60 分顯示紅色背景）自動變更儲存格外觀。
+          </div>
+        </div>
+        
+        <div style="background:white; border-radius:8px; padding:18px; margin-bottom:16px; border:1px solid #ffe082;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="background:#fff3e0; color:#e65100; font-weight:700; font-size:0.82rem; padding:3px 10px; border-radius:12px;">Question 15 / 25 【複選題】</span>
+            <span style="font-weight:700; color:#137333; font-size:0.9rem;">✅ 標準答案：(A, E)</span>
+          </div>
+          <div style="font-size:0.95rem; font-weight:600; color:#202124; margin-bottom:8px;">[EN] A teacher uses a Google Form to ask students to vote for their favorite color and creates a Google Sheet with responses. Which two tools in Google Sheets would the teacher use to calculate how many votes each color received? (Choose two.)</div>
+          <div style="font-size:0.95rem; font-weight:600; color:#1a73e8; margin-bottom:14px;">[中] 老師使用 Google 表單讓學生投票選擇最喜歡的顏色，並將回應連結至 Google 試算表。老師會使用 Google 試算表中的哪兩種工具來計算每種顏色獲得了多少票？（選擇兩項）</div>
+          
+          <div style="font-size:0.9rem; color:#3c4043; background:#f8f9fa; padding:12px; border-radius:6px; margin-bottom:12px;">
+            <strong>選項 (Options)：</strong><br>
+        <div style="margin-top:4px; color:#137333; font-weight:700;">✅ (A) [EN] Column stats<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 直行統計資料 (Column stats)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (B) [EN] Data cleanup<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 資料清理 (Data cleanup)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (C) [EN] Data extraction<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 資料擷取 (Data extraction)</div><div style="margin-top:4px; color:#5f6368; font-weight:400;">  (D) [EN] Timeline<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 時間軸 (Timeline)</div><div style="margin-top:4px; color:#137333; font-weight:700;">✅ (E) [EN] Pivot table<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[中] 樞紐分析表 (Pivot table)</div>
+          </div>
+          <div style="background:#e8f0fe; border-left:4px solid #1a73e8; padding:10px 14px; border-radius:0 6px 6px 0; font-size:0.88rem; color:#1557b0;">
+            <strong>💡 官方考點與詳細解題說明：</strong><br>正確答案為：A (Column stats 欄位統計) 與 E (Pivot table 樞紐分析表)。兩者皆能迅速計算重複文字項目的計數與比例。
+          </div>
+        </div>
+        </div>
+        </section>
+
+      </div>
+
+      <!-- VIEW 2: EXAM REGISTRATION GUIDE -->
+      <div id="reg-view" style="display:none;">
+        <div class="unit-section">
+          <h2 class="unit-title" style="margin-bottom:16px;">📋 Google Certified Educator Level 2 官方報名 5 大步驟與控制台導覽</h2>
+          <p style="margin-bottom:20px; color:var(--text-muted);">官方報名連結：<a href="https://educertifications.google/registration/2?lang=zh-TW" target="_blank" style="color:var(--primary); font-weight:700;">https://educertifications.google/registration/2?lang=zh-TW</a></p>
+          
+          <div class="callout-box" style="background:#e8f0fe; border-left-color:#1a73e8; margin-bottom:24px;">
+            <div class="callout-title" style="font-size:1.05rem;">🌐 考場超級祕技：點擊右上角 🌐 圖示隨時切換繁體中文與英文！</div>
+            <p style="font-size:0.92rem; color:#3c4043;">進行正式測驗時，若遇到翻譯較為彆扭的題目，點擊畫面右上角的 🌐 地球圖示即可彈出語系選單，隨時切換成 English 核對原版專有名詞，雙向切換不會影響答題時間與結果！</p>
+            <div class="ui-preview" style="margin-top:12px;">
+              <img src="images/switch_language_menu.png" alt="Google Skills 正式測驗語言隨時切換選單">
+              <div class="ui-caption">▲ 圖 0-1：測驗介面右上角 🌐 語言隨時切換下拉選單實景</div>
+            </div>
+          </div>
+
+          <div class="sub-section" style="background:#e6f4ea; padding:20px; border-radius:8px; border:1px solid #34a853; margin-bottom:24px;">
+            <h3 style="font-size:1.15rem; font-weight:700; color:#137333; margin-bottom:12px;">📚 官方考試兩大題型架構剖析：選擇題 (Quiz) + 實作題 (Lab Exams)</h3>
+            <p style="font-size:0.92rem; color:#3c4043; margin-bottom:12px;">Google Certified Educator Level 2 考試包含「選擇題觀念測驗」與「實戰操作實驗測驗 (Lab Exams)」兩大部分：</p>
+            <div class="ui-preview" style="margin-top:12px;">
+              <img src="images/exam_structure_dropdown.png" alt="Google Level 2 考試兩大題型目錄選單實景">
+              <div class="ui-caption">▲ 圖 0-2：官方測驗選單實景 — 包含 GCE Level 2: Quiz A (選擇題) 與各項 Lab Exam 實務操作題 (Classroom, Calendar, Slides Lab)</div>
+            </div>
+            <div class="feature-grid" style="margin-top:16px;">
+              <div class="feat-card" style="background:white;">
+                <div class="feat-title" style="color:#1a73e8;">1. 選擇題觀念測驗 (Quiz A)</div>
+                <div class="feat-desc">包含 25 道情境單選題與複選題，評量教學情境理解與最優解法選擇（本系統提供完整 25 題雙語練習）。</div>
+              </div>
+              <div class="feat-card" style="background:white;">
+                <div class="feat-title" style="color:#137333;">2. 實作實驗測驗 (Lab Exams)</div>
+                <div class="feat-desc">在控制台進行真實工具操作：<br>• <strong>Classroom Lab</strong>：個別分組派發、測驗作業與成績匯入。<br>• <strong>Calendar Lab</strong>：預約時間表 (Appointment schedule) 設定。<br>• <strong>Slides Lab</strong>：選擇板 (Choice boards) 與隱藏投影片設定。</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-section" style="background:#f8f9fa; padding:20px; border-radius:8px; border:1px solid var(--border); margin-bottom:24px;">
+            <h3 style="font-size:1.15rem; font-weight:700; color:var(--dark); margin-bottom:12px;">🖥️ GCE Launchpad 認證控制台介面導覽</h3>
+            <div class="ui-preview">
+              <img src="images/gce_launchpad.png" alt="Google for Education Launchpad 控制台">
+              <div class="ui-caption">▲ 圖 4-0：Your Google for Education Launchpad 認證儀表板實景介面</div>
+            </div>
+            <div class="feature-grid">
+              <div class="feat-card">
+                <div class="feat-title">▶️ Continue Exams (繼續測驗)</div>
+                <div class="feat-desc">查看已報名且在 14 天效期內的測驗，隨時點擊啟動進行 180 分鐘應試。</div>
+              </div>
+              <div class="feat-card">
+                <div class="feat-title">📊 結果 (Results & Certificates)</div>
+                <div class="feat-desc">查看歷次測驗成績，考取後在此下載 3 年有效的官方電子證書與數位徽章。</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-num">STEP 1</div>
+            <div class="step-title">前往官方認證平台、登入 Google 帳號與出生年月日資格驗證 【官方實景】</div>
+            <p>點選「登入 / Sign In」，使用您常用且能正常收發郵件的個人或學校 Google 帳號登入。首次登入或報名時，系統會彈出 <strong>Confirm your eligibility (出生年月日資格驗證)</strong> 視窗：</p>
+            <div class="ui-preview">
+              <img src="images/confirm_eligibility.png" alt="Google Skills Confirm your eligibility 資格驗證實景">
+              <div class="ui-caption">▲ 圖 1-0：Confirm your eligibility 出生年月日資格驗證彈窗實景 (填寫月 Month / 日 Day / 年 Year 後點選 Submit 提交)</div>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-num">STEP 2</div>
+            <div class="step-title">選擇「Google Certified Educator Level 2」與語言</div>
+            <p>在認證列表中找到 Level 2 項目點選報名，並選擇試題語言為「繁體中文」或「英文」。</p>
+          </div>
+
+          <div class="step-box">
+            <div class="step-num">STEP 3</div>
+            <div class="step-title">使用兌換碼 (Voucher) 或線上刷卡 ($25 美金)</div>
+            <p>若研習有發放免費兌換碼，在 Promotion Code 欄位輸入並點選 Apply。若無兌換碼，請輸入信用卡資訊支付 $25 美金報名費。</p>
+          </div>
+
+          <div class="step-box">
+            <div class="step-num">STEP 4</div>
+            <div class="step-title">報名完成畫面與啟動測驗 【官方實景】</div>
+            <p>報名或兌換成功後，畫面會顯示：<strong>「您已報名教育家第 2 級測驗」</strong>！</p>
+            <div class="ui-preview">
+              <img src="images/registration_complete.png" alt="Google Level 2 註冊完成官方實景畫面">
+              <div class="ui-caption">▲ 圖 4-1：報名成功官方實景畫面 — 提示 14 天內開始測驗，提供「參加測驗」與「前往 GCE Launchpad」按鈕</div>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-num">STEP 5</div>
+            <div class="step-title">前往 Continue Exams 啟動測驗與正式測驗畫面 【官方實景】</div>
+            <p>在 Launchpad 點選「Continue Exams」即可看到您已準備就緒的測驗卡片：</p>
+            <div class="ui-preview">
+              <img src="images/continue_exams_card.png" alt="Continue Exams 測驗啟動卡片實景圖">
+              <div class="ui-caption">▲ 圖 4-2：Continue Exams 測驗啟動卡片實景 — 顯示「準備就緒」、「14 測驗倒數天數」、「中文 (繁體中文)」與藍色「參加測驗」啟動按鈕</div>
+            </div>
+            <p style="margin-top:12px;">點擊「參加測驗」後即可跳轉開通 180 分鐘正式試題畫面（GCE 第 2 級：測驗 A）：</p>
+            <div class="ui-preview">
+              <img src="images/actual_exam_screen.png" alt="Google Skills 正式測驗介面實景圖">
+              <div class="ui-caption">▲ 圖 4-3：GCE 第 2 級測驗 A 正式測驗介面實景 — 正體中文實務情境題目與 Next / Previous 答題導覽按鈕</div>
+            </div>
+          </div>
+
+          <div class="callout-box" style="background:#fce8e6; border-left-color:var(--danger);">
+            <div class="callout-title" style="color:#c5221f;">⚠️ 官方補考冷卻時間規定 (Retake Policy)</div>
+            <p style="font-size:0.9rem; color:#3c4043;">• 第一次未通過：需等待 14 天方可再次付費補考。<br>• 第二次未通過：需等待 60 天方可補考。<br>• 第三次未通過：需等待 1 年方可補考。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 3: CHEATSHEET CARDS -->
+      <div id="cheatsheet-view" style="display:none;">
+        <div class="unit-section">
+          <h2 class="unit-title" style="margin-bottom:16px;">⚡ 考前 15 分鐘速記重點對照表</h2>
+          <div class="feature-grid">
+            <div class="feat-card" style="border-left:4px solid #1a73e8;">
+              <div class="feat-title">Unit 1: 自動化行政</div>
+              <div class="feat-desc">• Gmail 刪除/封存後自動顯示下一封未讀：<strong>Auto-advance (自動進階)</strong><br>• Docs/Sheets 輸入 <code>@</code> 帶出人員標籤與會議紀錄：<strong>Smart Canvas</strong></div>
+            </div>
+            <div class="feat-card" style="border-left:4px solid #34a853;">
+              <div class="feat-title">Unit 2: 親師溝通</div>
+              <div class="feat-desc">• 開放家長預約 15 分鐘諮詢時段：<strong>Appointment Schedules</strong><br>• Forms 防止家長輸入無效 Email：<strong>回應驗證 (Data Validation)</strong></div>
+            </div>
+            <div class="feat-card" style="border-left:4px solid #fbbc04;">
+              <div class="feat-title">Unit 3: 班級素材</div>
+              <div class="feat-desc">• Docs 精準內部頁面跳轉：<strong>插入 → 書籤 (Bookmark)</strong><br>• Sites 隱藏草稿頁面：<strong>在導覽列中隱藏 (Hide from navigation)</strong></div>
+            </div>
+            <div class="feat-card" style="border-left:4px solid #ea4335;">
+              <div class="feat-title">Unit 4: 互動學習</div>
+              <div class="feat-desc">• Slides 防止按下一頁漏解答：<strong>隱藏投影片 (Hide slide)</strong><br>• Slides 即時聽眾提問與投票：<strong>觀眾工具 (Audience Q&A)</strong></div>
+            </div>
+            <div class="feat-card" style="border-left:4px solid #9c27b0;">
+              <div class="feat-title">Unit 5: 個人化差異</div>
+              <div class="feat-desc">• Classroom 個別派發：取消勾選「所有學生」<br>• Forms 適應性測驗：<strong>根據回應跳轉至指定區段 (僅單選/下拉支援)</strong></div>
+            </div>
+            <div class="feat-card" style="border-left:4px solid #009688;">
+              <div class="feat-title">Unit 6: 數據分析</div>
+              <div class="feat-desc">• Sheets SQL 篩選：<strong>=QUERY()</strong><br>• 跨表連線授權：<strong>=IMPORTRANGE() 點選「允許存取 (Allow Access)」</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 4: OFFICIAL REFERENCES LINKS -->
+      <div id="refs-view" style="display:none;">
+        <div class="unit-section">
+          <h2 class="unit-title" style="margin-bottom:16px;">🔗 Google Teacher Center 官方 18 個 Lessons 連結庫</h2>
+          <p style="margin-bottom:16px; color:var(--text-muted);">本講義完全對照以下官方連結，點擊即可直達 Teacher Center 各子單元：</p>
+          
+          <ul class="ref-link-list">
+            <li><strong>課程總主頁</strong>：<a href="https://edu.exceedlms.com/student/path/1727915?locale=zh_tw" target="_blank">Intermediate use of Google Workspace for Education Fundamentals 官方主頁</a></li>
+            <li><strong>官方報名網址</strong>：<a href="https://educertifications.google/registration/2?lang=zh-TW" target="_blank">Google Certified Educator Level 2 官方線上報名入口</a></li>
+
+            <li style="margin-top:16px; font-weight:700; color:var(--primary);">【Unit 1: 自動化課堂與行政任務】</li>
+            <li>• Lesson 1.1 (Gmail Auto-advance): <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306618?locale=zh_tw" target="_blank">Boost your efficiency in Gmail (3306618)</a></li>
+            <li>• Lesson 1.2 (Add-ons): <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306619?locale=zh_tw" target="_blank">Explore add-ons in Google Workspace (3306619)</a></li>
+            <li>• Lesson 1.3 (Smart Canvas): <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306620?locale=zh_tw" target="_blank">Level up collaboration with smart canvas (3306620)</a></li>
+
+            <li style="margin-top:16px; font-weight:700; color:var(--accent);">【Unit 2: 與家長及監護人高效溝通】</li>
+            <li>• Lesson 2.1 (Forms Data Validation): <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306622?locale=zh_tw" target="_blank">Organize guardian Information with Google Forms (3306622)</a></li>
+            <li>• Lesson 2.2 (Communication Systems): <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306623?locale=zh_tw" target="_blank">Create a communication system with Google tools (3306623)</a></li>
+            <li>• Lesson 2.3 (Appointment Schedules): <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306624?locale=zh_tw" target="_blank">Manage meetings with Google Workspace (3306624)</a></li>
+
+            <li style="margin-top:16px; font-weight:700; color:#b06000;">【Unit 3: 系統化組織班級與教學素材】</li>
+            <li>• Lesson 3.1 (Docs Syllabus & Bookmarks): <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306626?locale=zh_tw" target="_blank">Create a digital syllabus in Google Docs (3306626)</a></li>
+            <li>• Lesson 3.2 (Sites Digital Portfolios): <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306627?locale=zh_tw" target="_blank">Create digital portfolios with Drive and Sites (3306627)</a></li>
+
+            <li style="margin-top:16px; font-weight:700; color:var(--danger);">【Unit 4: 打造互動式自主學習環境】</li>
+            <li>• Lesson 4.1 (Slides Choice Boards & Q&A): <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306629?locale=zh_tw" target="_blank">Deliver interactive presentations with Slides (3306629)</a></li>
+            <li>• Lesson 4.2 (Meet Breakout Rooms): <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306630?locale=zh_tw" target="_blank">Use Google Meet to Connect to the World (3306630)</a></li>
+
+            <li style="margin-top:16px; font-weight:700; color:#9c27b0;">【Unit 5: 實施學生個人化與差異化學習】</li>
+            <li>• Lesson 5.1 (Personalization Options): <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306632?locale=zh_tw" target="_blank">Share personalization options using Workspace (3306632)</a></li>
+            <li>• Lesson 5.2 (Visualize Learning): <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306633?locale=zh_tw" target="_blank">Visualize learning using Google Workspace (3306633)</a></li>
+            <li>• Lesson 5.3 (Publish Work & Blogger): <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306634?locale=zh_tw" target="_blank">Publish work online using Google tools (3306634)</a></li>
+            <li>• Lesson 5.4 (Teaching Best Practice): <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306635?locale=zh_tw" target="_blank">Teaching and learning best practice (3306635)</a></li>
+
+            <li style="margin-top:16px; font-weight:700; color:#009688;">【Unit 6: 分析與解讀學生學習數據】</li>
+            <li>• Lesson 6.1 (Formative Assessments): <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306637?locale=zh_tw" target="_blank">Deliver formative assessments with Classroom (3306637)</a></li>
+            <li>• Lesson 6.2 (Visualize Results): <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306638?locale=zh_tw" target="_blank">Visualize student results with Google Sheets (3306638)</a></li>
+            <li>• Lesson 6.3 (Sheets QUERY & IMPORTRANGE): <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306639?locale=zh_tw" target="_blank">Analyze data in Google Sheets (3306639)</a></li>
+
+            <li style="margin-top:16px; font-weight:700; color:var(--dark);">【隨堂總評量測驗】</li>
+            <li>• End of Course Assessment: <a href="https://edu.exceedlms.com/student/path/1717663/activity/3306641?locale=zh_tw" target="_blank">Test your knowledge in the Intermediate use (3306641)</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <script>
+    function scrollToSection(id) {
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      switchView('tools');
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function switchView(mode) {
+      document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
+      document.getElementById('tools-view').style.display = 'none';
+      document.getElementById('map-view').style.display = 'none';
+      document.getElementById('unit-nav-block').style.display = (mode === 'full') ? 'block' : 'none';
+      document.getElementById('full-handout-view').style.display = 'none';
+      document.getElementById('reg-view').style.display = 'none';
+      document.getElementById('cheatsheet-view').style.display = 'none';
+      document.getElementById('refs-view').style.display = 'none';
+
+      if (mode === 'tools') {
+        document.getElementById('tab-btn-tools').classList.add('active');
+        document.getElementById('tools-view').style.display = 'block';
+      } else if (mode === 'map') {
+        document.getElementById('tab-btn-map').classList.add('active');
+        document.getElementById('map-view').style.display = 'block';
+      } else if (mode === 'full') {
+        document.getElementById('tab-btn-full').classList.add('active');
+        document.getElementById('full-handout-view').style.display = 'block';
+      } else if (mode === 'reg') {
+        document.getElementById('tab-btn-reg').classList.add('active');
+        document.getElementById('reg-view').style.display = 'block';
+      } else if (mode === 'cheatsheet') {
+        document.getElementById('tab-btn-cheat').classList.add('active');
+        document.getElementById('cheatsheet-view').style.display = 'block';
+      } else if (mode === 'refs') {
+        document.getElementById('tab-btn-refs').classList.add('active');
+        document.getElementById('refs-view').style.display = 'block';
+      }
+    }
+
+    function handleSearch() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const sections = document.querySelectorAll('.unit-section');
+      
+      sections.forEach(sec => {
+        const text = sec.innerText.toLowerCase();
+        if (text.includes(q)) {
+          sec.style.display = 'block';
+        } else {
+          sec.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

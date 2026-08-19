@@ -1,98 +1,47 @@
-# Google Certified Educator Level 2 研習講義
+# Google Certified Educator Level 2 全套研習講義與備考工具包
 
-以**工具**為主軸的 Google Workspace 教師研習講義，共十個工具、**40 個實務演練**。
-每一則演練都包含真實教學情境、可實際動手的練習環境，以及可逐項打勾的操作步驟。
+本工具包收錄對照 Google 官方 Teacher Center 最新 **Level 2 (Google 認證教育者第 2 級)** 課程所製作之繁體中文全方位研習講義、報名流程教學、25 題雙語對照真題庫、15 個實作 Lab 演練手冊與三款 HTML5 網頁應用程式。
 
-👉 **線上閱讀**：<https://wukolo1206.github.io/gce-level2-workshop/>
+---
 
-## 特色
+## 📂 整理後之資料夾目錄結構與檔案說明
 
-**每則演練都給得出真正能練的環境**，而不是只給一份說明文件：
+### 🌐 1. 主網頁入口 (HTML Web Applications)
+- 📖 **[study_guide_app.html](file:///d:/備課ai/研習講義/Google認證_Level2_研習講義與備考工具包/study_guide_app.html)** (推薦首選)：
+  - **研習講義與備考總系統**：包含 6 大單元圖文對照、官方報名流程、考前 15 分鐘速記卡與側邊欄無縫整合。
+- 📝 **[quiz_app.html](file:///d:/備課ai/研習講義/Google認證_Level2_研習講義與備考工具包/quiz_app.html)**：
+  - **25 題雙語線上刷題 App**：收錄 Quiz A 官方 25 題實務真題，支援【繁體中文 / English / 中英對照】切換。
+- 🛠️ **[lab_exercises_app.html](file:///d:/備課ai/研習講義/Google認證_Level2_研習講義與備考工具包/lab_exercises_app.html)**：
+  - **15 個 Lab 實務操作演練網頁 App**：提供步驟進度 Checkboxes 與關鍵字一鍵複製按鈕。
 
-| 練習方式 | 適用 | 做法 |
-|---|---|---|
-| 📄 複製範本 | Docs／Sheets／Slides | 點按鈕建立你自己的副本，改壞了也沒關係 |
-| ⚡ 一鍵建立 | Calendar | 直接在你自己的日曆開一個已填好內容的活動草稿 |
-| 👥 兩人一組 | 協同教師、帳戶代理 | 需要另一個人才練得到，附角色分工 |
-| 🎙️ 講師開房 | Meet、學生視角體驗 | 講師開好會議室或課程，學員進去實測 |
-| 🔨 自己建一次 | Forms、Sites | 沒有範本，從空白做一次（這類功能自己排過才會懂） |
-| ⚠️ 需付費授權 | Practice Sets | 標註授權門檻，並附一般帳號的替代練習 |
+---
 
-**每篇都附中英術語對照表**，因為 Google 介面可切換語言、官方文件也多用英文。
+### 📘 2. 講義與說明文件庫 (`docs/`)
+- 📋 **[EXAM_REGISTRATION_GUIDE.md](file:///d:/備課ai/研習講義/Google認證_Level2_研習講義與備考工具包/docs/EXAM_REGISTRATION_GUIDE.md)**：官方報名 5 大步驟與 6 大考場實景圖解。
+- 📘 **[GCE_Level_2_Quiz_A_25題完整考題庫.md](file:///d:/備課ai/研習講義/Google認證_Level2_研習講義與備考工具包/docs/GCE_Level_2_Quiz_A_25題完整考題庫.md)**：25 題官方真題中英雙語完整考題庫。
+- 🛠️ **[GCE_Level_2_Lab_Exams_15個實務操作練習題庫與學習手冊.md](file:///d:/備課ai/研習講義/Google認證_Level2_研習講義與備考工具包/docs/GCE_Level_2_Lab_Exams_15個實務操作練習題庫與學習手冊.md)**：15 個 Lab 實作手把手練習手冊。
+- 🛠️ **Lab 1/2/3 獨立指南**：`GCE_Level_2_Lab_1_Classroom_實作題完整指南.md`、`GCE_Level_2_Lab_2_Calendar_實作題完整指南.md`、`GCE_Level_2_Lab_3_Slides_實作題完整指南.md`。
+- ⚡ **[Google_Level_2_精華速記卡.md](file:///d:/備課ai/研習講義/Google認證_Level2_研習講義與備考工具包/docs/Google_Level_2_精華速記卡.md)**：考前 15 分鐘極速衝刺速查表。
+- 🔗 **[REFERENCES.md](file:///d:/備課ai/研習講義/Google認證_Level2_研習講義與備考工具包/docs/REFERENCES.md)**：18 個 官方 Lessons 網址與追蹤清單。
 
-## 十篇工具講義
+---
 
-| 工具 | 演練數 | 內容 |
-|---|---|---|
-| [Google Docs](docs_workshop_app.html) | 7 | 智慧晶片、段落樣式、翻譯、探索學習單 |
-| [Google Classroom](classroom_workshop_app.html) | 5 | 協同教師、主題、成績匯入、公告 |
-| [Google Calendar](calendar_workshop_app.html) | 5 | 預約表、直播、權限、會議記錄、系列活動 |
-| [Google Slides](slides_workshop_app.html) | 4 | 超連結、母版、內嵌影片、分享權限 |
-| [Gmail](gmail_workshop_app.html) | 4 | 帳戶代理、篩選器、範本排程、搜尋運算子 |
-| [Google Sheets](sheets_workshop_app.html) | 3 | 條件式格式、樞紐分析、篩選器檢視畫面 |
-| [Google Meet](meet_workshop_app.html) | 3 | 電話備援、檔案內視訊、分組討論室 |
-| [Google Forms](forms_workshop_app.html) | 3 | 區段跳轉、測驗評分、回應驗證 |
-| [Google Sites](sites_workshop_app.html) | 3 | 子頁面、發布權限、內嵌動態內容 |
-| [Practice Sets](practicesets_workshop_app.html) | 3 | 額外協助、題組共享、課程深入分析 |
+### 📦 3. 數據資料庫 (`data/`)
+- `official_quiz_a_25q.json`：25 題雙語考題數據庫。
+- `official_course_dump.json`：18 個 Lessons 課程網頁抓取數據庫。
 
-另附[**課程結構對照**](course_structure_map.html)：官方繁體中文版（11 個實務單元）與英文版
-（6 Units / 18 Lessons）的目錄完全不同，這張表把兩者與十篇工具講義對起來，
-並保留「一個教學情境要串哪幾個工具」的綜合應用視角。
+---
 
-## 帳號授權提醒
+### 🛠️ 4. 構建腳本 (`scripts/`)
+- `build_quiz_app.py`、`build_lab_exercises_app.py`、`fetch_course_details.py`、`make_word_doc.py`、`copy_images.py`。
 
-部分功能需要付費授權，講義中都已標註並附替代練習：
+---
 
-| 功能 | 個人 Gmail | Education Fundamentals | Education Plus / T&L |
-|---|---|---|---|
-| Meet 串流直播 | ❌ | ❌ | ✅ |
-| Meet 分組討論室（當主持人） | ❌ | ✅ | ✅ |
-| Classroom 原創性比對 | ❌ | ✅ | ✅ |
-| Practice Sets | ❌ | ❌ | ✅ |
+### 🖼️ 5. 圖片庫 (`images/`)
+- 收錄考場選單、報名完成、資格驗證、言語切換與各項功能介面實景圖片。
 
-## 如何修改內容
+---
 
-所有講義由腳本產生，**不要直接改 HTML**：
-
-```bash
-# 1. 改內容（40 個演練的情境與步驟）
-scripts/workshop_content.py
-
-# 2. 改中英術語表
-scripts/workshop_glossary.py
-
-# 3. 重新產生
-python scripts/build_workshop_apps.py        # 十篇工具講義
-python scripts/build_course_structure_map.py # 課程結構對照
-python scripts/build_public_index.py         # 首頁與公開版打包
-```
-
-## 內容正確性
-
-講義中的介面名稱與選單路徑經過兩輪 AI 交叉審查與官方說明頁查證，
-修正了 12 處名稱錯誤與多處步驟前置條件（例如 Gmail 帳戶代理接受後最多需 24 小時才生效、
-Classroom 排定發布的公告不會出現在訊息串因此無法置頂）。
-
-Google 的介面文案改版頻繁，若你發現任何名稱與現況不符，歡迎開 Issue 指正。
-
-## 版權與授權
-
-**製作：碧華國小　吳國榮**
-
-**資料來源**：本講義內容係參考 Google Teacher Center 官方課程與 Google Workspace 官方說明文件，
-經整理、改寫與重新編排而成；教學情境與演練設計為自行撰寫，部分文字於 AI 工具協助下編修。
-操作步驟已對照官方說明文件查證，惟 Google 介面時有更新，如有出入請以官方最新說明為準。
-
-**授權**：本專案中自行撰寫之教學情境、演練編排、說明文字與產生器程式碼，
-以 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant) 釋出——
-歡迎教育工作者於**非商業**之教學與研習用途自由使用與改編，請註明出處並以相同方式分享。
-**商業性研習、課程或出版不在授權範圍內**，需洽詢授權。
-
-**不在授權範圍**：`images/` 中的 Google 產品介面截圖著作權屬 Google LLC 所有，僅為教學說明目的引用；
-Google、Google Workspace、Google Classroom 等為 Google LLC 之商標。
-本專案為個人教學製作，與 Google LLC 無隸屬或合作關係。
-
-詳見 [LICENSE](LICENSE)。
-
-**聯絡**：若權利人認為內容有不當使用之情形，或欲洽詢商業使用授權，
-請來信 wukolo1206@gmail.com。
+### 📄 6. Word 講義與專案維護檔案
+- `Google_Certified_Educator_Level_2_講義.docx` (可供列印之 Word 檔)
+- `AGENTS.md` / `CLAUDE.md` / `CHANGELOG.md` / `PITFALLS.md` / `DECISIONS.md` / `handoff.md`

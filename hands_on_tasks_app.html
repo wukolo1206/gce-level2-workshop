@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>25 個全實作原創教學情境演練 App (附雲端真實檔案)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --primary-light: #e8f0fe;
+      --text-main: #202124;
+      --bg-body: #f8f9fa;
+      --bg-card: #ffffff;
+      --border: #dadce0;
+      --shadow: 0 4px 16px rgba(0,0,0,0.06);
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Google Sans', 'Noto Sans TC', sans-serif;
+      background: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
+      color: white;
+      padding: 24px 32px;
+      box-shadow: 0 4px 12px rgba(26,115,232,0.25);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-title h1 { font-size: 1.5rem; font-weight: 700; }
+    .header-title p { font-size: 0.9rem; opacity: 0.9; margin-top: 4px; }
+
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav-btn {
+      text-decoration: none;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover { background: white; color: var(--primary); }
+
+    .container {
+      max-width: 1100px;
+      margin: 28px auto;
+      padding: 0 20px;
+    }
+
+    .search-box {
+      margin-bottom: 24px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 12px 18px;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      outline: none;
+    }
+
+    .search-input:focus { border-color: var(--primary); }
+
+    .task-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      border-left: 5px solid var(--primary);
+    }
+
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .task-num {
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+
+    .task-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .scenario-box {
+      background: #fef7e0;
+      border-left: 4px solid #f9ab00;
+      padding: 14px 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 14px 0;
+      font-size: 0.93rem;
+    }
+
+    .scenario-box strong { color: #b06000; }
+
+    .tool-badge {
+      display: inline-block;
+      background: #e6f4ea;
+      color: #137333;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .step-list {
+      background: #f8f9fa;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 14px 0;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      font-size: 0.92rem;
+    }
+
+    .step-item input[type="checkbox"] {
+      margin-top: 4px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .validation {
+      background: #e8f0fe;
+      color: #1967d2;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-title">
+      <h1>🛠️ 25 個全實作原創教學情境演練 App</h1>
+      <p>無考題痕跡 ‧ 工具功能導向 ‧ 附 25 個雲端真實 Google 實作檔網址</p>
+    </div>
+    <div class="nav-links">
+      <a href="study_guide_app.html" class="nav-btn">📖 回研習主講義</a>
+      <a href="quiz_app.html" class="nav-btn">📝 25 題雙語刷題 App</a>
+      <a href="lab_exercises_app.html" class="nav-btn">🛠️ 15 個 Lab 練習 App</a>
+    </div>
+  </header>
+
+  <div class="container">
+    
+    <div class="search-box">
+      <input type="text" id="searchInput" class="search-input" placeholder="🔍 搜尋演練關鍵字（例如：取代、智慧晶片、預約時間表、翻譯、條件式格式...）" oninput="filterTasks()">
+    </div>
+
+    
+    <!-- 10 大工具快捷分類頁籤 -->
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; padding:12px; background:white; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05);" id="toolFilterBar">
+      <button class="tool-filter-btn active" onclick="filterByTool('all', this)" style="border:none; padding:8px 14px; border-radius:16px; font-weight:700; font-size:0.85rem; cursor:pointer; background:#1a73e8; color:white;">🌟 全部 25 個演練</button>
+      <button class="tool-filter-btn" onclick="filterByTool('docs', this)" style="border:none; padding:8px 14px; border-radius:16px; font-weight:700; font-size:0.85rem; cursor:pointer; background:#e8f0fe; color:#1a73e8;">📄 1. Google Docs (6項)</button>
+      <button class="tool-filter-btn" onclick="filterByTool('calendar', this)" style="border:none; padding:8px 14px; border-radius:16px; font-weight:700; font-size:0.85rem; cursor:pointer; background:#e8f0fe; color:#1a73e8;">📅 2. Google Calendar (3項)</button>
+      <button class="tool-filter-btn" onclick="filterByTool('classroom', this)" style="border:none; padding:8px 14px; border-radius:16px; font-weight:700; font-size:0.85rem; cursor:pointer; background:#e6f4ea; color:#137333;">🏫 3. Google Classroom (3項)</button>
+      <button class="tool-filter-btn" onclick="filterByTool('slides', this)" style="border:none; padding:8px 14px; border-radius:16px; font-weight:700; font-size:0.85rem; cursor:pointer; background:#fef7e0; color:#b06000;">🎨 4. Google Slides (3項)</button>
+      <button class="tool-filter-btn" onclick="filterByTool('sites', this)" style="border:none; padding:8px 14px; border-radius:16px; font-weight:700; font-size:0.85rem; cursor:pointer; background:#f3e8fd; color:#7b1fa2;">🌐 5. Google Sites (2項)</button>
+      <button class="tool-filter-btn" onclick="filterByTool('sheets', this)" style="border:none; padding:8px 14px; border-radius:16px; font-weight:700; font-size:0.85rem; cursor:pointer; background:#e6f4ea; color:#137333;">📊 6. Google Sheets (2項)</button>
+      <button class="tool-filter-btn" onclick="filterByTool('meet', this)" style="border:none; padding:8px 14px; border-radius:16px; font-weight:700; font-size:0.85rem; cursor:pointer; background:#e0f2f1; color:#00695c;">📹 7. Google Meet (2項)</button>
+      <button class="tool-filter-btn" onclick="filterByTool('practicesets', this)" style="border:none; padding:8px 14px; border-radius:16px; font-weight:700; font-size:0.85rem; cursor:pointer; background:#fef3c7; color:#d97706;">📝 8. Practice Sets (2項)</button>
+      <button class="tool-filter-btn" onclick="filterByTool('forms', this)" style="border:none; padding:8px 14px; border-radius:16px; font-weight:700; font-size:0.85rem; cursor:pointer; background:#ede7f6; color:#512da8;">📝 9. Google Forms (1項)</button>
+      <button class="tool-filter-btn" onclick="filterByTool('gmail', this)" style="border:none; padding:8px 14px; border-radius:16px; font-weight:700; font-size:0.85rem; cursor:pointer; background:#fce8e6; color:#c5221f;">✉️ 10. Gmail與行政 (2項)</button>
+    </div>
+<div id="taskList">
+      
+      <!-- Task 01 -->
+      <div class="task-card" data-keywords="取代 尋找與取代 Docs 校長 錯字">
+        <div class="task-header">
+          <span class="task-num">實務演練 01</span>
+          <span class="tool-badge">Google Docs (尋找與取代)</span>
+        </div>
+        <h2 class="task-title">全校週報校長姓名全篇快速更正</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/1kE7fdTcA9Po3xXxpHmt-iaC1EQtKI0QVuEN8HhnQcXE/copy" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：您編輯完一份長達 10 頁的全校週報後，才發現將本學期新到的校長姓名全篇都打錯了（如：將陳大文誤打為舊校長姓名）。您需要快速定位並修正所有錯字。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 01-s1"><label for="Task 01-s1">開啟 Docs 文件，按下快捷鍵 Ctrl + H（或點選選單「編輯 -> 尋找與取代」）。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 01-s2"><label for="Task 01-s2">在「尋找」輸入寫錯的姓名（例如：陳大文）。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 01-s3"><label for="Task 01-s3">在「替換為」輸入正確的新校長姓名（例如：張小明）。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 01-s4"><label for="Task 01-s4">點選「全部替換 (Replace All)」一鍵更正全篇。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：全篇文件的所有舊校長姓名皆在一秒內自動更正為新姓名。</div>
+      </div>
+
+      <!-- Task 02 -->
+      <div class="task-card" data-keywords="智慧晶片 Smart Chips Docs 日期 人員 標記">
+        <div class="task-header">
+          <span class="task-num">實務演練 02</span>
+          <span class="tool-badge">Google Docs (智慧晶片)</span>
+        </div>
+        <h2 class="task-title">校慶運動會籌備會議記錄與動態任務追蹤</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/1GlvfDQVuZ0A9rXJi2fdcow2QKcsVmQkWuHqs_4WbvIk/copy" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：您正在編輯運動會籌備會議紀錄，需要明確指派各項器材租借的負責同仁，並設定完成期限。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 02-s1"><label for="Task 02-s1">在任務負責人欄位輸入 @ 符號，彈出選單後選取 @People 指派夥伴 Email。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 02-s2"><label for="Task 02-s2">在截止日欄位輸入 @ 符號，選取 @Date 在彈出行事曆中點選完成日期。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：文字自動轉換為可點擊互動的人員與日期動態名片卡。</div>
+      </div>
+
+      <!-- Task 03 -->
+      <div class="task-card" data-keywords="段落樣式 目錄 Docs 標題 Heading">
+        <div class="task-header">
+          <span class="task-num">實務演練 03</span>
+          <span class="tool-badge">Google Docs (段落樣式與目錄)</span>
+        </div>
+        <h2 class="task-title">校本課程實施計畫手冊自動目錄製作</h2>
+
+        <div style="background:#f8f9fa; border:1px solid #dadce0; border-radius:8px; padding:12px; margin:12px 0; text-align:center;">
+          <p style="font-size:0.85rem; font-weight:700; color:#1a73e8; margin-bottom:6px;">📷 目錄介面指引圖（選單路徑：插入 ➔ 頁面元素 ➔ 目錄）：</p>
+          <img src="images/docs_insert_toc_menu.png" alt="Google Docs 插入目錄介面截圖" style="max-width:100%; max-height:350px; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+        </div>
+
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/1Z2lEzUqRB8cujoEJTk1OYntqt9ur6aY4Hu6ZU9Cb4TM/copy" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：您編輯了一份包含多個章節的課程計畫手冊，希望開啟文件者能透過最上方的目錄快速點選跳轉。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 03-s1"><label for="Task 03-s1">選取文件中的章節標題，在工具列將段落樣式套用為「標題 1 (Heading 1)」。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 03-s2"><label for="Task 03-s2">移至文件開頭，點選選單「插入 -> 往下拉至最底部 -> 目錄 (Table of Contents)」（或點選「檢視 -> 顯示大綱」）。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：目錄自動抓取「標題 1」文字並生成點選跳轉連結。</div>
+      </div>
+
+      <!-- Task 04 -->
+      <div class="task-card" data-keywords="語音 註解 外掛 Marketplace Docs Mote">
+        <div class="task-header">
+          <span class="task-num">實務演練 04</span>
+          <span class="tool-badge">Google Docs (語音擴充外掛)</span>
+        </div>
+        <h2 class="task-title">國文作文範本非同步親切語音講評</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/1NvVhvXmqo63tpFvYNLYu-1EEfbg_wXNwlVa_WVqHhiQ/copy" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：批改學生作文時，除了打字外，您希望錄製一段親切的口頭語音，給予學生非同步的聽覺建議。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 04-s1"><label for="Task 04-s1">點選選單「擴充功能 -> 外掛程式 -> 取得外掛程式」。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 04-s2"><label for="Task 04-s2">搜尋安裝 Mote 語音擴充工具。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 04-s3"><label for="Task 04-s3">在文章段落新增批註，點選錄音發布語音註解。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：註解區出現可直接點擊播放的語音音訊波形。</div>
+      </div>
+
+      <!-- Task 05 -->
+      <div class="task-card" data-keywords="翻譯 多語言 雙語 Docs 通訊 家長">
+        <div class="task-header">
+          <span class="task-num">實務演練 05</span>
+          <span class="tool-badge">Google Docs (翻譯文件)</span>
+        </div>
+        <h2 class="task-title">新住民家長通知單一鍵雙語翻譯</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/1jxwkOZoOrWMame_Apfw3DN0-X3fzTj7DgHF6vAB3PbM/copy" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：班上有新住民家長，您需要將中文的每週班級通訊快速轉換為越南語版本。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 05-s1"><label for="Task 05-s1">開啟中文通訊文件，點選頂部選單「工具 -> 翻譯文件」。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 05-s2"><label for="Task 05-s2">選擇目標語言「越南語」，點選「翻譯」。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：系統自動產生並開啟一份完整的越南語翻譯新文件。</div>
+      </div>
+
+      <!-- Task 06 -->
+      <div class="task-card" data-keywords="預約時間表 Calendar 親師面談 時間區塊 網址">
+        <div class="task-header">
+          <span class="task-num">實務演練 06</span>
+          <span class="tool-badge">Google Calendar (預約時間表)</span>
+        </div>
+        <h2 class="task-title">教師自主學習諮詢預約系統</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/19EMqV2vqtr34X2p9Xh6EThea8QhvIZ08tr-RE4P5Z7w/preview" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：您每週開放 2 小時提供學生課後諮詢，需要讓學生自主預約且不發生時間衝突。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 06-s1"><label for="Task 06-s1">在 Calendar 點選「建立 -> 預約時間表」。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 06-s2"><label for="Task 06-s2">設定單次諮詢時段為 20 分鐘與每週開放時間。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 06-s3"><label for="Task 06-s3">儲存後複製公開預約網址 (URL) 發送給學生。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：學生點擊網址即可看見剩餘空閒時段並進行預約。</div>
+      </div>
+
+      <!-- Task 07 -->
+      <div class="task-card" data-keywords="Meet 直播 Live Stream 視訊 跨校">
+        <div class="task-header">
+          <span class="task-num">實務演練 07</span>
+          <span class="tool-badge">Google Meet (視訊與串流直播)</span>
+        </div>
+        <h2 class="task-title">跨校讀書會大型研討與直播開啟</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/13aC_6nY0w2g_nuM01-mXn-J0xnqhHfhIfMPISDT-Y1g/preview" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：舉辦跨校線上講座，除了邀請主講者外，還需要開放全校數百名師生線上觀看直播。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 07-s1"><label for="Task 07-s1">在 Calendar 建立研討會活動，點選「新增 Google Meet 視訊會議」。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 07-s2"><label for="Task 07-s2">點選 Meet 視訊選單下拉，點選「新增串流直播 (Add live stream)」。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：活動中生成 Meet 視訊網址與觀看直播網址。</div>
+      </div>
+
+      <!-- Task 08 -->
+      <div class="task-card" data-keywords="Calendar 權限 隱私 Email 提醒 通知">
+        <div class="task-header">
+          <span class="task-num">實務演練 08</span>
+          <span class="tool-badge">Google Calendar (與會者權限)</span>
+        </div>
+        <h2 class="task-title">大型研討會與會者隱私權限防護</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/110PqZtwS-nIMUBFUOfo_NI_28Y7M6JlizKBY00guPUs/preview" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：邀請外部專家開會，需設定 1 小時前 Email 提醒，並禁止受邀者自行邀請他人或查看完整名單。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 08-s1"><label for="Task 08-s1">在活動設定中新增通知選取「Email」，時間設為「1 小時前」。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 08-s2"><label for="Task 08-s2">在與會者權限中，取消勾選「邀請他人」與「檢視與會者名單」。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：與會同仁無法複製或洩漏其他與會者的個資。</div>
+      </div>
+
+      <!-- Task 09 -->
+      <div class="task-card" data-keywords="Calendar Docs 會議紀錄 Meeting Notes 共筆">
+        <div class="task-header">
+          <span class="task-num">實務演練 09</span>
+          <span class="tool-badge">Google Calendar & Docs (會議紀錄)</span>
+        </div>
+        <h2 class="task-title">學期教研會會議紀錄一鍵同步分發</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/10M5WvdA-5n0oYCUGu1CcpwtYETobCT41QKmWX3yj9hg/copy" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：教研會開會時，需要讓所有出席者同時開啟同一份會議紀錄文件進行共筆。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 09-s1"><label for="Task 09-s1">在日曆活動編輯視窗中，點選「新增會議紀錄 (Add meeting notes)」。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：系統自動建立連動的 Docs，並將閱讀/編輯權限自動賦予所有與會者。</div>
+      </div>
+
+      <!-- Task 10 -->
+      <div class="task-card" data-keywords="Classroom 協同教師 Co-teachers 邀請 共同授課">
+        <div class="task-header">
+          <span class="task-num">實務演練 10</span>
+          <span class="tool-badge">Google Classroom (協同教師)</span>
+        </div>
+        <h2 class="task-title">跨校雙語協同教學班級建置</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/1i_v2nEtTgCA3QkFLqt8W_w0BhkCmqaWDrL5HiY93pPM/preview" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：您與另一位外籍教師共同授課，需要給予外師管理作業與批改成績的完整權限。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 10-s1"><label for="Task 10-s1">進入 Classroom「成員」頁面。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 10-s2"><label for="Task 10-s2">在教師區塊點選「邀請教師」，輸入外師 Email 加入為 Co-teacher。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：外師接受後即可共同發布作業與批改成績。</div>
+      </div>
+
+      <!-- Task 11 -->
+      <div class="task-card" data-keywords="Classroom 測驗作業 Grade Importing 成績匯入 Forms">
+        <div class="task-header">
+          <span class="task-num">實務演練 11</span>
+          <span class="tool-badge">Google Classroom (成績匯入)</span>
+        </div>
+        <h2 class="task-title">線上形成性評量分數一鍵同步成績冊</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/1SftO28xoGJ_yzq5iatYg10ktsZAMqx0B5Ns33nub3Ts/preview" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：在 Classroom 發布 Google 表單測驗，希望學生完成後分數能自動帶入 Classroom 成績冊。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 11-s1"><label for="Task 11-s1">點選「建立 -> 測驗作業 (Quiz Assignment)」。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 11-s2"><label for="Task 11-s2">確認右側「成績匯入 (Grade importing)」切換開關已開啟。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：學生完成 Forms 測驗後，分數旁邊出現「匯入成績」按鈕。</div>
+      </div>
+
+      <!-- Task 12 -->
+      <div class="task-card" data-keywords="Classroom 原創性比對 Originality Reports 抄襲 檢查">
+        <div class="task-header">
+          <span class="task-num">實務演練 12</span>
+          <span class="tool-badge">Google Classroom (原創性比對)</span>
+        </div>
+        <h2 class="task-title">高中社會科小論文抄襲自主檢查</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/1D3O6vvoALuRsAnTqeBmnkIUIXJAbrbC4_dkNq4cdipQ/preview" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：要求學生繳交小論文，希望學生在正式提交前能自己檢查是否有無意間抄襲。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 12-s1"><label for="Task 12-s1">建立作業時，在右側側邊欄勾選「檢查原創性 (Originality reports)」。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：學生端提交作業前可免費進行最多 3 次全網抄襲比對。</div>
+      </div>
+
+      <!-- Task 13 -->
+      <div class="task-card" data-keywords="Slides 超連結 記憶卡 Hyperlink 選擇板 頁面跳轉">
+        <div class="task-header">
+          <span class="task-num">實務演練 13</span>
+          <span class="tool-badge">Google Slides (投影片超連結)</span>
+        </div>
+        <h2 class="task-title">英檢單字互動記憶卡製作</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Slides 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/presentation/d/1KnW6REvicU8LXIdjMjq5tNn36nFZ3H3B9-7nodY-Rsc/copy" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Slides 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：製作單字複習簡報，點選單字按鈕後能自動跳轉至顯示解答的特定投影片頁面。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 13-s1"><label for="Task 13-s1">選取簡報上的單字按鈕，按右鍵選取「連結」。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 13-s2"><label for="Task 13-s2">選擇「簡報中的投影片 (Slides in this presentation)」，選取目標解答頁碼。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：簡報播放時點擊按鈕直接跳轉至解答頁。</div>
+      </div>
+
+      <!-- Task 14 -->
+      <div class="task-card" data-keywords="Slides 主題建構工具 Theme Builder 預留位置 Placeholder">
+        <div class="task-header">
+          <span class="task-num">實務演練 14</span>
+          <span class="tool-badge">Google Slides (主題建構工具)</span>
+        </div>
+        <h2 class="task-title">全校統一簡報母版與圖片預留框</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Slides 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/presentation/d/190l04w_OKCG9LQRQI50TQOwNPZaggRYwyLVVLty8J6s/copy" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Slides 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：為學校團隊製作標準報告簡報，設置統一格式的圖片上傳預留框。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 14-s1"><label for="Task 14-s1">點選選單「檢視 -> 主題建構工具」。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 14-s2"><label for="Task 14-s2">點選「插入 -> 預留位置 -> 圖片預留位置 (Image placeholder)」。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：回到主頁面時出現一鍵點擊上傳圖片的預留框。</div>
+      </div>
+
+      <!-- Task 15 -->
+      <div class="task-card" data-keywords="Slides 影片 內嵌 YouTube 註解 指派 Assign">
+        <div class="task-header">
+          <span class="task-num">實務演練 15</span>
+          <span class="tool-badge">Google Slides (影片內嵌與指派)</span>
+        </div>
+        <h2 class="task-title">簡報內嵌入 YouTube 實驗影片與批註指派</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Slides 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/presentation/d/19cGXgieo9EZ9TV2Zu3xLE2S1AeuS2KOj6hSj1xbhBro/copy" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Slides 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：在簡報內直接播放教學影片，並標記同仁進行發布前的影片審閱。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 15-s1"><label for="Task 15-s1">點選「插入 -> 影片」搜尋內嵌 YouTube 影片。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 15-s2"><label for="Task 15-s2">選取影片新增註解，輸入 +成員Email 並勾選「指派給...」。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：影片可在簡報內播放，同仁收到指派 Email。</div>
+      </div>
+
+      <!-- Task 16 -->
+      <div class="task-card" data-keywords="Sites 子頁面 Subpages PBL 專題 展示 頁面">
+        <div class="task-header">
+          <span class="task-num">實務演練 16</span>
+          <span class="tool-badge">Google Sites (子頁面 Subpages)</span>
+        </div>
+        <h2 class="task-title">班級自然科學小組專題展示網站</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/1eTXBU1m5sVuFRYSBQV1JLRFPqVzob0HLZ8C1mDkC11w/preview" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：為 PBL 專題建立網站，並為每個小組設定獨立的專屬展演分頁。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 16-s1"><label for="Task 16-s1">進入 Google Sites 右側點選「頁面 (Pages)」。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 16-s2"><label for="Task 16-s2">點選底部「+」選擇「新增子頁面 (Subpage)」，輸入「第一組」。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：頂部導覽列出現下拉式的子頁面選單。</div>
+      </div>
+
+      <!-- Task 17 -->
+      <div class="task-card" data-keywords="Sites Docs 發布 權限 Public 發布至網路 大學審閱">
+        <div class="task-header">
+          <span class="task-num">實務演練 17</span>
+          <span class="tool-badge">Google Sites & Docs (發布權限)</span>
+        </div>
+        <h2 class="task-title">高中生學習歷程檔案公開大學審閱</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/1LZj71FZiygFWt561lpDRGLkRn2cU1K81uT4K-JZ6pJc/preview" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：學生的 Sites 網站要開放給外部大學評審觀看，且內嵌的 Docs 不能顯示「無權限」。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 17-s1"><label for="Task 17-s1">點選 Sites 右上角「發布」，管理權限設為「公開 (Public)」。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 17-s2"><label for="Task 17-s2">開啟內嵌的 Docs 文件，點選「檔案 -> 發布至網路」。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：任何未登入的外部評審皆能順暢瀏覽網站與文件。</div>
+      </div>
+
+      <!-- Task 18 -->
+      <div class="task-card" data-keywords="Sheets 條件式格式 Conditional Formatting 不及格 紅底白字">
+        <div class="task-header">
+          <span class="task-num">實務演練 18</span>
+          <span class="tool-badge">Google Sheets (條件式格式)</span>
+        </div>
+        <h2 class="task-title">期中測驗不及格警示自動化</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Sheets 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/spreadsheets/d/1u3HOjzek1GaVf6BbilUA0BCw_ayvDlAJii5Wp2Fmmsg/copy" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Sheets 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：在成績單中，讓分數低於 60 分的儲存格自動呈現醒目的紅底白字。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 18-s1"><label for="Task 18-s1">選取成績欄位，點選選單「格式 -> 條件式格式設定」。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 18-s2"><label for="Task 18-s2">條件選「小於 60」，樣式設為紅底白字。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：所有不及格分數即時自動變紅。</div>
+      </div>
+
+      <!-- Task 19 -->
+      <div class="task-card" data-keywords="Sheets 直行統計 Column Stats 樞紐分析表 Pivot Table 投票">
+        <div class="task-header">
+          <span class="task-num">實務演練 19</span>
+          <span class="tool-badge">Google Sheets (直行統計與樞紐)</span>
+        </div>
+        <h2 class="task-title">運動會進場服裝投票統計與樞紐分析</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Sheets 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/spreadsheets/d/13vlppXpb61ge41EnZJuP2YMfPMDye8KtQXCjX9ZO8ig/copy" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Sheets 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：收集了數百筆表單回應，需要快速統計每個服裝顏色的精確票數。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 19-s1"><label for="Task 19-s1">選取顏色欄位，點選選單「資料 -> 直行統計」看圖表。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 19-s2"><label for="Task 19-s2">點選「插入 -> 樞紐分析表」，拉入顏色與計數。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：一秒自動生成顏色投票總計表格。</div>
+      </div>
+
+      <!-- Task 20 -->
+      <div class="task-card" data-keywords="Meet 電話撥號 Join by Phone 網路不穩 音訊">
+        <div class="task-header">
+          <span class="task-num">實務演練 20</span>
+          <span class="tool-badge">Google Meet (電話撥號加入)</span>
+        </div>
+        <h2 class="task-title">山區戶外觀察即時語音會議連線</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/1I2CHr2oJRnnJPQIYWtzDB6VyZQSQ8_eqM-1yJKNhDLU/preview" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：戶外考察時網路訊號極差，老師需要透過電話撥號收聽線上會議。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 20-s1"><label for="Task 20-s1">在 Meet 點選下方「三點圖示 -> 使用電話收聽及發言」。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 20-s2"><label for="Task 20-s2">依提示用手機撥打電話號碼並輸入 PIN 碼。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：透過行動電話網路穩定參與音訊會議。</div>
+      </div>
+
+      <!-- Task 21 -->
+      <div class="task-card" data-keywords="Practice Sets 額外協助 Extra Help 提示 影片 腳手架">
+        <div class="task-header">
+          <span class="task-num">實務演練 21</span>
+          <span class="tool-badge">Practice Sets (額外協助提示)</span>
+        </div>
+        <h2 class="task-title">國中理化自主複習題組影音腳手架</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/1lUTfXONtSKoVS6uhtOsxghza8C7nC-1cH-PjHsptd30/preview" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：在題目下方加入解題提示影音，讓答錯的學生獲得及時輔導。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 21-s1"><label for="Task 21-s1">建立 Practice Sets，在題目下方點選「額外協助 (Extra help)」。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 21-s2"><label for="Task 21-s2">點選「+ 新增資源」搜尋內嵌 YouTube 輔導影片。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：學生答題卡關時可點擊播放解題影片。</div>
+      </div>
+
+      <!-- Task 22 -->
+      <div class="task-card" data-keywords="Practice Sets 共用連結 Link Sharing 備課 共享">
+        <div class="task-header">
+          <span class="task-num">實務演練 22</span>
+          <span class="tool-badge">Practice Sets (題組共用連結)</span>
+        </div>
+        <h2 class="task-title">同科備課團隊共享自製練習題組</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/10LHrxRdCww-jPrLo7FcbknHQJel9ecMbJ6ibsXf5_Xw/preview" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：製作好 Practice Sets 題組後，將連結共享給同科夥伴直接複製使用。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 22-s1"><label for="Task 22-s1">點選右上角「分享」，點選「開啟連結共用」。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 22-s2"><label for="Task 22-s2">複製連結發送給團隊夥伴。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：夥伴點擊連結即可複製題組至其 Classroom。</div>
+      </div>
+
+      <!-- Task 23 -->
+      <div class="task-card" data-keywords="Forms 區段跳轉 依回應跳轉 翻轉課堂 適性化">
+        <div class="task-header">
+          <span class="task-num">實務演練 23</span>
+          <span class="tool-badge">Google Forms (區段跳轉)</span>
+        </div>
+        <h2 class="task-title">翻轉課堂先備知識檢測與分流教學</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/1sAXB5OG7J1BncbwQ9tutQW3_z4FkMlFLCyLxFUMjrvM/preview" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：表單內播放影片後提問，答對者跳轉進階區段，答錯者跳轉補救區段。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 23-s1"><label for="Task 23-s1">點選單選題右下角三點圖示，勾選「依據回應跳轉至不同區段」。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 23-s2"><label for="Task 23-s2">在各選項指定對應跳轉之區段。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：填答者依據選擇走向不同的學習分流。</div>
+      </div>
+
+      <!-- Task 24 -->
+      <div class="task-card" data-keywords="Gmail 代理 帳戶授權 Grant Access 收發 信箱">
+        <div class="task-header">
+          <span class="task-num">實務演練 24</span>
+          <span class="tool-badge">Gmail (帳戶代理授權)</span>
+        </div>
+        <h2 class="task-title">行政科室公用信箱代理收發授權</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/1tkXYjDbofyAWg7_sRuwfxRutoJORuyegF1_Cr6qkPFw/preview" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：主管需要授權秘書代表自己發送公文郵件，且不透露密碼。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 24-s1"><label for="Task 24-s1">進入 Gmail 右上角「設定 -> 查看所有設定 -> 帳戶與匯入」。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 24-s2"><label for="Task 24-s2">在「授予您帳戶的存取權」點選新增代理 Email。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：秘書可在其 Gmail 中切換並代表主管發信。</div>
+      </div>
+
+      <!-- Task 25 -->
+      <div class="task-card" data-keywords="Docs Meet 檔案內 視訊邊看邊修 協作">
+        <div class="task-header">
+          <span class="task-num">實務演練 25</span>
+          <span class="tool-badge">Google Docs & Meet (檔案內Meet)</span>
+        </div>
+        <h2 class="task-title">文件內即時視訊邊看邊修範本</h2>
+        
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:8px; padding:12px 16px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="color:#137333;">🔗 本題雲端真實線上 Docs 實作檔案：</strong>
+            <span style="font-size:0.85rem; color:#5f6368; display:block;">（檔案型演練會建立你的專屬副本；其餘為唯讀情境說明，請直接在該工具中操作）</span>
+          </div>
+          <a href="https://docs.google.com/document/d/1VdeoHpfaNNZWYYLu9mcQVoMZOtoxkE3ww6_nP2_Bejw/copy" target="_blank" style="text-decoration:none; background:#137333; color:white; padding:8px 16px; border-radius:18px; font-weight:700; font-size:0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.1);">📄 開啟線上 Docs 實作檔</a>
+        </div>
+
+        <div class="scenario-box">
+          <strong>【實務教學情境】</strong>：共同編輯 Docs 文件時，希望直接在文件右上角發起 Meet 視訊邊討論邊修改。
+        </div>
+        <h3>▶️ 上機手把手修改演練步驟：</h3>
+        <div class="step-list">
+          <div class="step-item"><input type="checkbox" id="Task 25-s1"><label for="Task 25-s1">在 Docs 右上角點選 Meet 視訊圖示。</label></div>
+<div class="step-item"><input type="checkbox" id="Task 25-s2"><label for="Task 25-s2">點選「在此發起新會議」並分享畫面。</label></div>
+
+        </div>
+        <div class="validation">✨ 成果驗證點：視訊畫面浮動於文件右側，實現實態檔案內協作。</div>
+      </div>
+
+    </div>
+  </div>
+
+  
+  <script>
+    let currentToolFilter = 'all';
+
+    function filterByTool(toolCategory, btnEl) {
+      currentToolFilter = toolCategory;
+      document.querySelectorAll('.tool-filter-btn').forEach(b => {
+        b.style.background = '#e8f0fe';
+        b.style.color = '#1a73e8';
+        b.classList.remove('active');
+      });
+      btnEl.style.background = '#1a73e8';
+      btnEl.style.color = 'white';
+      btnEl.classList.add('active');
+      filterTasks();
+    }
+
+    function filterTasks() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.task-card');
+      
+      cards.forEach(card => {
+        const kw = card.getAttribute('data-keywords').toLowerCase();
+        const text = card.innerText.toLowerCase();
+        
+        const matchesQuery = !q || kw.includes(q) || text.includes(q);
+        let matchesTool = true;
+
+        if (currentToolFilter === 'docs') matchesTool = kw.includes('docs');
+        else if (currentToolFilter === 'calendar') matchesTool = kw.includes('calendar');
+        else if (currentToolFilter === 'classroom') matchesTool = kw.includes('classroom');
+        else if (currentToolFilter === 'slides') matchesTool = kw.includes('slides');
+        else if (currentToolFilter === 'sites') matchesTool = kw.includes('sites');
+        else if (currentToolFilter === 'sheets') matchesTool = kw.includes('sheets');
+        else if (currentToolFilter === 'meet') matchesTool = kw.includes('meet');
+        else if (currentToolFilter === 'practicesets') matchesTool = kw.includes('practice');
+        else if (currentToolFilter === 'forms') matchesTool = kw.includes('forms');
+        else if (currentToolFilter === 'gmail') matchesTool = kw.includes('gmail') || kw.includes('外掛') || kw.includes('代理');
+
+        if (matchesQuery && matchesTool) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+# Path 1727915 Content Analysis
+
+Title: Live Content
+Description: Fetched live
+Source: https://edu.exceedlms.com/student/path/1727915?locale=zh_tw
+---
+window.Intellum = {
+...window.Intellum,
+accountName: 'Google for Education',
+accountFullDomain: 'https://edu.exceedlms.com/',
+datepickerI18n: {
+previousMonth: "Previous Month",
+nextMonth: "Next Month",
+weekdays: ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+weekdaysShort: ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],
+months: ["January","February","March","April","May","June","July","August","September","October","November","December"],
+i18nStrings: {
+add_text_here: "Add text here",
+in_days: "in {{COUNT}} days",
+in_hours: "in {{COUNT}} hours",
+in_minutes: "in {{COUNT}} minutes",
+in_one_hour: "in 1 hour",
+in_one_minute: "in 1 minute",
+item_dropped: "\"{{ITEM NAME}}\" dropped at position {{POSITION}} of {{TOTAL ITEMS}}.",
+item_grabbed: "\"{{ITEM NAME}}\" grabbed. Current position: {{POSITION}} of {{TOTAL ITEMS}}. Use up and down keys to move the item, space bar to drop it, Escape to cancel.",
+item_move_canceled: "Move of \"{{ITEM NAME}}\" canceled.",
+item_moved_to_position: "\"{{ITEM NAME}}\" moved to position {{POSITION}} of {{TOTAL ITEMS}}.",
+item_moved_to_position_in_list: "\"{{ITEM NAME}}\" moved to position {{POSITION}} of {{TOTAL ITEMS}} in \"{{LIST NAME}}.\"",
+live_now: "LIVE NOW",
+loading: "Loading...",
+processing_ellipsis: "Processing...",
+remove: "Remove",
+removing_ellipsis: "Removing...",
+saving_ellipsis: "Saving...",
+search_results: "Search Results",
+showing_item_position_of_total: "Showing item {{POSITION}} of {{TOTAL ITEMS}}",
+start_creating_content: "Start creating content",
+there_was_a_problem_getting_your_updates: "There was a problem in getting your updates.",
+tomorrow: "tomorrow",
+topicsSuggestionEmpty: "Sorry. We've run out of suggested topics.",
+topicsSelectionEmpty: "No topics have been assigned to this activity.",
+topicsFollowedSelectionEmpty: "No topics have been followed yet.",
+upload_canceled: "The upload was canceled.",
+uploadfile_no_file_selected: "No file selected",
+uploadfile_uploading_msg: "Uploading {{FILENAME}}",
+uploadfile_error_format_msg: "{{FILENAME}} is not the correct file type. Please try again.",
+uploadfile_error_size_coursefile_msg: "{{FILENAME}} is too large. Size limit: 10MB for images, 3GB for videos and audio.",
+uploadfile_error_size_msg: "{{FILENAME}} is too big. Please try again.",
+uploadfile_error_msg: "There was a problem uploading {{FILENAME}}. Please try again.",
+uploading_ellipsis: "Uploading...",
+use_menu_edit_html: "Use menu to edit HTML",
+when_datepicket_widget_appears: "When the datepicker widget appears, use arrow keys to navigate dates and select a date.",
+mediumEditorI18n: {
+bold: "Bold",
+italic: "Italic",
+link: "Link",
+title: "Title",
+subtitle: "Subtitle",
+unorderedList: "Unordered List",
+orderedList: "Ordered List",
+quote: "Quote",
+linkPlaceholderText: "Paste or type a link...",
+save: "Save",
+close: "Close",
+properties: {
+courseContentFileSizeConstraintsInMB: {
+image: 10485760,
+video: 3221225472,
+audio: 3221225472,
+translation_paths: {
+'ar': '/locales/ar.8a0d4db2a9e4f62abc1a0cdad75839bf.json',
+'bg': '/locales/bg.738b232cec517c12e2a8a3af9d7211b5.json',
+'bn': '/locales/bn.fe73f21846b2628e9fcf28327a8c4403.json',
+'cs': '/locales/cs.0a13aa4e6cb8d1de05fb850d91b3fea7.json',
+'da': '/locales/da.984fb2fd8ed2df740def5951e0559fe7.json',
+'de': '/locales/de.dfffe007c3775a29bcb36adaf8b06c9a.json',
+'el': '/locales/el.7ffb44418b5355a774e496ad80ddcf74.json',
+'en-AU': '/locales/en-AU.747f4aee6655df8b81ba594c71e28346.json',
+'en-CA': '/locales/en-CA.3aa160ebaafd8abc91beb578b8bd4218.json',
+'en-GB': '/locales/en-GB.d408ce79a1e5dd41488fda9a337c62c9.json',
+'en-IN': '/locales/en-IN.483129c17d1daa1640b52709b76fd13a.json',
+'en-SG': '/locales/en-SG.4be6e9eede1f8e28d5de421fd21fb38b.json',
+'en': '/locales/en.56475e0e1b8acccf7413544bf9e513ef.json',
+'es-419': '/locales/es-419.8e4995e064bc537508df569a5e37ecf0.json',
+'es-MX': '/locales/es-MX.0ca18d9a6d2f6cae25fed5222db56b40.json',
+'es': '/locales/es.c4a344d542fb164e2598b20095a83296.json',
+'et': '/locales/et.b044b2437c862e716909847ec980897d.json',
+'fi': '/locales/fi.12a4cbf650a6045304edad778963a45b.json',
+'fr-CA': '/locales/fr-CA.daecb99c609aa0accb992dc347b72908.json',
+'fr': '/locales/fr.e48a05da1e1cbaf184a5f547a60647d7.json',
+'he': '/locales/he.afa530f10239bb0b2a424829c9911782.json',
+'hi': '/locales/hi.ef1992bfb1d4bc4b51260ea8ba36c72f.json',
+'hr': '/locales/hr.8857c6284ec89d0d6eedbd9ff8ba9864.json',
+'hu': '/locales/hu.3535bcb7f7140bf600bcb175549efe4f.json',
+'id': '/locales/id.df28a3ce679a5df07abc8c848a09d66c.json',
+'it': '/locales/it.5eef8719ec952939104a72cc7734d767.json',
+'ja': '/locales/ja.8a30efdf0340561f4a21c1fca483a57c.json',
+'kn': '/locales/kn.ff08cc13bc7c9d84dfe2ceb17ef1cfac.json',
+'ko': '/locales/ko.91485fd131840b4ca325a1b0a4f47596.json',
+'lt': '/locales/lt.31046a5bd7e806649219df7370955281.json',
+'lv': '/locales/lv.71c4f0cad858cc59a4db125a777566af.json',
+'mn': '/locales/mn.10e7f0e63cf8348adfb23a384ea87761.json',
+'mr': '/locales/mr.e8337af173625580b31c218593b02fe6.json',
+'ms': '/locales/ms.70464e44db412a3a98ff544779851469.json',
+'my': '/locales/my.e34f2be9a5c9cd2a622510e14cca3dc8.json',
+'nb': '/locales/nb.c659b7af5454bb3ae1cac56c03b04c8f.json',
+'nl': '/locales/nl.c52ea24ddcf6c919bf5c59bfd19171fc.json',
+'pl': '/locales/pl.e0bc946d3b1267666ff0eb5d96ebf9c7.json',
+'pt-BR': '/locales/pt-BR.e8f776670e68e3ec309212674673a9ab.json',
+'pt-PT': '/locales/pt-PT.ea4640480d040fd207c7c726e54b8ce5.json',
+'ro': '/locales/ro.03cb9142e03c6c8b0976fec88fe3a984.json',
+'ru': '/locales/ru.ed1d4b13be84cd13695cd06bad9aae3e.json',
+'si': '/locales/si.f1220092ef9f23f35f6ac6e792759f1e.json',
+'sk': '/locales/sk.a29ca4546c7ef6d6e4eb7430bab175d9.json',
+'sl': '/locales/sl.01ff2ded92612d4d312e7fbb2a7b388b.json',
+'sr-Cyrl': '/locales/sr-Cyrl.90989ec8ea8889103e7a1db39606206b.json',
+'sr-Latn': '/locales/sr-Latn.3199a1cd9ed8e7b3f91e434fb40d9f66.json',
+'sv': '/locales/sv.e8925004624e25c70b3947aea88bf11f.json',
+'ta': '/locales/ta.3189399edf3c3cc2877f285d0c2b3ad8.json',
+'te': '/locales/te.bec01d596959c8d6b10535cead73493e.json',
+'th': '/locales/th.f0791a5a6cadc2f9f189a2f9607e5530.json',
+'tr': '/locales/tr.4977416ca0dc1e2f79b5cc15558eae11.json',
+'uk': '/locales/uk.0d8f5c67c427f5ceae28dc037a071ae0.json',
+'vi': '/locales/vi.19cb0d90c475eaf126add5bb73ec1998.json',
+'zh-CN': '/locales/zh-CN.2cd8c29aa9fa9d9a4eac3d7ccc2dc276.json',
+'zh-TW': '/locales/zh-TW.61badef6230035073aa8c81902e735f9.json',
+進階課程 : Google for Education
+<meta name="description" property="og:description" content="歡迎參加進階課程。您將透過閱讀文章、觀看影片和進行活動，學習如何透過創新的方式運用 Google 工具進行教學。您隨時可以開始和暫停課程，我們會追蹤您的課程進度。完成本課程後，即可參加 Google 認證教育家第 2 級的測驗。
+" />
+{"@context":"http://schema.org","@type":"Course","inLanguage":"zh-TW","isAccessibleForFree":true,"courseCode":"i-1716407-zh-TW","coursePrerequisites":"none","name":"進階課程","description":"歡迎參加進階課程。您將透過閱讀文章、觀看影片和進行活動，學習如何透過創新的方式運用 Google 工具進行教學。您隨時可以開始和暫停課程，我們會追蹤您的課程進度。完成本課程後，即可參加 Google 認證教育家第 2 級的測驗。\n","keywords":[],"image":"https://storage.googleapis.com/exceedlms-external-uploads-production/uploads/resource_course_pictures/targets/2593727/w550/525x295-thumbnail-advanced-training.png","url":"https://edu.exceedlms.com/student/path/1727915","datePublished":"08/28/2020","provider":{"@type":"Organization","name":"[EDU] Google for Education"},"aggregateRating":{"@type":"AggregateRating","ratingValue":5.0,"reviewCount":1}}
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push(
+{'user_id': null}
+window.dataLayer.push({'cluster': "google_external"});
+window.dataLayer.push(
+{ 'course_id': 1727915 },
+{ 'enrollment_id': },
+{ 'course_type': 'CourseCurriculum' },
+{ 'course_subtype': null },
+{ 'is_enrolled': true }
+window.dataLayer.push({'environment': "production"})
+window.IntellumDataLayer = window.IntellumDataLayer || {"account":{"id":1066,"name":"Google for Education"},"organization":{"id":349,"code":null,"name":"Default"},"user":null,"course":{"id":1727915,"code":"i-1716407-zh-TW","name":"進階課程","author":"Google for Education","locale":"zh-TW","type":"CourseCurriculum","subtype":null,"price":null,"due_within":null,"completion_type":null,"duration":54240,"published_on":"2020-08-28","require_purchase":false,"version_number":5,"is_versioned":true,"custom_a":"GfE","custom_b":"","custom_c":"","custom_d":"","custom_e":"","custom_f":"","custom_g":"","custom_h":"","custom_i":"","custom_j":"","taxonomy_tags":null,"categories":null,"difficulty":"Intermediate","review_average":5.0,"reviews_count":1},"course_session":null,"enrollment":{"id":null,"code":null,"started_on":null,"enrolled_on":null,"due_on":null,"expires_on":null,"completed_on":null,"last_opened_on":null,"status":"in-progress","relationship_type":"recommended"},"page_type":"course","search":null};
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-9QZZZPK0JH');
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-45326746-3', 'auto', {'name': 'intellumTracker'});
+ga('intellumTracker.set', 'anonymizeIp', true);
+ga('intellumTracker.send', 'pageview');
+Skip to main content
+This site uses cookies to provide you with a greater user experience. By using Exceed LMS, you accept our use of cookies.
+Topics
+Home
+Browse
+More Resources
+Google AI Educator Series
+Home
+Browse
+More Resources
+Google AI Educator Series
+<exceed-nav-menu class="appheader__search"
+trigger-el-selector=".appheader__searchbutton"
+blur-trigger-el-selector=".appsearch__backdrop"
+menu-el-selector=".appheader__searchmenu"
+menu-visible-class="appheader__searchmenu--visible"
+trigger-active-class="appheader__searchbutton--active"
+dynamic-content-container-selector=".appsearch__recommendations"
+dynamic-content-endpoint="/student/catalog/recommend_for_user"
+is-dynamic-content-delayed="true"
+<button
+class="button button--toggle appheader__searchbutton u-org--header"
+aria-haspopup="true"
+aria-expanded="false"
+data-object-name="header_search"
+Search
+<input type="search" name="search" id="app-search"
+class="appsearch__input"
+placeholder="Search..."
+value=""
+aria-label="Search"
+data-search-path="/student/catalog/list"
+data-is-menu-focus="true"
+Topics
+<exceed-toggle-button
+trigger-selector="#categoriesmenu-10934-back"
+target-selector="#categoriesmenu-aside-10934"
+target-focus="#categoriesmenu-10934-select"
+trigger-toggle-class="current"
+toggle-class="categoriesmenu__aside--current">
+<button
+type="button"
+id="categoriesmenu-aside-10934-back"
+class="button button--link categoriesmenu__back"
+aria-controls="categoriesmenu-aside-10934">
+All Topics
+Applied Digital Skills
+Browse All Lessons
+Back to School
+Celebrate Black History, Culture, &amp; Identity
+Celebrate Latinx History
+Celebrate Earth Day

@@ -1,2 +1,10 @@
+# 備份檔
+*.bak
 __pycache__/
 *.pyc
+
+# 公開版輸出（獨立 repo：C:\repos\gce-level2-workshop）
+public/
+
+# Drive 權限快照（含檔案 ID，無須版控）
+permissions_snapshot_*.json
