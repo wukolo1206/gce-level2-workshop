@@ -281,28 +281,31 @@ ightarrow$ 樞紐分析表」，拉入顏色與計數。
 ### 📹 【Google Meet, Practice Sets, Forms & Gmail】
 
 #### 演練 20
+> 🔗 **雲端真實線上 Docs 實作檔案網址**：[https://docs.google.com/document/d/1W99umvavUbQiq0ccu3nkc-DKRP-CaJX0abhMQVUUAE8/preview](https://docs.google.com/document/d/1W99umvavUbQiq0ccu3nkc-DKRP-CaJX0abhMQVUUAE8/preview)
+：戶外教學偏遠地區網路不穩之電話語音備援 (Meet 電話收發音訊)
 
-##### 📞 Meet 實務介面圖解：使用電話收發音訊與地區支援
+- **🎯 實務教學情境課題**：帶學生到山區進行戶外觀察教學，同一時間校內正在召開臨時教學會議必須出席。現場行動網路頻寬只有一格，視訊完全連不上，但手機通話仍然正常，需切換至電話語音線路備援。
+- **🛠️ 指定工具功能**：Google Meet **使用電話收發音訊 (Use a phone for audio / Join by phone)**
+
+##### 📞 Meet 實務介面圖解：使用電話收發音訊與地區支援全解析
 ![Google Meet 更多選項中的使用電話收發音訊](../images/meet_use_phone_audio_menu.png)
-*圖 10：點擊底部三點圖示 ➔ 選擇「使用電話收發音訊 (Use a phone for audio)」*
+*圖 10：點擊底部三點選單 ➔ 選擇「使用電話收發音訊 (Use a phone for audio)」*
 
 ![Google Meet 打電話給我國家地區選單](../images/meet_call_me_dialog_countries.png)
 *圖 11：Google Meet 免費「打電話給我」目前僅支援北美地區（美國 +1、加拿大 +1）*
 
-> 💡 **考點與實務解析**：
-> - **打電話給我 (Call me)**：Google 伺服器主動撥出，目前僅支援美加地區（+1）。
-> - **自行撥入 (Dial-in)**：提供會議號碼與 PIN 碼由使用者手機撥入。
-> - **Level 2 核心判斷**：當偏鄉山區或現場網路頻寬不足時，**改走電話語音線路 (Join by phone / Phone audio fallback)** 為標準解法！
+| 電話備援機制 | 運作方式 | 地區支援與費用說明 |
+| :--- | :--- | :--- |
+| **📞 打電話給我 (Call me)** | 輸入手機號碼後，由 Google Meet 伺服器**主動撥電話到手機**。 | 目前免費撥出**僅限北美地區（美國 +1、加拿大 +1）**。 |
+| **📱 自行撥入 (Dial-in)** | 由會議詳細資訊提供專屬電話號碼與 PIN 碼，由**使用者自行撥打電話**接入。 | 支援各國當地指定接入號碼（依一般通話費率計費）。 |
 
-> 🔗 **雲端真實線上 Docs 實作檔案網址**：[https://docs.google.com/document/d/1W99umvavUbQiq0ccu3nkc-DKRP-CaJX0abhMQVUUAE8/preview](https://docs.google.com/document/d/1W99umvavUbQiq0ccu3nkc-DKRP-CaJX0abhMQVUUAE8/preview)
-：山區戶外觀察即時語音會議連線 (電話撥號)
-- **🎯 實務情境課題**：戶外考察時網路訊號極差，老師需要透過電話撥號收聽線上會議。
-- **🛠️ 指定工具功能**：Google Meet **透過電話撥號加入 (Join by phone)**
+- **🎓 Google 認證 Level 2 考點精髓**：題目重點考核教師能否在「網路訊號極差、視訊卡頓」時，正確選用 `使用電話收發音訊 (Use a phone for audio / Join by phone)` 改走電話線路維持會議進行！
 - **▶️ 手把手實操步驟**：
-  1. 在 Meet 點選下方「三點圖示 $
-ightarrow$ 使用電話收聽及發言」。
-  2. 依提示用手機撥打電話號碼並輸入 PIN 碼。
-- **✨ 成果驗證點**：透過行動電話網路穩定參與音訊會議。
+  1. 進入 Google Meet 視訊會議。
+  2. 點選底部控制列右下角「更多選項（三點圖示 $\vdots$）」。
+  3. 點選「使用電話收發音訊 (Use a phone for audio)」。
+  4. 認識「打電話給我 (Call me)」與「自行撥入 (Dial in)」之運作機制。
+- **✨ 成果驗證點**：成功開啟電話語音備援視窗，確認電腦端自動靜音改由電話音訊進出。
 
 ---
 
