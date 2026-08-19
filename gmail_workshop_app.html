@@ -495,39 +495,78 @@
         <span class="tag">核心功能演練三</span>
         <h2>範本 (Templates) 與排程傳送 (Schedule send) 處理重複性回信</h2>
 
-        <!-- 啟用範本截圖與簽名檔 vs 範本觀念對照卡 -->
-        <div style="background:#ffffff; border:1.5px solid #1a73e8; border-radius:12px; padding:20px; margin:20px 0; box-shadow:0 3px 12px rgba(26,115,232,0.08);">
-          <h3 style="color:#1557b0; margin-top:0; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
-            ⚙️ 步驟前置作業：在「進階」設定中啟用【範本 (Templates)】
+        
+        <!-- ✍️ 簽名檔 vs 📋 範本 深度解析與實戰對照卡片 -->
+        <div style="background:#ffffff; border:2px solid #00897b; border-radius:12px; padding:22px; margin:20px 0; box-shadow:0 4px 16px rgba(0,137,123,0.1);">
+          <h3 style="color:#00695c; margin-top:0; font-size:1.2rem; display:flex; align-items:center; gap:8px;">
+            ⚖️ 關鍵觀念深度解析：【✍️ 簽名檔 (Signature)】vs【📋 範本 (Templates)】
           </h3>
-          
-          <div style="background:#f8f9fa; border:1px solid #dadce0; border-radius:8px; padding:14px; margin-bottom:16px; text-align:center;">
-            <p style="font-weight:700; font-size:0.88rem; color:#1a73e8; margin-bottom:8px;">📷 進入【設定 ➔ 進階】將「範本」勾選為【啟用】，並點選最下方「儲存變更」：</p>
-            <img src="images/gmail_advanced_templates_enable.png" alt="Gmail 進階設定啟用範本功能" style="max-width:100%; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
-            <p style="font-size:0.8rem; color:#5f6368; margin-top:6px;">⚠️ 務必記得捲動到畫面最底部點擊<strong>「儲存變更」</strong>，重新載入 Gmail 後撰寫信件時才會出現範本選單！</p>
-          </div>
+          <p style="font-size:0.93rem; color:#3c4043; line-height:1.7; margin-bottom:14px;">
+            在學校行政與教學日常中，老師們常常容易混淆這兩項功能。其實只要記住一句話：<strong>「每封信結尾自動帶入的叫『簽名檔』；整篇完整信件內容重複叫出的叫『範本』！」</strong>
+          </p>
 
-          <div style="background:#fef7e0; border-left:4px solid #f9ab00; border-radius:0 8px 8px 0; padding:14px; font-size:0.9rem; line-height:1.7;">
-            <div style="font-weight:700; color:#b06000; margin-bottom:6px;">💡 重要觀念辨析：每封信結尾的「自我介紹/簽名」是用範本嗎？</div>
-            <table style="width:100%; border-collapse:collapse; margin-top:8px; font-size:0.88rem; background:white; border-radius:6px; overflow:hidden;">
-              <tr style="background:#f1f3f4;">
-                <th style="padding:8px 10px; text-align:left; width:22%;">功能類型</th>
-                <th style="padding:8px 10px; text-align:left; width:33%;">設定路徑</th>
-                <th style="padding:8px 10px; text-align:left;">最佳使用情境與效果</th>
-              </tr>
-              <tr style="border-top:1px solid #e8eaed;">
-                <td style="padding:8px 10px; font-weight:700; color:#137333;">✍️ 簽名 (Signature)</td>
-                <td style="padding:8px 10px; color:#5f6368;">設定 ➔ 一般設定 ➔ 簽名</td>
-                <td style="padding:8px 10px; color:#202124;"><strong>每封信自動帶入結尾！</strong> 用於個人職稱、學校電話、分機、問候語與個人簡介。</td>
-              </tr>
-              <tr style="border-top:1px solid #e8eaed;">
-                <td style="padding:8px 10px; font-weight:700; color:#1a73e8;">📋 範本 (Templates)</td>
-                <td style="padding:8px 10px; color:#5f6368;">設定 ➔ 進階 ➔ 啟用範本<br>撰寫郵件 ➔ 右下角三點 ➔ 範本</td>
-                <td style="padding:8px 10px; color:#202124;"><strong>整封信完整內文模板！</strong> 用於校外教學通知信、請假回覆、家長會通告，手動插入或搭配篩選器自動回信。</td>
-              </tr>
+          <div style="overflow-x:auto; margin-bottom:18px;">
+            <table style="width:100%; border-collapse:collapse; font-size:0.9rem; background:#f8fdfc; border-radius:8px; overflow:hidden; border:1px solid #b2dfdb;">
+              <thead>
+                <tr style="background:#00695c; color:white;">
+                  <th style="padding:10px 12px; text-align:left; width:22%;">比較面向</th>
+                  <th style="padding:10px 12px; text-align:left; width:39%;">✍️ 簽名檔 (Signature)</th>
+                  <th style="padding:10px 12px; text-align:left; width:39%;">📋 範本 (Templates / 舊稱罐頭回應)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid #e0f2f1;">
+                  <td style="padding:10px 12px; font-weight:700; color:#00695c;">📍 設定路徑</td>
+                  <td style="padding:10px 12px;"><code>設定 ➔ 一般設定 ➔ 簽名</code></td>
+                  <td style="padding:10px 12px;"><code>設定 ➔ 進階 ➔ 啟用範本</code><br><span style="font-size:0.82rem; color:#5f6368;">（撰寫信件時：右下角三點 ➔ 範本）</span></td>
+                </tr>
+                <tr style="border-bottom:1px solid #e0f2f1; background:#ffffff;">
+                  <td style="padding:10px 12px; font-weight:700; color:#00695c;">⚡ 觸發方式</td>
+                  <td style="padding:10px 12px;"><span style="color:#137333; font-weight:700;">自動產生</span>：只要按「撰寫」或「回覆」，信件最底端自動帶出。</td>
+                  <td style="padding:10px 12px;"><span style="color:#1a73e8; font-weight:700;">手動插入 / 規則觸發</span>：寫信時手動點選套用，或由篩選器自動回信。</td>
+                </tr>
+                <tr style="border-bottom:1px solid #e0f2f1;">
+                  <td style="padding:10px 12px; font-weight:700; color:#00695c;">📝 內容性質</td>
+                  <td style="padding:10px 12px;"><strong>個人資訊與名片</strong>：職稱、學校電話、分機、公務信箱、問候結語、學校 Logo。</td>
+                  <td style="padding:10px 12px;"><strong>整篇完整信件內文</strong>：包含主旨、開頭稱謂、條列注意事項、常見問題解答。</td>
+                </tr>
+                <tr style="background:#ffffff;">
+                  <td style="padding:10px 12px; font-weight:700; color:#00695c;">🏫 學校應用實例</td>
+                  <td style="padding:10px 12px;">教務處組長名片、導師聯絡資訊、免責聲明。</td>
+                  <td style="padding:10px 12px;">戶外教育通知信、請假缺補課流程回覆、家長會常態詢問答覆。</td>
+                </tr>
+              </tbody>
             </table>
           </div>
+
+          <!-- 實戰範本演練文章展示區 -->
+          <div style="background:#e8f5e9; border:1.5px solid #81c784; border-radius:8px; padding:16px; margin-top:14px;">
+            <div style="font-weight:700; color:#2e7d32; font-size:0.95rem; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+              <span>📋 演練三推薦範本文章（點擊直接複製，即可建立您的第一個 Gmail 範本）：</span>
+            </div>
+            
+            <div style="background:white; border:1px solid #c8e6c9; border-radius:6px; padding:14px; font-size:0.88rem; line-height:1.7; color:#202124; font-family:inherit;">
+              <strong style="color:#1557b0;">【信件主旨】：</strong>【重要通知】○○國小 ○年○班 校外教學行前準備與注意事項通知<br><br>
+              各位家長好：<br><br>
+              本學期班級校外教學參訪活動即將於下週舉行，為了讓孩子們能有充實且安全的學習體驗，請家長協助提醒與準備以下事項：<br><br>
+              📍 <strong>【活動資訊】</strong><br>
+              1. 集合時間：○月○日（星期○）上午 07:50 前於教室集合完畢<br>
+              2. 參訪地點：新北市立十三行博物館<br>
+              3. 預計返校：下午 15:30（依當天交通路況為準）<br><br>
+              🎒 <strong>【必備隨身物品】</strong><br>
+              • 穿著學校體育服、運動鞋<br>
+              • 輕便雙肩背包（裝水壺、輕便雨衣、個人常備藥品）<br>
+              • 健保卡、悠遊卡（請先儲值）<br><br>
+              若當天有任何突發狀況需請假，請於 07:30 前透過班級官方管道或撥打學校分機告知導師。<br>
+              感謝家長的配合與支持！<br><br>
+              導師 敬上
+            </div>
+            <p style="font-size:0.8rem; color:#5f6368; margin-top:8px; margin-bottom:0;">
+              💡 <strong>操作提示</strong>：複製上方整段文章，在 Gmail 點「撰寫」貼上主旨與內文，再點右下角 <code>三點 ➔ 範本 ➔ 將草稿儲存為範本 ➔ 另存為新範本</code> 即可！
+            </p>
+          </div>
         </div>
+</div>
 
         <p>範本（舊稱罐頭回應）需先到<strong>「設定 ➔ 進階」啟用</strong>才會出現，啟用後可把常用回覆存起來一鍵插入；排程傳送則讓你在方便的時候寫信、在恰當的時間寄出。</p>
 
