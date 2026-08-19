@@ -376,6 +376,15 @@ ightarrow$ 使用電話收聽及發言」。
 ---
 
 #### 演練 25
+
+##### ⚙️ 步驟前置作業：在「進階」設定中啟用【範本 (Templates)】
+![Gmail 進階設定啟用範本功能](../images/gmail_advanced_templates_enable.png)
+*進入「設定 ➔ 進階」將「範本」勾選為【啟用】，並捲動至底部點選「儲存變更」*
+
+> 💡 **重要觀念辨析：每封信結尾的「自我介紹/簽名」是用範本嗎？**
+> - ✍️ **簽名 (Signature)**：路徑為「設定 ➔ 一般設定 ➔ 簽名」，**每封新信或回信自動帶入結尾**，最適合放個人職稱、學校電話、分機與自我介紹。
+> - 📋 **範本 (Templates)**：路徑為「設定 ➔ 進階 ➔ 啟用範本」，用於**整封信完整內文模板**（如常規家長通知、公文回覆），手動插入或供篩選器自動回信。
+
 > 🔗 **雲端真實線上 Docs 實作檔案網址**：[https://docs.google.com/document/d/1mqkFlFOl_Wg_V2Z6aQIgzMZWZgRd9iVIciKD-lJKHUM/copy](https://docs.google.com/document/d/1mqkFlFOl_Wg_V2Z6aQIgzMZWZgRd9iVIciKD-lJKHUM/copy)
 ：文件內即時視訊開會與邊看邊編修 (文件內 Meet)
 - **🎯 實務情境課題**：共同編輯 Docs 文件時，希望直接在文件右上角發起 Meet 視訊邊討論邊修改。
