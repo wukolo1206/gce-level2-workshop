@@ -331,14 +331,22 @@ ightarrow$ 使用電話收聽及發言」。
 
 #### 演練 24
 > 🔗 **雲端真實線上 Docs 實作檔案網址**：[https://docs.google.com/document/d/1L3tZLVdIW7qo1XRYRUc9w7vHSM0ay--qND3meTxBJVU/preview](https://docs.google.com/document/d/1L3tZLVdIW7qo1XRYRUc9w7vHSM0ay--qND3meTxBJVU/preview)
-：行政科室公用信箱代理收發授權 (帳戶代理)
+：行政科室公用信箱代理收發授權 (帳戶代理 Grant Access)
+
+##### 🔍 實務介面對照：個人版 (@gmail.com) vs 學校教育版 (@apps.ntpc.edu.tw)
+![個人版 Gmail 帳戶和匯入設定](../images/gmail_settings_personal_account.png)
+*圖 1：個人 Gmail 帳號（分頁為「帳戶和匯入」，預設完整開放「授予您帳戶的存取權」）*
+
+![教育版 Gmail 帳戶設定](../images/gmail_settings_education_workspace.png)
+*圖 2：學校教育版帳號（分頁為「帳戶」，若教育局管理後台關閉委派，此功能會被系統隱藏）*
+
+- **💡 研習實作提醒**：現場上機演練請使用**個人 `@gmail.com` 帳號**互加代理人，避免受限於學校網域管理員設定。
 - **🎯 實務情境課題**：主管需要授權秘書代表自己發送公文郵件，且不透露密碼。
 - **🛠️ 指定工具功能**：Gmail **授予您帳戶的存取權 (Grant Access)**
 - **▶️ 手把手實操步驟**：
-  1. 進入 Gmail 右上角「設定 $
-ightarrow$ 查看所有設定 $
-ightarrow$ 帳戶與匯入」。
-  2. 在「授予您帳戶的存取權」點選新增代理 Email。
+  1. 進入 Gmail 右上角「設定 ➔ 查看所有設定 ➔ 帳戶與匯入」。
+  2. 在「授予您帳戶的存取權」點選「新增其他帳戶」輸入代理人 Email。
+  3. 代理人至信箱點選確認連結完成接受。
 - **✨ 成果驗證點**：秘書可在其 Gmail 中切換並代表主管發信。
 
 ---
