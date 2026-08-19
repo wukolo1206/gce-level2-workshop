@@ -401,6 +401,33 @@
       <div class="module-card" id="module-3" style="display:none;">
         <span class="tag">核心功能演練三</span>
         <h2>篩選器檢視畫面 (Filter views) 與資料驗證 (Data validation) 保護共用表格</h2>
+
+        <!-- 🔒 篩選器檢視畫面 vs 一般篩選器 & 資料驗證下拉選單解析 -->
+        <div style="background:#ffffff; border:2px solid #1a73e8; border-radius:12px; padding:22px; margin:20px 0; box-shadow:0 4px 16px rgba(26,115,232,0.1);">
+          <h3 style="color:#1557b0; margin-top:0; font-size:1.2rem; display:flex; align-items:center; gap:8px;">
+            🔒 實作圖解：【篩選器檢視畫面 (Filter view)】與【資料驗證下拉選單 (狀態)】
+          </h3>
+          <p style="font-size:0.93rem; color:#3c4043; line-height:1.7; margin-bottom:14px;">
+            當多位老師共用同一張試算表時，「篩選器檢視畫面」能讓您<strong>只改變自己的螢幕畫面，完全不干擾其他正在看表的老師</strong>；而「資料驗證」則能建立統一的「狀態」下拉選單：
+          </p>
+
+          <div style="display:grid; grid-template-columns:1.1fr 0.9fr; gap:16px; margin-bottom:16px; align-items:center;">
+            <div style="background:#f8f9fa; border:1px solid #dadce0; border-radius:8px; padding:12px; text-align:center;">
+              <p style="font-weight:700; font-size:0.85rem; color:#1a73e8; margin-bottom:8px;">📷 建立專屬「math」篩選器檢視（頂部呈現深色/綠色外框）：</p>
+              <img src="images/sheets_filter_view_math.png" alt="Google Sheets 篩選器檢視畫面" style="max-width:100%; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+              <p style="font-size:0.8rem; color:#5f6368; margin-top:6px;">在此模式下篩選數學成績，其他共同編輯者的畫面完全不會跳動！</p>
+            </div>
+            <div style="font-size:0.88rem; color:#202124; line-height:1.8;">
+              <strong style="color:#1557b0; font-size:0.95rem;">💡 什麼是「狀態」欄位？為什麼要用資料驗證？</strong>
+              <ul style="padding-left:20px; color:#3c4043; margin-top:6px;">
+                <li><strong>建立「狀態」欄位</strong>：在 <code>E1</code> 輸入「狀態」（或補救教學進度），用來標記學生輔導進度。</li>
+                <li><strong>設定下拉式選單</strong>：選取 <code>E2:E6</code> ➔ 點「資料 ➔ 資料驗證」➔ 新增規則「下拉式選單」➔ 輸入 <code>未開始</code>、<code>進行中</code>、<code>已完成</code>。</li>
+                <li><strong>防止格式混亂</strong>：避免老師們各自輸入「OK」、「完成」、「已補救」等不同寫法，確保後續可以用樞紐分析表精準統計！</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <p>多位教師同時開一張表時，一般「篩選器」會<strong>連別人的畫面一起改掉</strong>；「篩選器檢視畫面 (Filter views)」則只影響自己。搭配資料驗證做成下拉選單，可從源頭杜絕輸入格式錯亂。</p>
 
         <div class="scenario-box">
@@ -434,7 +461,7 @@
           </div>
           <div class="step-item">
             <input type="checkbox" id="m3-s3">
-            <label for="m3-s3">選取「狀態」欄位，點選 <strong>「資料 ➔ 資料驗證 (Data validation)」</strong>。</label>
+            <label for="m3-s3">在 <strong>E1 儲存格輸入「狀態」</strong>（用來追蹤補救進度），選取 <strong>E2:E6 範圍</strong>，點選 <strong>「資料 ➔ 資料驗證 (Data validation)」</strong>。</label>
           </div>
           <div class="step-item">
             <input type="checkbox" id="m3-s4">

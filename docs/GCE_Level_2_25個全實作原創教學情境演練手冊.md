@@ -252,6 +252,16 @@ ightarrow$ 發布至網路」。
 ### 📊 【Google Sheets 數據統計與分析】
 
 #### 演練 18
+
+##### 🔒 篩選器檢視畫面與資料驗證實務操作圖解
+![Google Sheets 篩選器檢視畫面](../images/sheets_filter_view_math.png)
+*圖 14：建立名為「math」的篩選器檢視，外框變色代表僅影響個人視角，不干擾他人*
+
+> 💡 **「狀態」欄位操作說明**：
+> 1. 在 `E1` 儲存格輸入 **「狀態」**（用來記錄補救教學或作業繳交進度）。
+> 2. 選取 `E2:E6` 範圍，點選選單 **「資料 ➔ 資料驗證」**。
+> 3. 規則選擇 **「下拉式選單」**，設定 `未開始`、`進行中`、`已完成` 三個固定選項，從源頭避免輸入混亂！
+
 > 🔗 **雲端真實線上 Sheets 實作檔案網址**：[https://docs.google.com/spreadsheets/d/1ImVbSaihFvqZ72Zo8-7MnkY9KA4ISajTqxj6plWfeAc/copy](https://docs.google.com/spreadsheets/d/1ImVbSaihFvqZ72Zo8-7MnkY9KA4ISajTqxj6plWfeAc/copy)
 ：期中測驗不及格警示自動化 (條件式格式)
 - **🎯 實務情境課題**：在成績單中，讓分數低於 60 分的儲存格自動呈現醒目的紅底白字。
