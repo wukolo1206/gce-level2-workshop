@@ -253,61 +253,14 @@ ightarrow$ 發布至網路」。
 
 #### 演練 18
 
-##### 🔒 篩選器檢視畫面與資料驗證實務操作圖解
-![Google Sheets 篩選器檢視畫面](../images/sheets_filter_view_math.png)
-*圖 14：建立名為「math」的篩選器檢視，外框變色代表僅影響個人視角，不干擾他人*
+##### 🔒 篩選器檢視畫面與【考卷訂正追蹤】資料驗證實務圖解
+![Google Sheets 考卷訂正狀態資料驗證下拉選單](../images/sheets_data_validation_status_dropdown.png)
+*圖 14：建立名為「math」的篩選器檢視，搭配 E 欄「考卷訂正追蹤」下拉選單（未訂正／訂正中／已訂正過關）*
 
-> 💡 **「狀態」欄位操作說明**：
-> 1. 在 `E1` 儲存格輸入 **「狀態」**（用來記錄補救教學或作業繳交進度）。
-> 2. 選取 `E2:E6` 範圍，點選選單 **「資料 ➔ 資料驗證」**。
-> 3. 規則選擇 **「下拉式選單」**，設定 `未開始`、`進行中`、`已完成` 三個固定選項，從源頭避免輸入混亂！
-
-> 🔗 **雲端真實線上 Sheets 實作檔案網址**：[https://docs.google.com/spreadsheets/d/1ImVbSaihFvqZ72Zo8-7MnkY9KA4ISajTqxj6plWfeAc/copy](https://docs.google.com/spreadsheets/d/1ImVbSaihFvqZ72Zo8-7MnkY9KA4ISajTqxj6plWfeAc/copy)
-：期中測驗不及格警示自動化 (條件式格式)
-- **🎯 實務情境課題**：在成績單中，讓分數低於 60 分的儲存格自動呈現醒目的紅底白字。
-- **🛠️ 指定工具功能**：Google Sheets **條件式格式設定 (Conditional Formatting)**
-- **▶️ 手把手實操步驟**：
-  1. 選取成績欄位，點選選單「格式 $
-ightarrow$ 條件式格式設定」。
-  2. 條件選「小於 60」，樣式設為紅底白字。
-- **✨ 成果驗證點**：所有不及格分數即時自動變紅。
-
----
-
-#### 演練 19
-> 🔗 **雲端真實線上 Sheets 實作檔案網址**：[https://docs.google.com/spreadsheets/d/1rUIAbMleZg__fHBpBCa2_L0JIE5PCf1JPj04FIvB2Bc/copy](https://docs.google.com/spreadsheets/d/1rUIAbMleZg__fHBpBCa2_L0JIE5PCf1JPj04FIvB2Bc/copy)
-：校慶進場服裝投票統計與樞紐分析 (直行統計與樞紐)
-- **🎯 實務情境課題**：收集了數百筆表單回應，需要快速統計每個服裝顏色的精確票數。
-- **🛠️ 指定工具功能**：Google Sheets **直行統計 (Column Stats)** 與 **樞紐分析表 (Pivot Table)**
-- **▶️ 手把手實操步驟**：
-  1. 選取顏色欄位，點選選單「資料 $
-ightarrow$ 直行統計」看圖表。
-  2. 點選「插入 $
-ightarrow$ 樞紐分析表」，拉入顏色與計數。
-- **✨ 成果驗證點**：一秒自動生成顏色投票總計表格。
-
----
-
-### 📹 【Google Meet, Practice Sets, Forms & Gmail】
-
-#### 演練 20
-> 🔗 **雲端真實線上 Docs 實作檔案網址**：[https://docs.google.com/document/d/1W99umvavUbQiq0ccu3nkc-DKRP-CaJX0abhMQVUUAE8/preview](https://docs.google.com/document/d/1W99umvavUbQiq0ccu3nkc-DKRP-CaJX0abhMQVUUAE8/preview)
-：戶外教學偏遠地區網路不穩之電話語音備援 (Meet 電話收發音訊)
-
-- **🎯 實務教學情境課題**：帶學生到山區進行戶外觀察教學，同一時間校內正在召開臨時教學會議必須出席。現場行動網路頻寬只有一格，視訊完全連不上，但手機通話仍然正常，需切換至電話語音線路備援。
-- **🛠️ 指定工具功能**：Google Meet **使用電話收發音訊 (Use a phone for audio / Join by phone)**
-
-##### 📞 Meet 實務介面圖解：使用電話收發音訊與地區支援全解析
-![Google Meet 更多選項中的使用電話收發音訊](../images/meet_use_phone_audio_menu.png)
-*圖 10：點擊底部三點選單 ➔ 選擇「使用電話收發音訊 (Use a phone for audio)」*
-
-![Google Meet 打電話給我國家地區選單](../images/meet_call_me_dialog_countries.png)
-*圖 11：Google Meet 免費「打電話給我」目前僅支援北美地區（美國 +1、加拿大 +1）*
-
-| 電話備援機制 | 運作方式 | 地區支援與費用說明 |
-| :--- | :--- | :--- |
-| **📞 打電話給我 (Call me)** | 輸入手機號碼後，由 Google Meet 伺服器**主動撥電話到手機**。 | 目前免費撥出**僅限北美地區（美國 +1、加拿大 +1）**。 |
-| **📱 自行撥入 (Dial-in)** | 由會議詳細資訊提供專屬電話號碼與 PIN 碼，由**使用者自行撥打電話**接入。 | 支援各國當地指定接入號碼（依一般通話費率計費）。 |
+> 💡 **【考卷訂正追蹤】資料驗證操作指引**：
+> 1. 在 `E1` 儲存格輸入 **「考卷訂正狀態」**。
+> 2. 選取 `E2:E6` 範圍，點選選單 **「資料 ➔ 資料驗證」**（或「插入 ➔ 下拉式選單」）。
+> 3. 規則選擇 **「下拉式選單」**，設定 `未訂正`（紅色）、`訂正中`（黃色）、`已訂正過關`（綠色）三個選項，從源頭杜絕各班寫法混亂！
 
 - **🎓 Google 認證 Level 2 考點精髓**：題目重點考核教師能否在「網路訊號極差、視訊卡頓」時，正確選用 `使用電話收發音訊 (Use a phone for audio / Join by phone)` 改走電話線路維持會議進行！
 - **▶️ 手把手實操步驟**：

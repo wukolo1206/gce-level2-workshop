@@ -402,37 +402,37 @@
         <span class="tag">核心功能演練三</span>
         <h2>篩選器檢視畫面 (Filter views) 與資料驗證 (Data validation) 保護共用表格</h2>
 
-        <!-- 🔒 篩選器檢視畫面 vs 一般篩選器 & 資料驗證下拉選單解析 -->
+                <!-- 🔒 篩選器檢視畫面 vs 資料驗證【考卷訂正追蹤】下拉選單解析 -->
         <div style="background:#ffffff; border:2px solid #1a73e8; border-radius:12px; padding:22px; margin:20px 0; box-shadow:0 4px 16px rgba(26,115,232,0.1);">
           <h3 style="color:#1557b0; margin-top:0; font-size:1.2rem; display:flex; align-items:center; gap:8px;">
-            🔒 實作圖解：【篩選器檢視畫面 (Filter view)】與【資料驗證下拉選單 (狀態)】
+            🔒 實作圖解：【篩選器檢視畫面】與【考卷訂正追蹤下拉選單 (資料驗證)】
           </h3>
           <p style="font-size:0.93rem; color:#3c4043; line-height:1.7; margin-bottom:14px;">
-            當多位老師共用同一張試算表時，「篩選器檢視畫面」能讓您<strong>只改變自己的螢幕畫面，完全不干擾其他正在看表的老師</strong>；而「資料驗證」則能建立統一的「狀態」下拉選單：
+            當多位任課老師共用同一張成績單時，「篩選器檢視」讓您<strong>只篩選自己要看的科目（不跳掉他人螢幕）</strong>；「資料驗證」則可在成績後方建立<strong>「考卷訂正追蹤」</strong>下拉選單：
           </p>
 
           <div style="display:grid; grid-template-columns:1.1fr 0.9fr; gap:16px; margin-bottom:16px; align-items:center;">
             <div style="background:#f8f9fa; border:1px solid #dadce0; border-radius:8px; padding:12px; text-align:center;">
-              <p style="font-weight:700; font-size:0.85rem; color:#1a73e8; margin-bottom:8px;">📷 建立專屬「math」篩選器檢視（頂部呈現深色/綠色外框）：</p>
-              <img src="images/sheets_filter_view_math.png" alt="Google Sheets 篩選器檢視畫面" style="max-width:100%; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
-              <p style="font-size:0.8rem; color:#5f6368; margin-top:6px;">在此模式下篩選數學成績，其他共同編輯者的畫面完全不會跳動！</p>
+              <p style="font-weight:700; font-size:0.85rem; color:#1a73e8; margin-bottom:8px;">📷 成果展示：E 欄「考卷訂正追蹤」下拉選單晶片：</p>
+              <img src="images/sheets_data_validation_status_dropdown.png" alt="Google Sheets 考卷訂正狀態資料驗證下拉選單" style="max-width:100%; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+              <p style="font-size:0.8rem; color:#5f6368; margin-top:6px;">頂部 math 專屬檢視 + E 欄標準化訂正選項，防呆又防干擾！</p>
             </div>
             <div style="font-size:0.88rem; color:#202124; line-height:1.8;">
-              <strong style="color:#1557b0; font-size:0.95rem;">💡 什麼是「狀態」欄位？為什麼要用資料驗證？</strong>
+              <strong style="color:#1557b0; font-size:0.95rem;">💡 為什麼成績後面要設【考卷訂正追蹤】？</strong>
               <ul style="padding-left:20px; color:#3c4043; margin-top:6px;">
-                <li><strong>建立「狀態」欄位</strong>：在 <code>E1</code> 輸入「狀態」（或補救教學進度），用來標記學生輔導進度。</li>
-                <li><strong>設定下拉式選單</strong>：選取 <code>E2:E6</code> ➔ 點「資料 ➔ 資料驗證」➔ 新增規則「下拉式選單」➔ 輸入 <code>未開始</code>、<code>進行中</code>、<code>已完成</code>。</li>
-                <li><strong>防止格式混亂</strong>：避免老師們各自輸入「OK」、「完成」、「已補救」等不同寫法，確保後續可以用樞紐分析表精準統計！</li>
+                <li><strong>學校實務情境</strong>：期中考後，老師需追蹤不及格學生的訂正進度，在 <code>E1</code> 建立「考卷訂正狀態」。</li>
+                <li><strong>統一 3 大標準選項</strong>：設定下拉選單為 <code>未訂正</code>、<code>訂正中</code>、<code>已訂正過關</code>。</li>
+                <li><strong>避免文字混亂</strong>：防止每位老師各打各的（有人寫 OK、有人寫完成），確保可用樞紐分析表一秒統計出「全班還有幾人未訂正」！</li>
               </ul>
             </div>
           </div>
-        </div>
+        </div></div>
 
         <p>多位教師同時開一張表時，一般「篩選器」會<strong>連別人的畫面一起改掉</strong>；「篩選器檢視畫面 (Filter views)」則只影響自己。搭配資料驗證做成下拉選單，可從源頭杜絕輸入格式錯亂。</p>
 
         <div class="scenario-box">
           <strong>【實務教學情境】</strong>：<br>
-          學年共用一張「補救教學名單」試算表，六位老師同時在線上編輯。常發生的狀況是：您正在篩選自己班級的資料，別的老師一按篩選，您的畫面就跳掉；而「已完成／完成／OK」等各種寫法混雜，事後根本無法統計。
+          學年共用一張「期中測驗成績單」試算表進行考卷訂正與補救追蹤，六位老師同時在線上編輯。常發生的狀況是：您正在篩選自己班級的資料，別的老師一按篩選，您的畫面就跳掉；而「已完成／完成／OK」等各種寫法混雜，事後根本無法統計。
         </div>
 
 
@@ -442,7 +442,7 @@
             <a href="https://docs.google.com/spreadsheets/d/1ImVbSaihFvqZ72Zo8-7MnkY9KA4ISajTqxj6plWfeAc/copy" target="_blank" rel="noopener" style="text-decoration:none; background:#137333; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:0.92rem; box-shadow:0 3px 8px rgba(0,0,0,0.15); white-space:nowrap;">📄 建立我的專屬副本</a>
           </div>
           <div style="background:white; border:1px solid #a8dab5; border-radius:8px; padding:12px 16px; margin-top:8px;">
-            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">範本：<strong>期中測驗成績單 (條件式格式演練)</strong>（Task 18 ‧ Google 試算表）</div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕後會問你「要建立副本嗎」，按下去就會在<strong>你自己的雲端硬碟</strong>產生一份，怎麼改都不會影響別人。</div><div style="font-size:0.95rem; color:#137333; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請在同一份成績表上點選「資料 ➔ 建立篩選器檢視畫面」建立專屬檢視，並對狀態欄位設定「資料驗證 ➔ 下拉式選單」限定選項！</span></div>
+            <div style="font-size:0.88rem; color:#5f6368; margin-bottom:6px;">範本：<strong>期中測驗成績單 (條件式格式演練)</strong>（Task 18 ‧ Google 試算表）</div><div style="font-size:0.86rem; color:#5f6368; margin-bottom:8px;">點按鈕後會問你「要建立副本嗎」，按下去就會在<strong>你自己的雲端硬碟</strong>產生一份，怎麼改都不會影響別人。</div><div style="font-size:0.95rem; color:#137333; font-weight:700; line-height:1.6;">🎯 你要做的事：<span style="color:#202124; font-weight:500;">請在同一份成績表上點選「資料 ➔ 建立篩選器檢視畫面」建立專屬檢視，並在 E 欄設定「考卷訂正追蹤」下拉選單（未訂正／訂正中／已訂正過關）！</span></div>
           </div>
           
         </div>
@@ -461,11 +461,11 @@
           </div>
           <div class="step-item">
             <input type="checkbox" id="m3-s3">
-            <label for="m3-s3">在 <strong>E1 儲存格輸入「狀態」</strong>（用來追蹤補救進度），選取 <strong>E2:E6 範圍</strong>，點選 <strong>「資料 ➔ 資料驗證 (Data validation)」</strong>。</label>
+            <label for="m3-s3">在 <strong>E1 儲存格輸入「考卷訂正狀態」</strong>（用來追蹤學生訂正進度），選取 <strong>E2:E6 範圍</strong>，點選 <strong>「資料 ➔ 資料驗證 (Data validation)」</strong>。</label>
           </div>
           <div class="step-item">
             <input type="checkbox" id="m3-s4">
-            <label for="m3-s4">規則選擇 <strong>「下拉式選單」</strong>，輸入固定選項（如：未開始／進行中／已完成）。</label>
+            <label for="m3-s4">規則選擇 <strong>「下拉式選單」</strong>，輸入 3 個固定選項：<code>未訂正</code> ／ <code>訂正中</code> ／ <code>已訂正過關</code>。</label>
           </div>
           <div class="step-item">
             <input type="checkbox" id="m3-s5">
