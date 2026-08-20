@@ -146,6 +146,16 @@ ightarrow$ 預約時間表」。
 ---
 
 #### 演練 11
+
+##### 📝 Classroom 實務介面圖解：匯入成績按鈕與草稿分數發還流程
+![Google Classroom 匯入成績按鈕與草稿分數](../images/classroom_import_grades_button_and_draft_scores.png)
+*圖 16：作業評分頁點選右上角「匯入成績」帶入測驗分數（顯示為草稿），最後點選左上角「發還」正式公布*
+
+> 💡 **核心操作與機制解析**：
+> 1. **為何不會全自動填入？** Google 設計為需教師手動點擊「匯入成績」，便於全班考完或手動批改簡答題後統一帶入。
+> 2. **發還機制**：匯入後的分數屬於「草稿」，需勾選學生點選 **「發還 (Return)」**，才會正式計入全班「成績」大總表並通知學生！
+> 3. **3 大前提檢核**：表單為唯一附件、表單開啟收集已驗證 Email + 限答 1 次、學生為同網域帳號。
+
 > 🔗 **雲端真實線上 Docs 實作檔案網址**：[https://docs.google.com/document/d/1Pzd-Nztp30Sr_YXrSmhajR-NwvhCwieYiGQtG_Lw9bs/preview](https://docs.google.com/document/d/1Pzd-Nztp30Sr_YXrSmhajR-NwvhCwieYiGQtG_Lw9bs/preview)
 ：線上形成性評量分數一鍵同步成績冊 (成績匯入)
 - **🎯 實務情境課題**：在 Classroom 發布 Google 表單測驗，希望學生完成後分數能自動帶入 Classroom 成績冊。

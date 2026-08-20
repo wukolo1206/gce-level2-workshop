@@ -405,6 +405,36 @@
       <div class="module-card" id="module-3" style="display:none;">
         <span class="tag">核心功能演練三</span>
         <h2>建立測驗作業 (Quiz Assignment) 並開啟成績匯入 (Grade importing)</h2>
+
+        <!-- 📝 測驗作業成績匯入完整流程與實作截圖卡片 -->
+        <div style="background:#ffffff; border:2px solid #1a73e8; border-radius:12px; padding:22px; margin:20px 0; box-shadow:0 4px 16px rgba(26,115,232,0.1);">
+          <h3 style="color:#1557b0; margin-top:0; font-size:1.2rem; display:flex; align-items:center; gap:8px;">
+            📝 實務介面圖解：【匯入成績按鈕】與【草稿分數發還機制】
+          </h3>
+          <p style="font-size:0.93rem; color:#3c4043; line-height:1.7; margin-bottom:14px;">
+            許多老師常困惑「為什麼學生考完試，全班成績總表還是空白的？」這是因為 Google Classroom 為了讓老師能統一審閱，<strong>需要老師手動點擊「匯入成績」按鈕</strong>：
+          </p>
+
+          <div style="display:grid; grid-template-columns:1.2fr 0.8fr; gap:16px; margin-bottom:16px; align-items:center;">
+            <div style="background:#f8f9fa; border:1px solid #dadce0; border-radius:8px; padding:12px; text-align:center;">
+              <p style="font-weight:700; font-size:0.85rem; color:#1557b0; margin-bottom:8px;">📷 成果展示：作業評分頁右上角【匯入成績】按鈕與「草稿」分數：</p>
+              <img src="images/classroom_import_grades_button_and_draft_scores.png" alt="Google Classroom 匯入成績按鈕與草稿分數" style="max-width:100%; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+              <p style="font-size:0.8rem; color:#5f6368; margin-top:6px;">點擊「匯入成績」後抓回表單分數（顯示為草稿），最後按「發還」正式公布！</p>
+            </div>
+            <div style="font-size:0.88rem; color:#202124; line-height:1.8;">
+              <strong style="color:#1557b0; font-size:0.95rem;">⚡ 成績匯入標準 3 步驟與 3 大前提：</strong>
+              <ul style="padding-left:20px; color:#3c4043; margin-top:6px;">
+                <li><strong>第 1 步</strong>：進入「課堂作業 ➔ 該測驗作業 ➔ 查看作業」。</li>
+                <li><strong>第 2 步</strong>：點選右上角 <code>匯入成績 (Import grades)</code> 按鈕。</li>
+                <li><strong>第 3 步</strong>：分數帶入左側顯示「草稿」➔ 勾選學生點選 <code>發還 (Return)</code>，分數即同步至全班「成績」大總表！</li>
+              </ul>
+              <div style="background:#fef7e0; border-radius:6px; padding:8px 12px; margin-top:8px; font-size:0.82rem; color:#b06000;">
+                ⚠️ <strong>3 大必要前提</strong>：① 表單為<strong>唯一附件</strong> ② 表單開啟<strong>收集電子郵件（已驗證）+ 限答 1 次</strong> ③ 學生需在<strong>同網域</strong>且為學生身分。
+              </div>
+            </div>
+          </div>
+        </div>
+
         <p>「測驗作業」會自動附上一份已設為<strong>測驗模式</strong>的 Google 表單。只要開啟「成績匯入」開關，學生作答完成後，Forms 的自動評分結果就能一鍵帶回 Classroom 成績冊，不必人工謄分。</p>
 
         <div class="scenario-box">
