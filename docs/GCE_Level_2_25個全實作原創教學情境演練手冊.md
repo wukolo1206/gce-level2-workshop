@@ -225,6 +225,16 @@ ightarrow$ 影片」搜尋內嵌 YouTube 影片。
 ### 🌐 【Google Sites 網站與學習歷程展示】
 
 #### 演練 16
+
+##### 🗂️ Sites 實務介面圖解：子頁面階層與頂部導覽列下拉選單
+![Google Sites 子頁面與頂部下拉選單](../images/sites_subpages_dropdown_menu.png)
+*圖 15：右側「頁面」面板將小組縮排為子頁面，頂部導覽列自動形成「首頁 ▾」下拉式選單*
+
+> 💡 **核心操作技巧**：
+> 1. **拖曳法**：在右側面板按住子頁面，拖曳丟到母頁面上放開即可建立階層。
+> 2. **三點圖示**：母頁面旁點擊 `三點 ➔ 新增子頁面 (Add subpage)`。
+> 3. **效果驗證**：頂部導覽列自動收合為下拉選單，避免頁面過多造成版面擁擠！
+
 > 🔗 **雲端真實線上 Docs 實作檔案網址**：[https://docs.google.com/document/d/1U0MOjFkVHGvOAe0IR1IA8kwVkADka0gQZommIHrKZoc/preview](https://docs.google.com/document/d/1U0MOjFkVHGvOAe0IR1IA8kwVkADka0gQZommIHrKZoc/preview)
 ：班級自然科學小組專題展示網站 (子頁面 Subpages)
 - **🎯 實務情境課題**：為 PBL 專題建立網站，並為每個小組設定獨立的專屬展演分頁。
