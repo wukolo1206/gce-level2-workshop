@@ -11,7 +11,7 @@
 | :--- | :--- |
 | **認證名稱** | Google Certified Educator Level 2 (Google 認證教育者第 2 級) |
 | **官方報名連結** | [https://educertifications.google/registration/2?lang=zh-TW](https://educertifications.google/registration/2?lang=zh-TW) |
-| **考試費用** | **$25 美金 (USD $25)** (或使用研習/學校發放之 Voucher 兌換碼) |
+| **考試費用** | **免費 $0 (USD 免費)** (或使用研習/學校發放之 Voucher 兌換碼) |
 | **應試期限** | **報名成功後 14 天內須完成測驗** |
 | **證書有效期限** | 考取後有效期為 **3 年** |
 | **考試時間** | **180 分鐘 (3 小時)** |
@@ -104,7 +104,7 @@ Google Certified Educator Level 2 認證考試採用 **「選擇題 (Quiz) + 實
 1. **使用兌換碼 (Voucher Code)**：
    - 若您參加縣市教育局處或學校研習有獲發免費考試兌換券，請在結帳頁面的 **「Promotion Code / Voucher」** 欄位輸入代碼，並點選 **「Apply (套用)」**，結帳金額將變更為 $0 美金。
 2. **信用卡線上刷卡**：
-   - 若無兌換碼，請輸入信用卡資訊，支付 **$25 美金** 報名費。
+   - 若無兌換碼，請輸入信用卡資訊，支付 **免費 $0** 報名費。
 
 ---
 
